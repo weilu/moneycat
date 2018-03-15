@@ -43,11 +43,8 @@ def dbs_table_parse(txt):
     :param txt:
     :return:
     """
-    # print(txt)
-    # exit()
     result = []
     tmp_txt = ""
-    tmp_txt2 = ""
     find_begin = False
     for line in txt.split("\n"):
         if not find_begin:
