@@ -84,9 +84,10 @@ def dbs_parse(txt):
 
 if __name__ == '__main__':
     dir = "assets"
+    result = []
     for filename in os.listdir(dir):
         if filename.endswith(".pdf"):
             txt = pdf2txt(dir + "/" + filename)
-            result = dbs_parse(txt)
-            with open(dir + "/" + filename.replace(".pdf", "") + ".json", 'w') as outfile:
-                json.dump(result, outfile)
+            result += dbs_parse(txt)
+    with open(dir + "/out.json", 'w') as outfile:
+        json.dump(result, outfile)
