@@ -5,9 +5,9 @@ import sklearn.cross_validation
 from termcolor import colored
 from classification import util
 
+# refer to https://github.com/yassersouri/classify-text
+
 METHOD = "SVM"
-
-
 # METHOD = "KNN"
 # METHOD = "MNB"
 
