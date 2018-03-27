@@ -70,6 +70,78 @@ def dbs_table_parse(txt):
     return result
 
 
+def uob_table_parse(txt, idx):
+    """
+
+    :param txt:
+    :return:
+    """
+    result = []
+    data_record = []
+    trans_record = []
+    count_record = []
+    if idx == 1:
+        begin = re.search('Description of Transaction', txt).span()[1]
+        end = re.search('Contact Us', txt).span()[0]
+        for line in txt[begin:end].split("\n\n"):
+            line = line.strip().replace("\n", "")
+            if re.search("PREVIOUS BALANCE", line) or len(line) == 0:
+                continue
+            if re.search("Ref No", line):
+                line = re.sub("Ref No.*$", "", line)
+                line = re.sub('\s+', " ", line)
+            if re.search("^[0-9]{2} JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC$", line):
+                data_record.append(line)
+            else:
+                trans_record.append(line)
+        begin = re.search('Transaction Amount', txt).span()[1]
+        for line in txt[begin:].split("\n\n"):
+            line = line.strip().replace("\n", "")
+            if re.search("SGD", line) or len(line) == 0:
+                continue
+            if re.search("Ref No", line):
+                line = re.sub("Ref No.*$", "", line)
+                line = re.sub('\s+', " ", line)
+            count_record.append(line)
+        diff = len(count_record) - len(trans_record)
+        for i in range(len(trans_record)):
+            result.append([data_record[2 * i], trans_record[i], count_record[i + diff]])
+    if idx == 2:
+        begin = re.search('Description of Transaction', txt).span()[1]
+        for line in txt[begin:].split("\n\n"):
+            line = line.strip().replace("\n", "")
+            if re.search("SGD|UOB PRVI MILES|UOB ONE CARD|"
+                         "LU WEI|PostDate|TransDate|Description of Transaction|"
+                         "Page [0-9]+ of [0-9]+", line) or len(line) == 0:
+                continue
+            if re.search("^[0-9]{2} JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC$", line):
+                data_record.append(line)
+            print(line)
+
+            # if re.search("Ref No", line):
+            #     line = re.sub("Ref No.*$", "", line)
+            #     line = re.sub('\s+', " ", line)
+            # count_record.append(line)
+        # print(txt[begin:])
+        exit()
+    return result
+
+
+def uob_parse(txt):
+    """
+    parse uob statement
+    :param txt:
+    :return:
+    """
+    result = []
+    idx = 1
+    for page in re.split("Please note that you", txt):
+        # print(page)
+        result += uob_table_parse(page, idx)
+        idx += 1
+    return result
+
+
 def dbs_parse(txt):
     """
     parse dbs statement
@@ -83,11 +155,19 @@ def dbs_parse(txt):
 
 
 if __name__ == '__main__':
-    dir = "assets"
     result = []
+    # dbs
+    # dir = "assets/dbs"
+    # for filename in os.listdir(dir):
+    #     if filename.endswith(".pdf"):
+    #         txt = pdf2txt(dir + "/" + filename)
+    #         result += dbs_parse(txt)
+    # uob
+    dir = "assets/uob"
     for filename in os.listdir(dir):
         if filename.endswith(".pdf"):
+            print(filename)
             txt = pdf2txt(dir + "/" + filename)
-            result += dbs_parse(txt)
+            result += uob_parse(txt)
     with open(dir + "/out.json", 'w') as outfile:
         json.dump(result, outfile)
