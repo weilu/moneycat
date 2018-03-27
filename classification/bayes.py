@@ -58,11 +58,9 @@ if __name__ == '__main__':
     # so use the entire data set to produce classification report
     pred = classifier.predict(transformer.transform(X))
     print(colored('Classification report:', 'magenta', attrs=['bold']))
-    label_names = le.inverse_transform(classifier.classes_)
-    print(metrics.classification_report(y, pred, target_names=label_names))
+    print(metrics.classification_report(y, pred, target_names=list(le.classes_)))
 
-    data size: (331, 4)
-
+# data size: (331, 4)
 # train n_samples: 248, n_features: 355
 # test sample size: 83, accuracy: 0.771
 # train n_samples: 248, n_features: 357
@@ -78,34 +76,37 @@ if __name__ == '__main__':
 #             Air Travel       1.00      0.50      0.67         2
 #         Alcohol & Bars       1.00      1.00      1.00         2
 #              Amusement       1.00      1.00      1.00         2
-#       Books & Supplies       0.00      0.00      0.00         1
-#               Clothing       1.00      1.00      1.00         1
-#           Coffee Shops       0.80      0.80      0.80         5
-#              Education       0.92      0.89      0.91        27
-# Electronics & Software       0.83      1.00      0.91         5
+#                   Arts       0.00      0.00      0.00         1
+#       Books & Supplies       1.00      1.00      1.00         1
+#               Clothing       0.80      0.80      0.80         5
+#           Coffee Shops       0.92      0.89      0.91        27
+#              Education       0.83      1.00      0.91         5
+# Electronics & Software       1.00      1.00      1.00         3
 #          Entertainment       1.00      1.00      1.00         3
-#              Fast Food       1.00      1.00      1.00         3
-#          Food & Dining       1.00      0.80      0.89         5
-#              Groceries       1.00      0.82      0.90        11
-#       Home Improvement       0.93      0.93      0.93        59
-#          Home Supplies       0.00      0.00      0.00         1
+#              Fast Food       1.00      0.80      0.89         5
+#          Food & Dining       1.00      0.82      0.90        11
+#              Groceries       0.93      0.93      0.93        59
+#                    Gym       0.00      0.00      0.00         1
+#       Home Improvement       1.00      1.00      1.00         2
+#          Home Supplies       0.67      1.00      0.80         2
 #                  Hotel       1.00      1.00      1.00         2
-#               Internet       0.67      1.00      0.80         2
-#         Life Insurance       1.00      1.00      1.00         2
-#           Mobile Phone       0.50      1.00      0.67         1
+#               Internet       0.50      1.00      0.67         1
+#         Life Insurance       1.00      1.00      1.00         1
+#           Mobile Phone       1.00      1.00      1.00         1
 #          Movies & DVDs       1.00      1.00      1.00         1
-#                  Music       1.00      1.00      1.00         1
-#          Personal Care       1.00      1.00      1.00         1
-#    Pet Food & Supplies       1.00      0.88      0.94        17
-#  Public Transportation       1.00      1.00      1.00         3
-#      Rental Car & Taxi       1.00      1.00      1.00         3
-#            Restaurants       1.00      0.75      0.86         4
-#            Service Fee       1.00      1.00      1.00         6
-#               Shopping       0.94      0.96      0.95       107
-#                 Sports       1.00      0.80      0.89         5
-#                 Travel       0.91      0.97      0.94        33
-#          Uncategorized       1.00      1.00      1.00         1
-#              Utilities       1.00      1.00      1.00         2
-#               Vacation       0.00      0.00      0.00         1
+#                  Music       1.00      0.88      0.94        17
+#          Personal Care       1.00      1.00      1.00         3
+#    Pet Food & Supplies       1.00      1.00      1.00         3
+#  Public Transportation       1.00      0.75      0.86         4
+#      Rental Car & Taxi       1.00      1.00      1.00         6
+#            Restaurants       0.94      0.96      0.95       107
+#            Service Fee       1.00      0.80      0.89         5
+#               Shopping       0.91      0.97      0.94        33
+#                 Sports       1.00      1.00      1.00         1
+#                 Travel       1.00      1.00      1.00         2
+#                Tuition       0.00      0.00      0.00         1
+#          Uncategorized       1.00      1.00      1.00         2
+#              Utilities       0.60      0.60      0.60         5
+#               Vacation       0.56      1.00      0.71         5
 #
 #            avg / total       0.92      0.92      0.92       331
