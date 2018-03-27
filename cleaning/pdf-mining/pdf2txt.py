@@ -85,7 +85,7 @@ def uob_table_parse(txt, idx):
         end = re.search('Contact Us', txt).span()[0]
         for line in txt[begin:end].split("\n\n"):
             line = line.strip().replace("\n", "")
-            if re.search("PREVIOUS BALANCE", line) or len(line) == 0:
+            if len(line) == 0:
                 continue
             if re.search("Ref No", line):
                 line = re.sub("Ref No.*$", "", line)
@@ -96,34 +96,46 @@ def uob_table_parse(txt, idx):
                 trans_record.append(line)
         begin = re.search('Transaction Amount', txt).span()[1]
         for line in txt[begin:].split("\n\n"):
-            line = line.strip().replace("\n", "")
+            line = line.strip().replace("\n", " ")
             if re.search("SGD", line) or len(line) == 0:
                 continue
-            if re.search("Ref No", line):
-                line = re.sub("Ref No.*$", "", line)
-                line = re.sub('\s+', " ", line)
-            count_record.append(line)
-        diff = len(count_record) - len(trans_record)
-        for i in range(len(trans_record)):
-            result.append([data_record[2 * i], trans_record[i], count_record[i + diff]])
-    if idx == 2:
-        begin = re.search('Description of Transaction', txt).span()[1]
-        for line in txt[begin:].split("\n\n"):
-            line = line.strip().replace("\n", "")
-            if re.search("SGD|UOB PRVI MILES|UOB ONE CARD|"
-                         "LU WEI|PostDate|TransDate|Description of Transaction|"
-                         "Page [0-9]+ of [0-9]+", line) or len(line) == 0:
-                continue
-            if re.search("^[0-9]{2} JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC$", line):
-                data_record.append(line)
-            print(line)
-
             # if re.search("Ref No", line):
             #     line = re.sub("Ref No.*$", "", line)
             #     line = re.sub('\s+', " ", line)
-            # count_record.append(line)
-        # print(txt[begin:])
-        exit()
+            count_record.append(line)
+        # print(data_record, trans_record, count_record)
+        # print(len(data_record), len(trans_record), len(count_record))
+        # exit()
+        date_idx = 0
+        for i in range(len(trans_record)):
+            if re.search("TOTAL|PREVIOUS|[^0-9a-zA-Z]+", trans_record[i]):
+                continue
+            result.append([data_record[2 * date_idx], trans_record[i], count_record[i]])
+            date_idx += 1
+    if idx == 2:
+        begin = re.search('Description of Transaction', txt)
+        if begin is None:
+            return result
+        else:
+            begin = begin.span()[1]
+        for line in txt[begin:].split("\n\n"):
+            line = line.strip().replace("\n", " ")
+            if re.search("SGD|^UOB.*$|"
+                         "LU WEI|PostDate|TransDate|Description of Transaction|"
+                         "Page [0-9]+ of [0-9]+", line) or len(line) == 0:
+                continue
+            if re.search("^[0-9]{2} JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC$", line) and len(line) == 6:
+                data_record.append(line)
+            elif re.search("^([+-]?)((\d{1,3}(,\d{3})*)|(\d+))(\.\d{2})?(\sCR)*$", line):
+                count_record.append(line)
+            else:
+                trans_record.append(line)
+        date_idx = 0
+        for i in range(len(trans_record)):
+            if re.search("TOTAL|PREVIOUS|[^0-9a-zA-Z]+", trans_record[i]):
+                continue
+            result.append([data_record[2 * date_idx], trans_record[i], count_record[i]])
+            date_idx += 1
     return result
 
 
@@ -135,6 +147,7 @@ def uob_parse(txt):
     """
     result = []
     idx = 1
+    txt = re.split("End of Transaction Details", txt)[0]
     for page in re.split("Please note that you", txt):
         # print(page)
         result += uob_table_parse(page, idx)
@@ -157,11 +170,11 @@ def dbs_parse(txt):
 if __name__ == '__main__':
     result = []
     # dbs
-    # dir = "assets/dbs"
-    # for filename in os.listdir(dir):
-    #     if filename.endswith(".pdf"):
-    #         txt = pdf2txt(dir + "/" + filename)
-    #         result += dbs_parse(txt)
+    dir = "assets/dbs"
+    for filename in os.listdir(dir):
+        if filename.endswith(".pdf"):
+            txt = pdf2txt(dir + "/" + filename)
+            result += dbs_parse(txt)
     # uob
     dir = "assets/uob"
     for filename in os.listdir(dir):

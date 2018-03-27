@@ -1,57 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="baf569fb-a6ca-4a8b-9e3d-dd75452be0fe" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/01zA3I18z0195JA137DD44663_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zA3I18z0195JA137DD44663_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/01zB3I18z0495JA158DD44536_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zB3I18z0495JA158DD44536_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/01zC3T17z0305MA124DD4102_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zC3T17z0305MA124DD4102_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/01zD3F17z0445JA115DD8693_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zD3F17z0445JA115DD8693_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/01zE3O17z0095KA134DD10431_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zE3O17z0095KA134DD10431_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/01zG3H17z0055JA118DD42179_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zG3H17z0055JA118DD42179_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/01zH3H17z0165JA148DD42618_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zH3H17z0165JA148DD42618_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/01zJ3I17z0505JA118DD42145_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zJ3I17z0505JA118DD42145_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/01zK3I17z0165JA138DD43782_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zK3I17z0165JA138DD43782_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/01zL3I17z0415JA133DD43885_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zL3I17z0415JA133DD43885_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_13414.62913399882.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_13414.62913399882.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_15603.72920868763.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_15603.72920868763.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_17846.81506767478.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_17846.81506767478.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_18978.422769731795.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_18978.422769731795.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_202.82954454548872.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_202.82954454548872.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_22274.478355118714.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_22274.478355118714.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_24294.033505335923.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_24294.033505335923.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_29324.175581917487.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_29324.175581917487.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_29400.40855792748.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_29400.40855792748.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_29813.594932971002.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_29813.594932971002.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_3003.103850789063.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_3003.103850789063.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_33710.2517235513.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_33710.2517235513.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_34796.76632218652.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_34796.76632218652.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_34868.25309736964.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_34868.25309736964.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_39206.69458559868.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_39206.69458559868.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_418.91126091495624.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_418.91126091495624.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_42320.40560781994.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_42320.40560781994.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_44583.89214604958.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_44583.89214604958.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_50595.7854456691.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_50595.7854456691.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_51761.47813674694.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_51761.47813674694.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_55318.91802684145.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_55318.91802684145.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_58943.11279780659.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_58943.11279780659.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_62650.5974147836.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_62650.5974147836.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_65047.55715529703.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_65047.55715529703.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_66196.38800476684.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_66196.38800476684.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_66333.03925297227.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_66333.03925297227.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_6675.494432338605.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_6675.494432338605.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_72101.69912776854.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_72101.69912776854.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_82165.23253491452.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_82165.23253491452.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_92811.8987042534.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_92811.8987042534.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_94368.60166234267.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_94368.60166234267.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_94902.91110099191.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_94902.91110099191.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_97882.6264136561.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_97882.6264136561.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_99087.62972650533.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_99087.62972650533.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_99367.41954416825.json" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_99367.41954416825.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/cs4225.iml" afterPath="$PROJECT_DIR$/.idea/cs4225.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+    <list default="true" id="baf569fb-a6ca-4a8b-9e3d-dd75452be0fe" name="Default" comment="* finish dbs statement pdf extraction">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_13414.62913399882.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_17846.81506767478.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_18978.422769731795.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_202.82954454548872.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_22274.478355118714.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_24294.033505335923.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_29324.175581917487.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_29400.40855792748.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_29813.594932971002.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_3003.103850789063.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_33710.2517235513.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_34796.76632218652.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_34868.25309736964.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_39206.69458559868.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_418.91126091495624.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_42320.40560781994.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_44583.89214604958.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_50595.7854456691.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_51761.47813674694.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_55318.91802684145.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_58943.11279780659.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_62650.5974147836.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_65047.55715529703.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_66196.38800476684.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_66333.03925297227.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_6675.494432338605.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_72101.69912776854.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_82165.23253491452.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_92811.8987042534.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_94368.60166234267.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_94902.91110099191.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_97882.6264136561.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_99087.62972650533.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_99367.41954416825.json" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/pdf2txt.py" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/pdf2txt.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/statements.csv" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/statements.csv" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -61,90 +47,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="5" lean-forward="false" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pdf2txt.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/pdf2txt.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="117" column="40" lean-forward="false" selection-start-line="117" selection-start-column="40" selection-end-line="117" selection-end-column="40" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="out.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/out.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3525">
-              <caret line="824" column="16" lean-forward="true" selection-start-line="824" selection-start-column="16" selection-end-line="824" selection-end-column="16" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="svm.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/classification/svm.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="215">
-              <caret line="52" column="25" lean-forward="false" selection-start-line="52" selection-start-column="25" selection-end-line="52" selection-end-column="25" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="statements.csv" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/statements.csv">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
-              <caret line="308" column="36" lean-forward="false" selection-start-line="308" selection-start-column="36" selection-end-line="308" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="us_gov_data_refine.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cleaning/us_gov_data_refine.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3400">
-              <caret line="200" column="29" lean-forward="false" selection-start-line="200" selection-start-column="29" selection-end-line="200" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="01zA3I18z0195JA137DD44663_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zA3I18z0195JA137DD44663_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="2703" lean-forward="false" selection-start-line="0" selection-start-column="2703" selection-end-line="0" selection-end-column="2703" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="requirements.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/requirements.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -227,6 +130,14 @@
               <item name="pdf-mining" type="462c0819:PsiDirectoryNode" />
               <item name="assets" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="cs4225" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cs4225" type="462c0819:PsiDirectoryNode" />
+              <item name="cleaning" type="462c0819:PsiDirectoryNode" />
+              <item name="pdf-mining" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="uob" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -245,6 +156,11 @@
     </option>
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/cleaning/pdf-mining/assets" />
+      <recent name="$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs" />
+      <recent name="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/cleaning/pdf-mining" />
       <recent name="$PROJECT_DIR$" />
@@ -445,17 +361,23 @@
       <option name="project" value="LOCAL" />
       <updated>1521136075700</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="* finish dbs statement pdf extraction">
+      <created>1522132730831</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1522132730831</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="1027" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25885227" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25885227" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.46314633" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.46314633" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -649,14 +571,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zA3I18z0195JA137DD44663_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="2703" lean-forward="false" selection-start-line="0" selection-start-column="2703" selection-end-line="0" selection-end-column="2703" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/statements.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5661">
@@ -664,7 +578,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_202.82954454548872.json">
+    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_202.82954454548872.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -722,37 +636,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cleaning/us_gov_data_refine.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3400">
-          <caret line="200" column="29" lean-forward="false" selection-start-line="200" selection-start-column="29" selection-end-line="200" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="5" lean-forward="false" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/01zA3I18z0195JA137DD44663_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" />
-    <entry file="file://$PROJECT_DIR$/classification/svm.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="52" column="25" lean-forward="false" selection-start-line="52" selection-start-column="25" selection-end-line="52" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/out.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-3525">
-          <caret line="824" column="16" lean-forward="true" selection-start-line="824" selection-start-column="16" selection-end-line="824" selection-end-column="16" />
+          <caret line="824" column="16" lean-forward="false" selection-start-line="824" selection-start-column="16" selection-end-line="824" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/out.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zA3I18z0195JA137DD44663_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="0" column="2703" lean-forward="false" selection-start-line="0" selection-start-column="2703" selection-end-line="0" selection-end-column="2703" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cleaning/us_gov_data_refine.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="149">
+          <caret line="223" column="13" lean-forward="true" selection-start-line="223" selection-start-column="13" selection-end-line="223" selection-end-column="13" />
           <folding />
         </state>
       </provider>
@@ -765,10 +677,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/classification/svm.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="215">
+          <caret line="52" column="25" lean-forward="false" selection-start-line="52" selection-start-column="25" selection-end-line="52" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/pdf2txt.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="117" column="40" lean-forward="false" selection-start-line="117" selection-start-column="40" selection-end-line="117" selection-end-column="40" />
+        <state relative-caret-position="106">
+          <caret line="172" column="22" lean-forward="true" selection-start-line="172" selection-start-column="22" selection-end-line="172" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="5" lean-forward="false" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="5" />
           <folding />
         </state>
       </provider>
