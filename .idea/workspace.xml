@@ -1,43 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="baf569fb-a6ca-4a8b-9e3d-dd75452be0fe" name="Default" comment="* finish dbs statement pdf extraction">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_13414.62913399882.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_17846.81506767478.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_18978.422769731795.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_202.82954454548872.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_22274.478355118714.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_24294.033505335923.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_29324.175581917487.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_29400.40855792748.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_29813.594932971002.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_3003.103850789063.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_33710.2517235513.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_34796.76632218652.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_34868.25309736964.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_39206.69458559868.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_418.91126091495624.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_42320.40560781994.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_44583.89214604958.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_50595.7854456691.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_51761.47813674694.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_55318.91802684145.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_58943.11279780659.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_62650.5974147836.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_65047.55715529703.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_66196.38800476684.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_66333.03925297227.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_6675.494432338605.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_72101.69912776854.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_82165.23253491452.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_92811.8987042534.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_94368.60166234267.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_94902.91110099191.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_97882.6264136561.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_99087.62972650533.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_99367.41954416825.json" afterPath="" />
+    <list default="true" id="baf569fb-a6ca-4a8b-9e3d-dd75452be0fe" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_13414.62913399882.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_17846.81506767478.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_18978.422769731795.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_202.82954454548872.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_22274.478355118714.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_24294.033505335923.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_29324.175581917487.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_29400.40855792748.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_29813.594932971002.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_3003.103850789063.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_33710.2517235513.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_34796.76632218652.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_34868.25309736964.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_39206.69458559868.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_418.91126091495624.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_42320.40560781994.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_44583.89214604958.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_50595.7854456691.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_51761.47813674694.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_55318.91802684145.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_58943.11279780659.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_62650.5974147836.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_65047.55715529703.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_66196.38800476684.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_66333.03925297227.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_6675.494432338605.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_72101.69912776854.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_82165.23253491452.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_92811.8987042534.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_94368.60166234267.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_94902.91110099191.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_97882.6264136561.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_99087.62972650533.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_99367.41954416825.json" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/pdf2txt.py" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/pdf2txt.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -47,7 +46,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf />
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -94,7 +93,6 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -142,6 +140,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -166,125 +165,6 @@
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/cleaning" />
     </key>
-  </component>
-  <component name="RestoreUpdateTree" date="Moments ago" ActionInfo="_Update">
-    <UpdatedFiles>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Updated from server" />
-        <option name="myStatusName" value="Changed on server" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="CHANGED_ON_SERVER" />
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Updated" />
-          <option name="myStatusName" value="Changed" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="UPDATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/.idea/cs4225.iml</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/.idea/misc.xml</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/.idea/workspace.xml</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/requirements.txt</PATH>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Created" />
-          <option name="myStatusName" value="Created" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="CREATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/classification/assets/res_purchase_card_cleaned.csv</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/classification/assets/statementsLabeled.csv</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/classification/bayes.py</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/classification/svm.py</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/classification/util.py</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/cleaning/pdf-mining/statementsLabeled.csv</PATH>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Deleted" />
-          <option name="myStatusName" value="Deleted" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="true" />
-          <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Restored" />
-          <option name="myStatusName" value="Will be restored" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="RESTORED" />
-        </FILE-GROUP>
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Modified" />
-        <option name="myStatusName" value="Modified" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MODIFIED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Skipped" />
-        <option name="myStatusName" value="Skipped" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="SKIPPED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with conflicts" />
-        <option name="myStatusName" value="Will be merged with conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_CONFLICTS" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with tree conflicts" />
-        <option name="myStatusName" value="Merged with tree conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with property conflicts" />
-        <option name="myStatusName" value="Will be merged with property conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged" />
-        <option name="myStatusName" value="Will be merged" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Not in repository" />
-        <option name="myStatusName" value="Not in repository" />
-        <option name="mySupportsDeletion" value="true" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="UNKNOWN" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Locally added" />
-        <option name="myStatusName" value="Locally added" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="LOCALLY_ADDED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Locally removed" />
-        <option name="myStatusName" value="Locally removed" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="LOCALLY_REMOVED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Switched" />
-        <option name="myStatusName" value="Switched" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="SWITCHED" />
-      </FILE-GROUP>
-    </UpdatedFiles>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -368,16 +248,23 @@
       <option name="project" value="LOCAL" />
       <updated>1522132730831</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="* finish dbs statement pdf extraction">
+      <created>1522135541808</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1522135541808</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="1027" extended-state="0" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25885227" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25579977" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.46314633" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -386,23 +273,12 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25274727" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -422,7 +298,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="5" lean-forward="false" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -430,7 +305,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="29257">
           <caret line="1721" column="1" lean-forward="false" selection-start-line="1721" selection-start-column="1" selection-end-line="1721" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -438,7 +312,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3400">
           <caret line="200" column="29" lean-forward="false" selection-start-line="200" selection-start-column="29" selection-end-line="200" selection-end-column="29" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -446,7 +319,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="2703" lean-forward="true" selection-start-line="0" selection-start-column="2703" selection-end-line="0" selection-end-column="2703" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -454,7 +326,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="1" column="12" lean-forward="false" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -462,7 +333,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1054">
           <caret line="71" column="0" lean-forward="true" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -470,7 +340,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="5" lean-forward="false" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -478,7 +347,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="29257">
           <caret line="1721" column="1" lean-forward="false" selection-start-line="1721" selection-start-column="1" selection-end-line="1721" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -486,7 +354,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3400">
           <caret line="200" column="29" lean-forward="false" selection-start-line="200" selection-start-column="29" selection-end-line="200" selection-end-column="29" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -494,7 +361,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="2703" lean-forward="true" selection-start-line="0" selection-start-column="2703" selection-end-line="0" selection-end-column="2703" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -502,7 +368,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="1" column="12" lean-forward="false" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -510,7 +375,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1428">
           <caret line="93" column="0" lean-forward="true" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -518,7 +382,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -526,7 +389,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="731">
           <caret line="52" column="20" lean-forward="false" selection-start-line="52" selection-start-column="20" selection-end-line="52" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -534,7 +396,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="1" column="12" lean-forward="false" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -542,7 +403,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -551,7 +411,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="1" column="12" lean-forward="false" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -559,7 +418,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3400">
           <caret line="200" column="29" lean-forward="false" selection-start-line="200" selection-start-column="29" selection-end-line="200" selection-end-column="29" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -567,7 +425,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="5" lean-forward="false" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -578,19 +435,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_202.82954454548872.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_202.82954454548872.json" />
     <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/out.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1920">
           <caret line="1714" column="14" lean-forward="true" selection-start-line="1714" selection-start-column="14" selection-end-line="1714" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -598,7 +447,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="485">
           <caret line="109" column="0" lean-forward="false" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -606,7 +454,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -614,7 +461,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="731">
           <caret line="52" column="20" lean-forward="false" selection-start-line="52" selection-start-column="20" selection-end-line="52" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -622,7 +468,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="1" column="12" lean-forward="false" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -632,7 +477,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
           <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -641,7 +485,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-3525">
           <caret line="824" column="16" lean-forward="false" selection-start-line="824" selection-start-column="16" selection-end-line="824" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -649,7 +492,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -657,7 +499,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
           <caret line="0" column="2703" lean-forward="false" selection-start-line="0" selection-start-column="2703" selection-end-line="0" selection-end-column="2703" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -665,7 +506,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="149">
           <caret line="223" column="13" lean-forward="true" selection-start-line="223" selection-start-column="13" selection-end-line="223" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -673,7 +513,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="435">
           <caret line="308" column="36" lean-forward="false" selection-start-line="308" selection-start-column="36" selection-end-line="308" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -681,9 +520,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="215">
           <caret line="52" column="25" lean-forward="false" selection-start-line="52" selection-start-column="25" selection-end-line="52" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -691,7 +527,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="106">
           <caret line="172" column="22" lean-forward="true" selection-start-line="172" selection-start-column="22" selection-end-line="172" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -699,7 +534,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="5" lean-forward="false" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
