@@ -7,14 +7,9 @@ import csv
 
 
 if __name__ == '__main__':
-    limit = 20
     with open('assets/out_wei.csv', 'w', encoding='utf-8') as f:
         csv_writer = csv.writer(f)
         for filename in glob('/Users/luwei/drive/CS4225_project/data/pdf/*.pdf'):
-            if limit <= 0:
-                break
-            limit -= 1
-
             print(filename)
             result = subprocess.run(['pdftotext', '-layout', filename, '-'],
                                     stdout=subprocess.PIPE)
