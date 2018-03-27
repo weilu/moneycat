@@ -4,7 +4,7 @@ import sklearn
 from sklearn import svm
 import sklearn.cross_validation
 from termcolor import colored
-from classification import util
+import util
 
 # refer to https://github.com/yassersouri/classify-text
 
