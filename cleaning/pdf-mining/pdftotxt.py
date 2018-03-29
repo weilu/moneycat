@@ -3,9 +3,13 @@ import subprocess
 import re
 import dateparser
 import csv
+from iso4217 import Currency
+from itertools import tee
 
 
 DATE_CLUES = ['statement date', 'as at']
+CURRENCIES = set([c.code for c in Currency])
+CURRENCY_AMOUNT_REGEX = '({} \d+[\.|,|\d]*\d+)'
 
 
 def parse_statement_date(line):
@@ -17,30 +21,60 @@ def parse_statement_date(line):
                 return statement_date
 
 
-def process_pdf(filename, csv_writer):
-    print(filename)
-    result = subprocess.run(['pdftotext', '-layout', filename, '-'],
-                            stdout=subprocess.PIPE)
-    lines = result.stdout.decode('utf-8').split('\n')
-    statement_date = None
-    for line in lines:
+# Foreign currency transaction often include the foreign currency &
+# amount in a separate line
+def peek_forward_for_currency(iterator, max_lines=2):
+    for i in range(0, max_lines): # look no further than 2 lines
+        line = next(iterator).strip()
+        if line and len(line) > 3:
+            for currency in CURRENCIES:
+                found = re.search(CURRENCY_AMOUNT_REGEX.format(currency),
+                                  line, re.IGNORECASE)
+                if found:
+                    return found.group(1)
+
+
+def process_line(iterator, statement_date, csv_writer):
+    try:
+        line = next(iterator).strip()
         if not line:
-            continue
+            return process_line(iterator, statement_date, csv_writer)
         # this assumes that statement date is always before transaction records
         if not statement_date:
             statement_date = parse_statement_date(line)
-        groups = re.split(r'\s{2,}', line.strip())
+        groups = re.split(r'\s{2,}', line)
         if not groups or len(groups) < 3 or len(groups[0]) < 5:
-            continue
+            return process_line(iterator, statement_date, csv_writer)
+
         date_found = dateparser.parse(groups[0])
         if date_found:
             description_end_index = -1
             if '$' in groups:
                 # everything between date & $ is considered description
                 description_end_index = groups.index('$')
-            groups = [groups[0], ' '.join(groups[1:description_end_index]), groups[-1],
-                      statement_date, filename]
-            csv_writer.writerow(groups)
+            description = ' '.join(groups[1:description_end_index])
+
+            # make a copy for peeking
+            iterator, iterator_copy = tee(iterator)
+            foreign_amount = peek_forward_for_currency(iterator_copy)
+
+            csv_writer.writerow([groups[0], description, groups[-1], foreign_amount,
+                                 statement_date, filename])
+
+        process_line(iterator, statement_date, csv_writer)
+    except StopIteration:
+        pass
+
+
+def process_pdf(filename, csv_writer):
+    print(filename)
+    result = subprocess.run(['pdftotext', '-layout', filename, '-'],
+                            stdout=subprocess.PIPE)
+    lines = result.stdout.decode('utf-8').split('\n')
+    statement_date = None
+    reader = iter(lines)
+    # recursive fn
+    process_line(reader, statement_date, csv_writer)
 
 
 if __name__ == '__main__':
