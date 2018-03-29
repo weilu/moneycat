@@ -1,0 +1,1930 @@
+[
+  {
+    "op": "core/column-removal",
+    "description": "Remove column Column",
+    "columnName": "Column"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "scoot",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "vet",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "cab",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "uber eat",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "uber",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        },
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Rental Car & Taxi",
+                "l": "Rental Car & Taxi"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/text-transform",
+    "description": "Text transform on cells in column amount using expression value.toNumber()",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "uber",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        },
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Rental Car & Taxi",
+                "l": "Rental Car & Taxi"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        }
+      ]
+    },
+    "columnName": "amount",
+    "expression": "value.toNumber()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10
+  },
+  {
+    "op": "core/blank-down",
+    "description": "Blank down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "uber",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        },
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Rental Car & Taxi",
+                "l": "Rental Car & Taxi"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "selectNumeric": true,
+          "expression": "value",
+          "selectBlank": true,
+          "selectNonNumeric": true,
+          "selectError": true,
+          "name": "amount",
+          "from": 30,
+          "to": 190,
+          "type": "range",
+          "columnName": "amount"
+        },
+        {
+          "mode": "text",
+          "invert": true,
+          "caseSensitive": false,
+          "query": "trip",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "uber",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        },
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Rental Car & Taxi",
+                "l": "Rental Car & Taxi"
+              }
+            },
+            {
+              "v": {
+                "v": "Delivery",
+                "l": "Delivery"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "selectNumeric": true,
+          "expression": "value",
+          "selectBlank": true,
+          "selectNonNumeric": true,
+          "selectError": true,
+          "name": "amount",
+          "from": 30,
+          "to": 190,
+          "type": "range",
+          "columnName": "amount"
+        },
+        {
+          "mode": "text",
+          "invert": true,
+          "caseSensitive": false,
+          "query": "trip",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "NISEKO",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "GIRO",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "OCULUS",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "POLYPET",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "POLYPET",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "POLYPET",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Groceries",
+                "l": "Groceries"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "cold st",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Gym",
+                "l": "Gym"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "GYM",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "AMAZON",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "7-ELEVEN",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "7-ELEVEN",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Coffee Shops",
+                "l": "Coffee Shops"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "TEAMKUCHE CULINARY",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Coffee Shops",
+                "l": "Coffee Shops"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "TEAMKUCHE CULINARY",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "PRUDENTIAL",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Shopping",
+                "l": "Shopping"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "taobao",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "INTEREST",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "CR",
+          "name": "amount",
+          "type": "text",
+          "columnName": "amount"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Interest Income",
+                "l": "Interest Income"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "INTEREST",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "CR",
+          "name": "amount",
+          "type": "text",
+          "columnName": "amount"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Interest Income",
+                "l": "Interest Income"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "INTEREST",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        },
+        {
+          "mode": "text",
+          "invert": true,
+          "caseSensitive": false,
+          "query": "CR",
+          "name": "amount",
+          "type": "text",
+          "columnName": "amount"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Late Fee",
+                "l": "Late Fee"
+              }
+            },
+            {
+              "v": {
+                "v": "Interest Income",
+                "l": "Interest Income"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "INTEREST",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        },
+        {
+          "mode": "text",
+          "invert": true,
+          "caseSensitive": false,
+          "query": "CR",
+          "name": "amount",
+          "type": "text",
+          "columnName": "amount"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Late Fee",
+                "l": "Late Fee"
+              }
+            },
+            {
+              "v": {
+                "v": "Interest Income",
+                "l": "Interest Income"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": " fee",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Bank Fee",
+                "l": "Bank Fee"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": " fee",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "LATE CHARGE",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "PAYMT THRU",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Credit Card Payment",
+                "l": "Credit Card Payment"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "PAYMT THRU",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Coffee Shops",
+                "l": "Coffee Shops"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "HENRI CHARPENTIER-",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Restaurants",
+                "l": "Restaurants"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "THE WICKED GARLIC",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "SHENG SIONG",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Coffee Shops",
+                "l": "Coffee Shops"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "GONG CHA",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Coffee Shops",
+                "l": "Coffee Shops"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "GONG CHA",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Coffee Shops",
+                "l": "Coffee Shops"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "GONG CHA",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Veterinary",
+                "l": "Veterinary"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "ARVRC",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Veterinary",
+                "l": "Veterinary"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "ARVRC",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Veterinary",
+                "l": "Veterinary"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "ARVRC",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Fast Food",
+                "l": "Fast Food"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "SUBWAY",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Coffee Shops",
+                "l": "Coffee Shops"
+              }
+            },
+            {
+              "v": {
+                "v": "Food & Dining",
+                "l": "Food & Dining"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "DO.MAIN",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Personal Care",
+                "l": "Personal Care"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "GUARDIAN",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Coffee Shops",
+                "l": "Coffee Shops"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "YELLOW CUP TEAHOUSE",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "CASH REBATE",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "CASH REBATE",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Restaurants",
+                "l": "Restaurants"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "RESTAURANT",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "coursera",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Hotel",
+                "l": "Hotel"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "AIRbnb",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Hotel",
+                "l": "Hotel"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "AIRbnb",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Groceries",
+                "l": "Groceries"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "NTUC",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "CHALLENGER",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Electronics & Software",
+                "l": "Electronics & Software"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "CHALLENGER",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Doctor",
+                "l": "Doctor"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "PSYCHIATRY",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Restaurants",
+                "l": "Restaurants"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "ORIGINAL SLICED",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/fill-down",
+    "description": "Fill down cells in column category",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [
+            {
+              "v": {
+                "v": "Personal Care",
+                "l": "Personal Care"
+              }
+            }
+          ],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        },
+        {
+          "mode": "text",
+          "invert": false,
+          "caseSensitive": false,
+          "query": "WATSON'S",
+          "name": "description",
+          "type": "text",
+          "columnName": "description"
+        }
+      ]
+    },
+    "columnName": "category"
+  },
+  {
+    "op": "core/row-removal",
+    "description": "Remove rows",
+    "engineConfig": {
+      "mode": "row-based",
+      "facets": [
+        {
+          "omitError": false,
+          "expression": "value",
+          "selectBlank": true,
+          "selection": [],
+          "selectError": false,
+          "invert": false,
+          "name": "category",
+          "omitBlank": false,
+          "type": "list",
+          "columnName": "category"
+        }
+      ]
+    }
+  }
+]
