@@ -4,13 +4,7 @@ import pandas as pd
 def parse_number(num_str):
     return float(num_str.replace('CR', '').strip())
 
-def attempt_merge():
-    uob_unlabeled_txs = pd.read_csv('out.csv', sep=",")
-    all_txs = pd.read_csv('out_wei.csv', sep=",")
-    dbs_labeled_txs = pd.read_csv('statementsLabeled.csv', sep=",")
-    print('all_txs: {}, dbs_labeled_txs: {}, uob_txs: {}'.\
-            format(all_txs.shape, dbs_labeled_txs.shape, uob_unlabeled_txs.shape))
-
+def attempt_merge(all_txs, dbs_labeled_txs):
     # separate all_txs to DBS and UOB
     uob_condition = all_txs.source.str.startswith('eStatement_')
     uob_txs = all_txs[uob_condition]
@@ -41,4 +35,20 @@ def attempt_merge():
 
 
 if __name__ == '__main__':
-    attempt_merge()
+    all_txs = pd.read_csv('out_wei.csv', sep=",")
+    dbs_labeled_txs = pd.read_csv('statementsLabeled.csv', sep=",")
+    print('all_txs: {}, dbs_labeled_txs: {}'.format(all_txs.shape, dbs_labeled_txs.shape))
+    # attempt_merge(all_txs, dbs_labeled_txs)
+
+    classification = {}
+    for labeled_row in dbs_labeled_txs.itertuples():
+        classification[labeled_row.TITLE] = labeled_row.CATEGORY
+    print('labelled dict based on description: {}'.format(len(classification)))
+
+    categories = []
+    for index, row in all_txs.iterrows():
+        categories.append(classification.get(row[1]))
+    all_txs['category'] = categories
+
+    all_txs.to_csv('out_wei_labelled.csv')
+
