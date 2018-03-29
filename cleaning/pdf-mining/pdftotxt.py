@@ -5,6 +5,7 @@ import dateparser
 import csv
 from iso4217 import Currency
 from itertools import tee
+from os import path
 
 
 DATE_CLUES = ['statement date', 'as at']
@@ -34,47 +35,47 @@ def peek_forward_for_currency(iterator, max_lines=2):
                     return found.group(1)
 
 
-def process_line(iterator, statement_date, csv_writer):
-    try:
-        line = next(iterator).strip()
-        if not line:
-            return process_line(iterator, statement_date, csv_writer)
-        # this assumes that statement date is always before transaction records
-        if not statement_date:
-            statement_date = parse_statement_date(line)
-        groups = re.split(r'\s{2,}', line)
-        if not groups or len(groups) < 3 or len(groups[0]) < 5:
-            return process_line(iterator, statement_date, csv_writer)
-
-        date_found = dateparser.parse(groups[0])
-        if date_found:
-            description_end_index = -1
-            if '$' in groups:
-                # everything between date & $ is considered description
-                description_end_index = groups.index('$')
-            description = ' '.join(groups[1:description_end_index])
-
-            # make a copy for peeking
-            iterator, iterator_copy = tee(iterator)
-            foreign_amount = peek_forward_for_currency(iterator_copy)
-
-            csv_writer.writerow([groups[0], description, groups[-1], foreign_amount,
-                                 statement_date, filename])
-
-        process_line(iterator, statement_date, csv_writer)
-    except StopIteration:
-        pass
-
-
 def process_pdf(filename, csv_writer):
+
+    # recursive fn
+    def process_line(iterator, statement_date):
+        try:
+            line = next(iterator).strip()
+            if not line:
+                return process_line(iterator, statement_date)
+            # this assumes that statement date is always before transaction records
+            if not statement_date:
+                statement_date = parse_statement_date(line)
+            groups = re.split(r'\s{2,}', line)
+            if not groups or len(groups) < 3 or len(groups[0]) < 5:
+                return process_line(iterator, statement_date)
+
+            # consider a line as a transaction when it begins with date
+            date_found = dateparser.parse(groups[0])
+            if date_found:
+                description_end_index = -1
+                if '$' in groups:
+                    # everything between date & $ is considered description
+                    description_end_index = groups.index('$')
+                description = ' '.join(groups[1:description_end_index])
+
+                # make a copy for peeking
+                iterator, iterator_copy = tee(iterator)
+                foreign_amount = peek_forward_for_currency(iterator_copy)
+
+                csv_writer.writerow([groups[0], description, groups[-1], foreign_amount,
+                                     statement_date, path.basename(filename)])
+
+            process_line(iterator, statement_date)
+        except StopIteration:
+            pass
+
     print(filename)
     result = subprocess.run(['pdftotext', '-layout', filename, '-'],
                             stdout=subprocess.PIPE)
     lines = result.stdout.decode('utf-8').split('\n')
     statement_date = None
-    reader = iter(lines)
-    # recursive fn
-    process_line(reader, statement_date, csv_writer)
+    process_line(iter(lines), statement_date)
 
 
 if __name__ == '__main__':
