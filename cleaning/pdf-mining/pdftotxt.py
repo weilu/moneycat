@@ -79,8 +79,9 @@ def process_pdf(filename, csv_writer):
 
 
 if __name__ == '__main__':
-    with open('out_wei_test.csv', 'w', encoding='utf-8') as f:
+    with open('out_wei.csv', 'w', encoding='utf-8') as f:
         csv_writer = csv.writer(f)
+        csv_writer.writerow(['date', 'description', 'amount', 'foreign_amount',
+                             'statement_date', 'source'])
         for filename in glob('/Users/luwei/drive/CS4225_project/data/pdf/*.pdf'):
             process_pdf(filename, csv_writer)
-            break
