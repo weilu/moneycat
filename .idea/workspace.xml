@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="baf569fb-a6ca-4a8b-9e3d-dd75452be0fe" name="Default" comment="* finish dbs statement pdf extraction">
-      <change beforePath="" afterPath="$PROJECT_DIR$/classification/assets/out_wei_labelled_full.csv" />
-      <change beforePath="$PROJECT_DIR$/.idea/cs4225.iml" afterPath="$PROJECT_DIR$/.idea/cs4225.iml" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/classification/svm.py" afterPath="$PROJECT_DIR$/classification/svm.py" />
+    <list default="true" id="baf569fb-a6ca-4a8b-9e3d-dd75452be0fe" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/classification/svm.py" afterPath="$PROJECT_DIR$/classification/svm.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,11 +14,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="pdf2txt.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/pdf2txt.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="868">
+              <caret line="65" column="29" lean-forward="false" selection-start-line="65" selection-start-column="29" selection-end-line="65" selection-end-column="29" />
+              <folding>
+                <element signature="e#129#138#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="svm.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/classification/svm.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="154">
-              <caret line="23" column="18" lean-forward="true" selection-start-line="23" selection-start-column="18" selection-end-line="23" selection-end-column="18" />
+            <state relative-caret-position="351">
+              <caret line="34" column="78" lean-forward="true" selection-start-line="34" selection-start-column="78" selection-end-line="34" selection-end-column="78" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -29,70 +38,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="res_purchase_card_cleaned.csv" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/classification/assets/res_purchase_card_cleaned.csv">
-          <provider selected="true" editor-type-id="LargeFileEditor">
-            <state relative-caret-position="0">
-              <caret line="0" column="183" lean-forward="true" selection-start-line="0" selection-start-column="167" selection-end-line="0" selection-end-column="183" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="out_wei_labelled_full.csv" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/classification/assets/out_wei_labelled_full.csv">
+      <file leaf-file-name="pdftotxt.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/pdftotxt.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="69" lean-forward="false" selection-start-line="0" selection-start-column="61" selection-end-line="0" selection-end-column="69" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="statementsLabeled.csv" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/classification/assets/statementsLabeled.csv">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="10" lean-forward="false" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="10" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="validation.py" pinned="false" current-in-tab="false">
-        <entry file="file://D:/Software/Conda/envs/tf/Lib/site-packages/sklearn/utils/validation.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="461" column="0" lean-forward="false" selection-start-line="461" selection-start-column="0" selection-end-line="461" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="data.py" pinned="false" current-in-tab="false">
-        <entry file="file://D:/Software/Conda/envs/tf/Lib/site-packages/sklearn/preprocessing/data.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="351">
-              <caret line="1411" column="0" lean-forward="false" selection-start-line="1411" selection-start-column="0" selection-end-line="1411" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="text.py" pinned="false" current-in-tab="false">
-        <entry file="file://D:/Software/Conda/envs/tf/Lib/site-packages/sklearn/feature_extraction/text.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="1113" column="0" lean-forward="false" selection-start-line="1113" selection-start-column="0" selection-end-line="1113" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="re.py" pinned="false" current-in-tab="false">
-        <entry file="file://D:/Software/Conda/envs/tf/Lib/re.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="181" column="0" lean-forward="false" selection-start-line="181" selection-start-column="0" selection-end-line="181" selection-end-column="0" />
+            <state relative-caret-position="733">
+              <caret line="87" column="0" lean-forward="false" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -105,14 +55,6 @@
       <find>SUGRU</find>
       <find>YES OPTUS</find>
       <find>print</find>
-      <find>PAYMT THRU E-BANK/HOMEB/CYBERB (EP01)</find>
-      <find>X_train</find>
-      <find>X_predict</find>
-      <find>validation_classifier</find>
-      <find>origin_label</find>
-      <find>test_label</find>
-      <find>predict_data</find>
-      <find>test_items</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -127,7 +69,6 @@
         <option value="$PROJECT_DIR$/cleaning/pdf-mining/assets/out.json" />
         <option value="$PROJECT_DIR$/cleaning/pdf-mining/statements.csv" />
         <option value="$PROJECT_DIR$/cleaning/pdf-mining/pdf2txt.py" />
-        <option value="$PROJECT_DIR$/cleaning/pdf-mining/out.csv" />
         <option value="$PROJECT_DIR$/classification/svm.py" />
       </list>
     </option>
@@ -156,6 +97,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -176,12 +119,6 @@
             <path>
               <item name="cs4225" type="b2602c69:ProjectViewProjectNode" />
               <item name="cs4225" type="462c0819:PsiDirectoryNode" />
-              <item name="classification" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="cs4225" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cs4225" type="462c0819:PsiDirectoryNode" />
               <item name="cleaning" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -190,12 +127,17 @@
               <item name="cleaning" type="462c0819:PsiDirectoryNode" />
               <item name="pdf-mining" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="cs4225" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cs4225" type="462c0819:PsiDirectoryNode" />
+              <item name="cleaning" type="462c0819:PsiDirectoryNode" />
+              <item name="pdf-mining" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -210,16 +152,15 @@
     </option>
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\Code\Python\cs4225\classification\assets" />
-      <recent name="$PROJECT_DIR$/cleaning/pdf-mining" />
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/cleaning" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/cleaning/pdf-mining/assets" />
       <recent name="$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs" />
       <recent name="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/cleaning/pdf-mining" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/cleaning" />
     </key>
   </component>
   <component name="RestoreUpdateTree" date="Moments ago" ActionInfo="_Update">
@@ -236,6 +177,11 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UPDATED" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/.idea/cs4225.iml</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/.idea/misc.xml</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/.idea/workspace.xml</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/classification/bayes.py</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/classification/svm.py</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/cleaning/pdf-mining/pdftotxt.py</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/cleaning/pdf-mining/statementsLabeled.csv</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/requirements.txt</PATH>
@@ -247,6 +193,7 @@
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="CREATED" />
           <PATH vcs="Git" revision="">$PROJECT_DIR$/classification/KNN.py</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/classification/assets/out_wei_labelled_full.csv</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/cleaning/pdf-mining/label.json</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/cleaning/pdf-mining/merge.py</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/cleaning/pdf-mining/out_wei.csv</PATH>
@@ -370,7 +317,6 @@
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
     </configuration>
     <configuration name="svm" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -388,7 +334,6 @@
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
     </configuration>
     <list size="2">
       <item index="0" class="java.lang.String" itemvalue="Python.pdf2txt" />
@@ -403,9 +348,6 @@
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
-  </component>
-  <component name="SvnConfiguration">
-    <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -464,32 +406,38 @@
       <option name="project" value="LOCAL" />
       <updated>1522135777392</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="* finish dbs statement pdf extraction">
+      <created>1522153952272</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1522153952272</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-1" y="23" width="1680" height="1027" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22444679" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26251528" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.326257" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960895" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3850385" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960895" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -505,6 +453,54 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/pdf2txt.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2771">
+          <caret line="172" column="29" lean-forward="true" selection-start-line="172" selection-start-column="29" selection-end-line="172" selection-end-column="29" />
+          <folding>
+            <element signature="e#129#138#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/out.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="16201">
+          <caret line="953" column="34" lean-forward="true" selection-start-line="953" selection-start-column="34" selection-end-line="953" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="5" lean-forward="false" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/out.json" />
+    <entry file="file://$PROJECT_DIR$/cleaning/us_gov_data_refine.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3400">
+          <caret line="200" column="29" lean-forward="false" selection-start-line="200" selection-start-column="29" selection-end-line="200" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zA3I18z0195JA137DD44663_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" />
+    <entry file="file://$PROJECT_DIR$/requirements.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="12" lean-forward="false" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/pdf2txt.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1054">
+          <caret line="71" column="0" lean-forward="true" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -620,9 +616,8 @@
     <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/.idea/misc.xml" />
     <entry file="file://$PROJECT_DIR$/requirements.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="221">
+          <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -652,158 +647,44 @@
     <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/out.json" />
     <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/out.csv" />
     <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/out.json" />
-    <entry file="file://$PROJECT_DIR$/category/mint.html">
+    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/out.csv">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="15963">
+          <caret line="939" column="55" lean-forward="true" selection-start-line="939" selection-start-column="55" selection-end-line="939" selection-end-column="55" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/out_wei.csv">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9443">
-          <caret line="497" column="124" lean-forward="false" selection-start-line="497" selection-start-column="124" selection-end-line="497" selection-end-column="124" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/classification/util.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="12" selection-end-column="49" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/out_wei_labelled_full.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="69" lean-forward="false" selection-start-line="0" selection-start-column="61" selection-end-line="0" selection-end-column="69" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/classification/KNN.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-200">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/classification/bayes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/out_wei.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/out.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-17105">
-          <caret line="22" column="91" lean-forward="false" selection-start-line="22" selection-start-column="91" selection-end-line="22" selection-end-column="91" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Software/Conda/Lib/site-packages/pandas/core/frame.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="58406">
-          <caret line="3168" column="74" lean-forward="false" selection-start-line="3168" selection-start-column="65" selection-end-line="3168" selection-end-column="74" />
+        <state relative-caret-position="374">
+          <caret line="22" column="39" lean-forward="true" selection-start-line="22" selection-start-column="39" selection-end-line="22" selection-end-column="39" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/pdf2txt.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="173" column="40" lean-forward="true" selection-start-line="173" selection-start-column="40" selection-end-line="173" selection-end-column="40" />
-          <folding />
+        <state relative-caret-position="868">
+          <caret line="65" column="29" lean-forward="false" selection-start-line="65" selection-start-column="29" selection-end-line="65" selection-end-column="29" />
+          <folding>
+            <element signature="e#129#138#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://D:/Software/Conda/envs/tf/Lib/site-packages/sklearn/utils/validation.py">
+    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/pdftotxt.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="461" column="0" lean-forward="false" selection-start-line="461" selection-start-column="0" selection-end-line="461" selection-end-column="0" />
+        <state relative-caret-position="733">
+          <caret line="87" column="0" lean-forward="false" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Software/Conda/envs/tf/Lib/site-packages/sklearn/preprocessing/data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="351">
-          <caret line="1411" column="0" lean-forward="false" selection-start-line="1411" selection-start-column="0" selection-end-line="1411" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Software/Conda/envs/tf/Lib/site-packages/sklearn/feature_extraction/text.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="1113" column="0" lean-forward="false" selection-start-line="1113" selection-start-column="0" selection-end-line="1113" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Software/Conda/envs/tf/Lib/site-packages/sklearn/metrics/classification.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="579">
-          <caret line="1427" column="0" lean-forward="false" selection-start-line="1427" selection-start-column="0" selection-end-line="1427" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/classification/assets/out_wei_labelled_full.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="69" lean-forward="false" selection-start-line="0" selection-start-column="61" selection-end-line="0" selection-end-column="69" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/classification/assets/statementsLabeled.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="10" lean-forward="false" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Software/Conda/envs/tf/Lib/re.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="181" column="0" lean-forward="false" selection-start-line="181" selection-start-column="0" selection-end-line="181" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/classification/assets/res_purchase_card_cleaned.csv">
-      <provider selected="true" editor-type-id="LargeFileEditor">
-        <state relative-caret-position="0">
-          <caret line="0" column="183" lean-forward="true" selection-start-line="0" selection-start-column="167" selection-end-line="0" selection-end-column="183" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/classification/svm.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="23" column="18" lean-forward="true" selection-start-line="23" selection-start-column="18" selection-end-line="23" selection-end-column="18" />
+        <state relative-caret-position="351">
+          <caret line="34" column="78" lean-forward="true" selection-start-line="34" selection-start-column="78" selection-end-line="34" selection-end-column="78" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>

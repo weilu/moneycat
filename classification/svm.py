@@ -32,6 +32,8 @@ def main():
     origin_text = origin_items["Description"] + " " + origin_items["Vendor"]
 
     test_items = pd.DataFrame(predict_data, columns=['description', 'category'])
+    test_items = test_items.sample(frac=0.05, replace=True, random_state=4252)
+
     a_test_items, b_test_items = train_test_split(test_items, test_size=0.2)
     a_test_text = a_test_items["description"]
     b_test_text = b_test_items["description"]
