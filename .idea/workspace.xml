@@ -2,55 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="baf569fb-a6ca-4a8b-9e3d-dd75452be0fe" name="Default" comment="* finish dbs statement pdf extraction">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/out.csv" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zA3I18z0195JA137DD44663_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zB3I18z0495JA158DD44536_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zC3T17z0305MA124DD4102_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zD3F17z0445JA115DD8693_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zE3O17z0095KA134DD10431_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zG3H17z0055JA118DD42179_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zH3H17z0165JA148DD42618_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zJ3I17z0505JA118DD42145_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zK3I17z0165JA138DD43782_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zL3I17z0415JA133DD43885_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/out.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_13414.62913399882.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_15603.72920868763.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_17846.81506767478.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_18978.422769731795.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_202.82954454548872.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_22274.478355118714.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_24294.033505335923.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_29324.175581917487.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_29400.40855792748.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_29813.594932971002.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_3003.103850789063.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_33710.2517235513.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_34796.76632218652.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_34868.25309736964.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_39206.69458559868.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_418.91126091495624.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_42320.40560781994.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_44583.89214604958.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_50595.7854456691.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_51761.47813674694.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_55318.91802684145.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_58943.11279780659.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_62650.5974147836.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_65047.55715529703.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_66196.38800476684.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_66333.03925297227.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_6675.494432338605.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_72101.69912776854.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_82165.23253491452.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_92811.8987042534.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_94368.60166234267.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_94902.91110099191.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_97882.6264136561.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_99087.62972650533.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/eStatement_99367.41954416825.json" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cleaning/pdf-mining/pdf2txt.py" afterPath="$PROJECT_DIR$/cleaning/pdf-mining/pdf2txt.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/classification/assets/out_wei_labelled_full.csv" />
+      <change beforePath="$PROJECT_DIR$/.idea/cs4225.iml" afterPath="$PROJECT_DIR$/.idea/cs4225.iml" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/classification/svm.py" afterPath="$PROJECT_DIR$/classification/svm.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -60,24 +16,83 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="pdf2txt.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/pdf2txt.py">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="svm.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/classification/svm.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="243">
-              <caret line="172" column="29" lean-forward="true" selection-start-line="172" selection-start-column="29" selection-end-line="172" selection-end-column="29" />
+            <state relative-caret-position="154">
+              <caret line="23" column="18" lean-forward="true" selection-start-line="23" selection-start-column="18" selection-end-line="23" selection-end-column="18" />
               <folding>
-                <element signature="e#129#138#0" expanded="true" />
+                <element signature="e#0#9#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="out.csv" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/out.csv">
+      <file leaf-file-name="res_purchase_card_cleaned.csv" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/classification/assets/res_purchase_card_cleaned.csv">
+          <provider selected="true" editor-type-id="LargeFileEditor">
+            <state relative-caret-position="0">
+              <caret line="0" column="183" lean-forward="true" selection-start-line="0" selection-start-column="167" selection-end-line="0" selection-end-column="183" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="out_wei_labelled_full.csv" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/classification/assets/out_wei_labelled_full.csv">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-15412">
-              <caret line="30" column="25" lean-forward="true" selection-start-line="30" selection-start-column="25" selection-end-line="30" selection-end-column="25" />
+            <state relative-caret-position="0">
+              <caret line="0" column="69" lean-forward="false" selection-start-line="0" selection-start-column="61" selection-end-line="0" selection-end-column="69" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="statementsLabeled.csv" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/classification/assets/statementsLabeled.csv">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="10" lean-forward="false" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="10" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="validation.py" pinned="false" current-in-tab="false">
+        <entry file="file://D:/Software/Conda/envs/tf/Lib/site-packages/sklearn/utils/validation.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="461" column="0" lean-forward="false" selection-start-line="461" selection-start-column="0" selection-end-line="461" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="data.py" pinned="false" current-in-tab="false">
+        <entry file="file://D:/Software/Conda/envs/tf/Lib/site-packages/sklearn/preprocessing/data.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="351">
+              <caret line="1411" column="0" lean-forward="false" selection-start-line="1411" selection-start-column="0" selection-end-line="1411" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="text.py" pinned="false" current-in-tab="false">
+        <entry file="file://D:/Software/Conda/envs/tf/Lib/site-packages/sklearn/feature_extraction/text.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="408">
+              <caret line="1113" column="0" lean-forward="false" selection-start-line="1113" selection-start-column="0" selection-end-line="1113" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="re.py" pinned="false" current-in-tab="false">
+        <entry file="file://D:/Software/Conda/envs/tf/Lib/re.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="152">
+              <caret line="181" column="0" lean-forward="false" selection-start-line="181" selection-start-column="0" selection-end-line="181" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -90,6 +105,14 @@
       <find>SUGRU</find>
       <find>YES OPTUS</find>
       <find>print</find>
+      <find>PAYMT THRU E-BANK/HOMEB/CYBERB (EP01)</find>
+      <find>X_train</find>
+      <find>X_predict</find>
+      <find>validation_classifier</find>
+      <find>origin_label</find>
+      <find>test_label</find>
+      <find>predict_data</find>
+      <find>test_items</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -104,10 +127,12 @@
         <option value="$PROJECT_DIR$/cleaning/pdf-mining/assets/out.json" />
         <option value="$PROJECT_DIR$/cleaning/pdf-mining/statements.csv" />
         <option value="$PROJECT_DIR$/cleaning/pdf-mining/pdf2txt.py" />
+        <option value="$PROJECT_DIR$/cleaning/pdf-mining/out.csv" />
+        <option value="$PROJECT_DIR$/classification/svm.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="23" />
     <option name="width" value="1680" />
     <option name="height" value="1027" />
@@ -131,7 +156,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -152,25 +176,25 @@
             <path>
               <item name="cs4225" type="b2602c69:ProjectViewProjectNode" />
               <item name="cs4225" type="462c0819:PsiDirectoryNode" />
-              <item name="cleaning" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="cs4225" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cs4225" type="462c0819:PsiDirectoryNode" />
-              <item name="cleaning" type="462c0819:PsiDirectoryNode" />
-              <item name="pdf-mining" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="cs4225" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cs4225" type="462c0819:PsiDirectoryNode" />
-              <item name="cleaning" type="462c0819:PsiDirectoryNode" />
-              <item name="pdf-mining" type="462c0819:PsiDirectoryNode" />
+              <item name="classification" type="462c0819:PsiDirectoryNode" />
               <item name="assets" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cs4225" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cs4225" type="462c0819:PsiDirectoryNode" />
+              <item name="cleaning" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cs4225" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cs4225" type="462c0819:PsiDirectoryNode" />
+              <item name="cleaning" type="462c0819:PsiDirectoryNode" />
+              <item name="pdf-mining" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -186,16 +210,136 @@
     </option>
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Code\Python\cs4225\classification\assets" />
+      <recent name="$PROJECT_DIR$/cleaning/pdf-mining" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/cleaning" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/cleaning/pdf-mining/assets" />
       <recent name="$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs" />
       <recent name="$PROJECT_DIR$/cleaning/pdf-mining/assets/uob" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/cleaning/pdf-mining" />
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/cleaning" />
-    </key>
+  </component>
+  <component name="RestoreUpdateTree" date="Moments ago" ActionInfo="_Update">
+    <UpdatedFiles>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Updated from server" />
+        <option name="myStatusName" value="Changed on server" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="CHANGED_ON_SERVER" />
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Updated" />
+          <option name="myStatusName" value="Changed" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="UPDATED" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/cleaning/pdf-mining/pdftotxt.py</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/cleaning/pdf-mining/statementsLabeled.csv</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/requirements.txt</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Created" />
+          <option name="myStatusName" value="Created" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="CREATED" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/classification/KNN.py</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/cleaning/pdf-mining/label.json</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/cleaning/pdf-mining/merge.py</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/cleaning/pdf-mining/out_wei.csv</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/cleaning/pdf-mining/out_wei_labelled.csv</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/cleaning/pdf-mining/out_wei_labelled_full.csv</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Deleted" />
+          <option name="myStatusName" value="Deleted" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="true" />
+          <option name="myId" value="REMOVED_FROM_REPOSITORY" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/cleaning/pdf-mining/assets/out_wei.csv</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Restored" />
+          <option name="myStatusName" value="Will be restored" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="RESTORED" />
+        </FILE-GROUP>
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Modified" />
+        <option name="myStatusName" value="Modified" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MODIFIED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Skipped" />
+        <option name="myStatusName" value="Skipped" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="SKIPPED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with conflicts" />
+        <option name="myStatusName" value="Will be merged with conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_CONFLICTS" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with tree conflicts" />
+        <option name="myStatusName" value="Merged with tree conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with property conflicts" />
+        <option name="myStatusName" value="Will be merged with property conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged" />
+        <option name="myStatusName" value="Will be merged" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Not in repository" />
+        <option name="myStatusName" value="Not in repository" />
+        <option name="mySupportsDeletion" value="true" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="UNKNOWN" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Locally added" />
+        <option name="myStatusName" value="Locally added" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="LOCALLY_ADDED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Locally removed" />
+        <option name="myStatusName" value="Locally removed" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="LOCALLY_REMOVED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Switched" />
+        <option name="myStatusName" value="Switched" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="SWITCHED" />
+      </FILE-GROUP>
+    </UpdatedFiles>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -209,7 +353,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.pdf2txt">
+  <component name="RunManager" selected="Python.svm">
     <configuration name="pdf2txt" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -226,15 +370,42 @@
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
     </configuration>
+    <configuration name="svm" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/classification" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="cs4225" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/classification/svm.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <list size="2">
+      <item index="0" class="java.lang.String" itemvalue="Python.pdf2txt" />
+      <item index="1" class="java.lang.String" itemvalue="Python.svm" />
+    </list>
     <recent_temporary>
-      <list size="1">
-        <item index="0" class="java.lang.String" itemvalue="Python.pdf2txt" />
+      <list size="2">
+        <item index="0" class="java.lang.String" itemvalue="Python.svm" />
+        <item index="1" class="java.lang.String" itemvalue="Python.pdf2txt" />
       </list>
     </recent_temporary>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -297,27 +468,28 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1680" height="1027" extended-state="0" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25946277" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22444679" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3850385" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.326257" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960895" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960895" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -340,13 +512,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/out.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="29257">
-          <caret line="1721" column="1" lean-forward="false" selection-start-line="1721" selection-start-column="1" selection-end-line="1721" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/out.json" />
     <entry file="file://$PROJECT_DIR$/cleaning/us_gov_data_refine.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3400">
@@ -354,55 +520,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zA3I18z0195JA137DD44663_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="2703" lean-forward="true" selection-start-line="0" selection-start-column="2703" selection-end-line="0" selection-end-column="2703" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/requirements.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="12" lean-forward="false" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/pdf2txt.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1054">
-          <caret line="71" column="0" lean-forward="true" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="5" lean-forward="false" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/out.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="29257">
-          <caret line="1721" column="1" lean-forward="false" selection-start-line="1721" selection-start-column="1" selection-end-line="1721" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cleaning/us_gov_data_refine.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3400">
-          <caret line="200" column="29" lean-forward="false" selection-start-line="200" selection-start-column="29" selection-end-line="200" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zA3I18z0195JA137DD44663_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="2703" lean-forward="true" selection-start-line="0" selection-start-column="2703" selection-end-line="0" selection-end-column="2703" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zA3I18z0195JA137DD44663_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" />
     <entry file="file://$PROJECT_DIR$/requirements.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
@@ -438,13 +556,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zA3I18z0195JA137DD44663_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zA3I18z0195JA137DD44663_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" />
     <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/.idea/misc.xml" />
     <entry file="file://$PROJECT_DIR$/requirements.txt">
       <provider selected="true" editor-type-id="text-editor">
@@ -475,13 +587,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/eStatement_202.82954454548872.json" />
-    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/out.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1920">
-          <caret line="1714" column="14" lean-forward="true" selection-start-line="1714" selection-start-column="14" selection-end-line="1714" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/out.json" />
     <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/pdf2txt.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="485">
@@ -514,30 +620,18 @@
     <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/.idea/misc.xml" />
     <entry file="file://$PROJECT_DIR$/requirements.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+        <state relative-caret-position="266">
+          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/01zA3I18z0195JA137DD44663_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" />
-    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zA3I18z0195JA137DD44663_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="0" column="2703" lean-forward="false" selection-start-line="0" selection-start-column="2703" selection-end-line="0" selection-end-column="2703" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/dbs/01zA3I18z0195JA137DD44663_2b1f3e4ad9f5c8fa3c3aa4b3ee66ddc69ed88ed7.json" />
     <entry file="file://$PROJECT_DIR$/cleaning/us_gov_data_refine.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="149">
           <caret line="223" column="13" lean-forward="true" selection-start-line="223" selection-start-column="13" selection-end-line="223" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/classification/svm.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="52" column="25" lean-forward="false" selection-start-line="52" selection-start-column="25" selection-end-line="52" selection-end-column="25" />
         </state>
       </provider>
     </entry>
@@ -552,19 +646,66 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="16" lean-forward="false" selection-start-line="0" selection-start-column="11" selection-end-line="0" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/out.json">
+    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/out.json" />
+    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/out.csv" />
+    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/out.json" />
+    <entry file="file://$PROJECT_DIR$/category/mint.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2153">
+        <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/out_wei.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9443">
+          <caret line="497" column="124" lean-forward="false" selection-start-line="497" selection-start-column="124" selection-end-line="497" selection-end-column="124" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/uob/out.csv">
+    <entry file="file://$PROJECT_DIR$/classification/util.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="12" selection-end-column="49" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/out_wei_labelled_full.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="69" lean-forward="false" selection-start-line="0" selection-start-column="61" selection-end-line="0" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/classification/KNN.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-200">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/classification/bayes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/out_wei.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -572,29 +713,100 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/assets/out.json">
+    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/out.csv">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="16">
-          <caret line="824" column="16" lean-forward="false" selection-start-line="824" selection-start-column="16" selection-end-line="824" selection-end-column="16" />
+        <state relative-caret-position="-17105">
+          <caret line="22" column="91" lean-forward="false" selection-start-line="22" selection-start-column="91" selection-end-line="22" selection-end-column="91" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Software/Conda/Lib/site-packages/pandas/core/frame.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="58406">
+          <caret line="3168" column="74" lean-forward="false" selection-start-line="3168" selection-start-column="65" selection-end-line="3168" selection-end-column="74" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/pdf2txt.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="172" column="29" lean-forward="true" selection-start-line="172" selection-start-column="29" selection-end-line="172" selection-end-column="29" />
-          <folding>
-            <element signature="e#129#138#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="437">
+          <caret line="173" column="40" lean-forward="true" selection-start-line="173" selection-start-column="40" selection-end-line="173" selection-end-column="40" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cleaning/pdf-mining/out.csv">
+    <entry file="file://D:/Software/Conda/envs/tf/Lib/site-packages/sklearn/utils/validation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-15412">
-          <caret line="30" column="25" lean-forward="true" selection-start-line="30" selection-start-column="25" selection-end-line="30" selection-end-column="25" />
+        <state relative-caret-position="180">
+          <caret line="461" column="0" lean-forward="false" selection-start-line="461" selection-start-column="0" selection-end-line="461" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Software/Conda/envs/tf/Lib/site-packages/sklearn/preprocessing/data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="351">
+          <caret line="1411" column="0" lean-forward="false" selection-start-line="1411" selection-start-column="0" selection-end-line="1411" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Software/Conda/envs/tf/Lib/site-packages/sklearn/feature_extraction/text.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="1113" column="0" lean-forward="false" selection-start-line="1113" selection-start-column="0" selection-end-line="1113" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Software/Conda/envs/tf/Lib/site-packages/sklearn/metrics/classification.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="579">
+          <caret line="1427" column="0" lean-forward="false" selection-start-line="1427" selection-start-column="0" selection-end-line="1427" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/classification/assets/out_wei_labelled_full.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="69" lean-forward="false" selection-start-line="0" selection-start-column="61" selection-end-line="0" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/classification/assets/statementsLabeled.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="10" lean-forward="false" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Software/Conda/envs/tf/Lib/re.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="181" column="0" lean-forward="false" selection-start-line="181" selection-start-column="0" selection-end-line="181" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/classification/assets/res_purchase_card_cleaned.csv">
+      <provider selected="true" editor-type-id="LargeFileEditor">
+        <state relative-caret-position="0">
+          <caret line="0" column="183" lean-forward="true" selection-start-line="0" selection-start-column="167" selection-end-line="0" selection-end-column="183" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/classification/svm.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="23" column="18" lean-forward="true" selection-start-line="23" selection-start-column="18" selection-end-line="23" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -1,11 +1,15 @@
-import pandas as pd
 import re
-import sklearn
-from sklearn import svm
-import sklearn.cross_validation
-from termcolor import colored
-import util
 
+import pandas as pd
+import sklearn
+import sklearn.cross_validation
+import util
+from sklearn import svm
+from sklearn.model_selection import train_test_split
+from termcolor import colored
+import warnings
+
+warnings.filterwarnings('ignore')
 # refer to https://github.com/yassersouri/classify-text
 
 METHOD = "SVM"
@@ -16,42 +20,44 @@ METHOD = "SVM"
 
 
 def main():
-    origin_data = pd.read_csv('./assets/res_purchase_card_cleaned.csv', sep=",", error_bad_lines=False)
-    predict_data = pd.read_csv('./assets/statementsLabeled.csv', sep=",", error_bad_lines=False)
+    origin_data = pd.read_csv('./assets/out_wei_labelled_full.csv', sep=",", error_bad_lines=False)
+    predict_data = pd.read_csv('./assets/res_purchase_card_cleaned.csv', sep=",", error_bad_lines=False)
 
     # print("Number of Columns:\n", origin_data.shape[1], "\n\n")
     # print("List of Columns:\n", ", ".join(origin_data.columns), "\n\n")
     # print("Data:\n", origin_data.head(), "\n\n")
     print("Size of train data(m):\n", origin_data.shape[0])
 
-    origin_items = pd.DataFrame(origin_data, columns=['Description', 'Vendor', 'category_draft_1'])
-    origin_text = origin_items["Description"] + " " + origin_items["Vendor"]
+    origin_items = pd.DataFrame(origin_data, columns=['description', 'category'])
+    origin_text = origin_items["description"]
 
-    test_items = pd.DataFrame(predict_data, columns=['TITLE', 'Category Draft-1'])
-    test_text = [s[:-10] for s in test_items['TITLE']]
+    test_items = pd.DataFrame(predict_data, columns=['Description', 'Vendor', 'category_draft_1'])
+    a_test_items, b_test_items = train_test_split(test_items, test_size=0.2)
+    a_test_text = a_test_items["Description"] + " " + a_test_items["Vendor"]
+    b_test_text = b_test_items["Description"] + " " + b_test_items["Vendor"]
 
-    all_title = origin_text.tolist() + test_text
+    all_title = origin_text.tolist() + a_test_text.tolist() + b_test_text.tolist()
     all_title = [re.sub(r'([^a-zA-Z0-9])+', ' ', s) for s in all_title]
     all_title = [re.sub(r'(\s)+', ' ', s) for s in all_title]
     word_counts = util.bagOfWords(all_title)
 
-    all_label = origin_items["category_draft_1"].append(test_items["Category Draft-1"])
+    all_label = origin_items["category"].append(a_test_items["category_draft_1"]).append(b_test_items["category_draft_1"])
     all_label_code = all_label.astype('category').cat.codes
     all_label_code = all_label_code.tolist()
-    origin_label = all_label_code[0:len(origin_text)]
-    test_label = all_label_code[len(origin_text):]
+    origin_label = all_label_code[0:len(origin_text) + len(a_test_text)]
+    test_label = all_label_code[len(origin_text) + len(a_test_text):]
     label_names = dict(enumerate(all_label.astype('category').astype('category').cat.categories)).values()
 
     # TFIDF
     tf_transformer = sklearn.feature_extraction.text.TfidfTransformer(use_idf=True).fit(word_counts)
-    X = tf_transformer.transform(word_counts[0:len(origin_text)])
-    X_predict = tf_transformer.transform(word_counts[len(origin_text):])
+    X = tf_transformer.transform(word_counts[0:len(origin_text) + len(a_test_text)])
+    X_predict = tf_transformer.transform(word_counts[len(origin_text) + len(a_test_text):])
 
     # create classifier
     if METHOD == "MNB":
         clf = sklearn.naive_bayes.MultinomialNB()
     elif METHOD == "SVM":
-        clf = sklearn.svm.LinearSVC()
+        clf = svm.LinearSVC()
     else:
         n_neighbors = 11
         weights = 'uniform'
@@ -60,7 +66,7 @@ def main():
 
     # test the classifier
     print(colored('Testing classifier with train-test split', 'magenta', attrs=['bold']))
-    validation_classifier(X, origin_label, clf, test_size=0.2, y_names=label_names, confusion=False)
+    validation_classifier(X, origin_label, clf, test_size=0.1, y_names=label_names, confusion=False)
     test_classifier(X, origin_label, X_predict, test_label, clf, y_names=label_names, confusion=False)
 
 
@@ -216,3 +222,110 @@ if __name__ == '__main__':
 #    Pet Food & Supplies       0.00      0.00      0.00         5
 #
 #            avg / total       0.15      0.04      0.05       331
+
+#
+# Size of train data(m):
+#  996
+# Testing classifier with train-test split
+# test size is: 10%
+# Classification report:
+#                         precision    recall  f1-score   support
+#
+#             Air Travel       1.00      0.50      0.67         2 ++
+#         Alcohol & Bars       0.00      0.00      0.00         0 ++
+#              Amusement       0.00      0.00      0.00         2 ++
+#                   Arts       1.00      1.00      1.00         1 ++
+#               Bank Fee       1.00      0.89      0.94        19
+#                  Bonus       1.00      1.00      1.00         1 ++
+#               Clothing       0.91      0.67      0.77        15
+#           Coffee Shops       1.00      1.00      1.00         1 ++
+#    Credit Card Payment       1.00      1.00      1.00         2 ++
+#               Delivery       0.50      1.00      0.67         1 ++
+#                Dentist       0.00      0.00      0.00         2 ++
+#                 Doctor       1.00      0.80      0.89         5 ++
+#              Education       1.00      1.00      1.00         1 ++
+# Electronics & Software       1.00      1.00      1.00         1 ++
+#          Entertainment       0.00      0.00      0.00         2 ++
+#              Fast Food       1.00      1.00      1.00         1 ++
+#          Food & Dining       1.00      1.00      1.00         1 ++
+#            Furnishings       0.00      0.00      0.00         1 ++
+#             Gas & Fuel       1.00      1.00      1.00         3 ++
+#                   Gift       1.00      1.00      1.00         1 ++
+#              Groceries       0.00      0.00      0.00         1 ++
+#                    Gym       0.77      1.00      0.87        17
+#       Home Improvement       0.43      0.90      0.58        10
+#          Home Services       1.00      1.00      1.00         4 ++
+#          Home Supplies       0.00      0.00      0.00         1 ++
+#                  Hotel       1.00      1.00      1.00         2 ++
+#                 Income       0.00      0.00      0.00         2 ++
+#        Interest Income       1.00      1.00      1.00         1 ++
+#
+#            avg / total       0.78      0.79      0.77       100
+
+#
+#
+# Classification report:
+#                         precision    recall  f1-score   support
+#
+#            Advertising       0.94      0.91      0.93       292
+#             Air Travel       1.00      1.00      1.00      5905
+#         Alcohol & Bars       0.00      0.00      0.00         1
+#              Amusement       1.00      0.89      0.94        18
+#                   Arts       0.91      0.89      0.90       149
+#           Auto Payment       0.98      0.93      0.95       123
+#               Bank Fee       1.00      0.96      0.98        23
+#                Bicycle       0.93      0.97      0.95      6327
+#                  Bonus       0.88      0.91      0.89      2693
+#       Books & Supplies       0.92      0.89      0.91       806
+#      Business Services       0.94      0.93      0.94       574
+#                Charity       1.00      1.00      1.00         3
+#               Clothing       0.93      0.87      0.90       289
+#           Coffee Shops       0.91      0.91      0.91       397
+#    Credit Card Payment       0.88      0.89      0.89      5166
+#               Delivery       0.88      0.78      0.83        37
+#                Dentist       1.00      0.75      0.86         8
+#                 Doctor       0.95      0.94      0.95       854
+#              Education       1.00      0.99      1.00       252
+# Electronics & Software       0.99      0.90      0.94        96
+#          Entertainment       0.88      0.88      0.88       415
+#                Eyecare       0.98      0.97      0.98       395
+#              Fast Food       0.96      0.84      0.89       231
+#         Fees & Charges       0.99      0.99      0.99      3624
+#          Food & Dining       0.67      1.00      0.80         4
+#            Furnishings       0.97      0.97      0.97       474
+#             Gas & Fuel       0.96      0.96      0.96      3627
+#                   Gift       0.96      0.97      0.97      2290
+#              Groceries       1.00      0.99      0.99      2689
+#                    Gym       1.00      1.00      1.00      4353
+#                   Hair       0.99      0.99      0.99       146
+#                Hobbies       0.98      0.98      0.98       110
+#       Home Improvement       0.96      0.95      0.95       891
+#          Home Services       1.00      0.71      0.83         7
+#          Home Supplies       0.00      0.00      0.00         0
+#                  Hotel       0.94      0.91      0.92      2994
+#                 Income       0.96      0.99      0.98      2097
+#        Interest Income       1.00      0.86      0.92        28
+#               Internet       0.81      0.81      0.81        16
+#               Late Fee       0.96      0.94      0.95       272
+#                Laundry       0.97      0.92      0.94       726
+#          Lawn & Garden       0.98      0.98      0.98      6467
+#                  Legal       1.00      0.91      0.95        43
+#         Life Insurance       0.78      0.78      0.78         9
+#          Misc Expenses       0.97      0.94      0.95       329
+#           Mobile Phone       0.99      0.97      0.98       146
+#             Motorcycle       0.94      0.90      0.92       652
+#          Movies & DVDs       0.96      0.98      0.97       251
+#                  Music       0.92      0.90      0.91       898
+# Newspapers & Magazines       0.98      0.98      0.98      1862
+#        Office Supplies       0.99      0.98      0.99      2137
+#                Parking       0.99      1.00      0.99      2117
+#          Personal Care       0.97      0.95      0.96      3259
+#    Pet Food & Supplies       0.92      0.89      0.90       406
+#               Pharmacy       0.92      1.00      0.96        57
+#               Printing       0.99      0.88      0.93       716
+#  Public Transportation       0.99      1.00      0.99       945
+#      Rental Car & Taxi       0.80      0.77      0.79        31
+#            Restaurants       0.97      0.98      0.98        64
+#
+#            avg / total       0.96      0.96      0.96     69791
+
