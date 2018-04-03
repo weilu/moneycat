@@ -20,28 +20,28 @@ METHOD = "SVM"
 
 
 def main():
-    origin_data = pd.read_csv('./assets/out_wei_labelled_full.csv', sep=",", error_bad_lines=False)
-    predict_data = pd.read_csv('./assets/res_purchase_card_cleaned.csv', sep=",", error_bad_lines=False)
+    origin_data = pd.read_csv('./assets/res_purchase_card_cleaned.csv', sep=",", error_bad_lines=False)
+    predict_data = pd.read_csv('./assets/out_wei_labelled_full.csv', sep=",", error_bad_lines=False)
 
     # print("Number of Columns:\n", origin_data.shape[1], "\n\n")
     # print("List of Columns:\n", ", ".join(origin_data.columns), "\n\n")
     # print("Data:\n", origin_data.head(), "\n\n")
     print("Size of train data(m):\n", origin_data.shape[0])
 
-    origin_items = pd.DataFrame(origin_data, columns=['description', 'category'])
-    origin_text = origin_items["description"]
+    origin_items = pd.DataFrame(origin_data, columns=['Description', 'Vendor', 'category_draft_1'])
+    origin_text = origin_items["Description"] + " " + origin_items["Vendor"]
 
-    test_items = pd.DataFrame(predict_data, columns=['Description', 'Vendor', 'category_draft_1'])
+    test_items = pd.DataFrame(predict_data, columns=['description', 'category'])
     a_test_items, b_test_items = train_test_split(test_items, test_size=0.2)
-    a_test_text = a_test_items["Description"] + " " + a_test_items["Vendor"]
-    b_test_text = b_test_items["Description"] + " " + b_test_items["Vendor"]
+    a_test_text = a_test_items["description"]
+    b_test_text = b_test_items["description"]
 
     all_title = origin_text.tolist() + a_test_text.tolist() + b_test_text.tolist()
     all_title = [re.sub(r'([^a-zA-Z0-9])+', ' ', s) for s in all_title]
     all_title = [re.sub(r'(\s)+', ' ', s) for s in all_title]
     word_counts = util.bagOfWords(all_title)
 
-    all_label = origin_items["category"].append(a_test_items["category_draft_1"]).append(b_test_items["category_draft_1"])
+    all_label = origin_items["category_draft_1"].append(a_test_items["category"]).append(b_test_items["category"])
     all_label_code = all_label.astype('category').cat.codes
     all_label_code = all_label_code.tolist()
     origin_label = all_label_code[0:len(origin_text) + len(a_test_text)]
@@ -329,3 +329,120 @@ if __name__ == '__main__':
 #
 #            avg / total       0.96      0.96      0.96     69791
 
+# Size of train data(m):
+#  348955
+# Testing classifier with train-test split
+# test size is: 10%
+# Classification report:
+#                         precision    recall  f1-score   support
+#
+#            Advertising       0.95      0.91      0.93       138
+#             Air Travel       1.00      1.00      1.00      3004
+#         Alcohol & Bars       1.00      0.86      0.92         7
+#              Amusement       0.92      0.90      0.91        62
+#                   Arts       0.97      0.97      0.97        71
+#           Auto Payment       1.00      0.75      0.86         4
+#               Bank Fee       1.00      1.00      1.00         1
+#                Bicycle       0.93      0.98      0.96      3229
+#                  Bonus       0.91      0.88      0.90      1338
+#       Books & Supplies       0.91      0.91      0.91       411
+#      Business Services       0.94      0.91      0.92       251
+#                Charity       0.80      0.89      0.84        18
+#               Clothing       1.00      1.00      1.00         4
+#           Coffee Shops       1.00      0.50      0.67         2
+#    Credit Card Payment       0.93      0.88      0.91       147
+#               Delivery       0.95      0.89      0.92       198
+#                Dentist       0.87      0.90      0.89      2631
+#                 Doctor       0.91      0.83      0.87        12
+#              Education       1.00      1.00      1.00         7
+# Electronics & Software       0.96      0.94      0.95       452
+#          Entertainment       1.00      1.00      1.00       125
+#                Eyecare       0.97      0.91      0.94        43
+#              Fast Food       0.89      0.92      0.90       238
+#         Fees & Charges       1.00      0.95      0.97       216
+#          Food & Dining       0.98      0.91      0.94       100
+#            Furnishings       0.99      0.99      0.99      1781
+#             Gas & Fuel       0.50      0.14      0.22         7
+#                   Gift       0.97      0.96      0.97       273
+#              Groceries       0.96      0.97      0.96      1785
+#                    Gym       0.97      0.98      0.97      1182
+#                   Hair       1.00      0.99      0.99      1313
+#                Hobbies       1.00      1.00      1.00      2068
+#       Home Improvement       1.00      0.99      0.99        74
+#          Home Services       0.95      1.00      0.97        56
+#          Home Supplies       0.96      0.95      0.95       481
+#                  Hotel       1.00      0.67      0.80         6
+#                 Income       1.00      1.00      1.00         4
+#        Interest Income       0.95      0.91      0.93      1531
+#               Internet       0.95      0.99      0.97       992
+#               Late Fee       0.75      0.90      0.82        10
+#                Laundry       0.86      0.75      0.80         8
+#          Lawn & Garden       0.98      0.92      0.95       136
+#                  Legal       0.96      0.95      0.96       380
+#         Life Insurance       0.98      0.97      0.97      3269
+#          Misc Expenses       1.00      0.91      0.95        33
+#           Mobile Phone       0.83      0.83      0.83         6
+#             Motorcycle       0.93      0.95      0.94       133
+#          Movies & DVDs       0.97      0.98      0.97        57
+#                  Music       0.92      0.91      0.92       331
+# Newspapers & Magazines       0.96      0.97      0.97       139
+#        Office Supplies       0.91      0.92      0.91       454
+#                Parking       0.98      0.97      0.98       943
+#          Personal Care       0.99      0.99      0.99      1042
+#    Pet Food & Supplies       0.99      0.99      0.99      1045
+#               Pharmacy       0.98      0.95      0.96      1611
+#               Printing       0.00      0.00      0.00         1
+#  Public Transportation       0.91      0.89      0.90       203
+#      Rental Car & Taxi       1.00      0.90      0.95        20
+#            Restaurants       0.99      0.88      0.93       354
+#      Returned Purchase       1.00      0.99      0.99       479
+#        Service & Parts       0.62      0.89      0.73         9
+#            Service Fee       0.98      0.94      0.96        50
+#               Shipping       0.00      0.00      0.00         1
+#
+#            avg / total       0.96      0.96      0.96     34976
+#
+#
+# Classification report:
+#                         precision    recall  f1-score   support
+#
+#            Advertising       1.00      0.50      0.67         8
+#             Air Travel       0.00      0.00      0.00         1
+#         Alcohol & Bars       1.00      1.00      1.00         2
+#              Amusement       1.00      1.00      1.00         2
+#                   Arts       0.00      0.00      0.00         0
+#           Auto Payment       0.00      0.00      0.00         4
+#               Bank Fee       0.92      0.92      0.92        25
+#                Bicycle       1.00      1.00      1.00         1
+#                  Bonus       1.00      0.38      0.55        16
+#       Books & Supplies       1.00      1.00      1.00         1
+#      Business Services       1.00      1.00      1.00         1
+#                Charity       0.67      1.00      0.80         8
+#               Clothing       1.00      0.33      0.50         3
+#           Coffee Shops       0.00      0.00      0.00         2
+#    Credit Card Payment       0.50      1.00      0.67         1
+#               Delivery       0.00      0.00      0.00         1
+#                Dentist       0.70      1.00      0.82         7
+#                 Doctor       1.00      1.00      1.00         2
+#              Education       1.00      1.00      1.00         1
+# Electronics & Software       0.00      0.00      0.00         1
+#          Entertainment       1.00      1.00      1.00         1
+#                Eyecare       1.00      1.00      1.00         2
+#              Fast Food       1.00      1.00      1.00         1
+#         Fees & Charges       1.00      1.00      1.00         1
+#          Food & Dining       1.00      1.00      1.00         3
+#            Furnishings       1.00      1.00      1.00         3
+#             Gas & Fuel       1.00      1.00      1.00         4
+#                   Gift       0.00      0.00      0.00         0
+#              Groceries       1.00      1.00      1.00         1
+#                    Gym       1.00      1.00      1.00         3
+#                   Hair       0.00      0.00      0.00         1
+#                Hobbies       0.82      1.00      0.90        45
+#       Home Improvement       0.78      0.84      0.81        25
+#          Home Services       0.25      1.00      0.40         1
+#          Home Supplies       0.80      0.73      0.76        11
+#                  Hotel       1.00      1.00      1.00         1
+#                 Income       1.00      0.75      0.86         4
+#        Interest Income       1.00      1.00      1.00         6
+#
+#            avg / total       0.83      0.82      0.80       200
