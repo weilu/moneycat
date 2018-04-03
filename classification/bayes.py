@@ -8,11 +8,11 @@ from termcolor import colored
 
 
 def read_data():
-    return pd.read_csv('./assets/statementsLabeled.csv', sep=",")
+    return pd.read_csv('../cleaning/pdf-mining/out_wei_labelled_full.csv', sep=",")
 
 
 def cross_validate(X, y):
-    fold = 4
+    fold = 10
     sum = 0
     kf = KFold(n_splits=fold, shuffle=True, random_state=42)
     classifier, transformer = None, None
@@ -49,8 +49,8 @@ if __name__ == '__main__':
     print("data size:", personal_data.shape)
 
     le = preprocessing.LabelEncoder()
-    y = le.fit_transform(personal_data['Category Draft-1'])
-    X = personal_data['TITLE']
+    y = le.fit_transform(personal_data['category'])
+    X = personal_data['description']
     # report cross validation accuracy
     classifier, transformer = cross_validate(X, y)
 
