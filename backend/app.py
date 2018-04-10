@@ -16,28 +16,40 @@ BIN_DIR = os.path.join(LAMBDA_TASK_ROOT, 'bin')
 LIB_DIR = os.path.join(LAMBDA_TASK_ROOT, 'lib')
 
 
-@app.route('/upload', methods=['POST'],
-           content_types=['multipart/form-data'])
-def upload():
+def get_multipart_data():
     content_type_obj = app.current_request.headers['content-type']
     content_type, property_dict = cgi.parse_header(content_type_obj)
 
     property_dict['boundary'] = bytes(property_dict['boundary'], "utf-8")
     body = io.BytesIO(app.current_request.raw_body)
-    form_data = cgi.parse_multipart(body, property_dict)
-    form_file = form_data['file'][0]
+    return cgi.parse_multipart(body, property_dict)
+
+
+@app.route('/upload', methods=['POST'],
+           content_types=['multipart/form-data'])
+def upload():
+    form_file = get_multipart_data()['file'][0]
 
     with NamedTemporaryFile(mode='wb', suffix='.pdf', delete=False) as f:
         f.write(form_file)
 
-    tmp_out = '/tmp/out_wei.csv'
-    with open(tmp_out, 'w', encoding='utf-8') as o:
-        csv_writer = csv.writer(o)
-        csv_writer.writerow(['date', 'description', 'amount', 'foreign_amount',
-                             'statement_date', 'source'])
-        process_pdf(f.name, csv_writer,
-                    pdftotxt_bin=os.path.join(BIN_DIR, 'pdftotext'),
-                    env=dict(LD_LIBRARY_PATH=LIB_DIR))
+    output = io.StringIO()
+    csv_writer = csv.writer(output)
+    csv_writer.writerow(['date', 'description', 'amount', 'foreign_amount',
+                         'statement_date', 'source'])
+    process_pdf(f.name, csv_writer,
+                pdftotxt_bin=os.path.join(BIN_DIR, 'pdftotext'),
+                env=dict(LD_LIBRARY_PATH=LIB_DIR))
 
-    return open(tmp_out).read()
+    # TODO: save pdf to s3
+    # TODO: remove local tmp pdf
+    return output.getvalue()
 
+
+@app.route('/confirm', methods=['POST'],
+           content_types=['multipart/form-data'])
+def confirm():
+    form_data = get_multipart_data()
+    form_file = form_data['file'][0]
+    uuid = form_data['uuid']
+    # TODO: save csv to s3 by user
