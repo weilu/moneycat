@@ -4,11 +4,12 @@ import os
 import io
 import csv
 from tempfile import NamedTemporaryFile
-from pdftotxt import process_pdf
+from chalicelib import pdftotxt
 import cgi
 
 
 app = Chalice(app_name='parseBankStatement')
+app.api.binary_types.append('multipart/form-data')
 app.debug = True
 
 LAMBDA_TASK_ROOT = os.environ.get('LAMBDA_TASK_ROOT', os.path.dirname(os.path.abspath(__file__)))
@@ -32,12 +33,13 @@ def upload():
 
     with NamedTemporaryFile(mode='wb', suffix='.pdf', delete=False) as f:
         f.write(form_file)
+        filename = f.name
 
     output = io.StringIO()
     csv_writer = csv.writer(output)
     csv_writer.writerow(['date', 'description', 'amount', 'foreign_amount',
                          'statement_date', 'source'])
-    process_pdf(f.name, csv_writer,
+    pdftotxt.process_pdf(filename, csv_writer,
                 pdftotxt_bin=os.path.join(BIN_DIR, 'pdftotext'),
                 env=dict(LD_LIBRARY_PATH=LIB_DIR))
 
