@@ -19,7 +19,7 @@ LAMBDA_TASK_ROOT = os.environ.get('LAMBDA_TASK_ROOT', os.path.dirname(os.path.ab
 BIN_DIR = os.path.join(LAMBDA_TASK_ROOT, 'bin')
 LIB_DIR = os.path.join(LAMBDA_TASK_ROOT, 'lib')
 
-PDF_BUCKET = 'bank-statements-pdf'
+PDF_BUCKET = 'cs4225-bank-pdfs'
 s3 = boto3.client('s3')
 
 def get_multipart_data():
