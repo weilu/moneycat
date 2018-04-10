@@ -8,6 +8,8 @@ from chalicelib import pdftotxt
 import cgi
 import boto3
 import logging
+from sklearn.externals import joblib
+import pandas as pd
 
 
 app = Chalice(app_name='parseBankStatement')
@@ -20,6 +22,7 @@ BIN_DIR = os.path.join(LAMBDA_TASK_ROOT, 'bin')
 LIB_DIR = os.path.join(LAMBDA_TASK_ROOT, 'lib')
 
 PDF_BUCKET = 'cs4225-bank-pdfs'
+MODEL_BUCKET = 'cs4225-models'
 s3 = boto3.client('s3')
 
 def get_multipart_data():
@@ -30,6 +33,12 @@ def get_multipart_data():
     body = io.BytesIO(app.current_request.raw_body)
     return cgi.parse_multipart(body, property_dict)
 
+
+def get_model(name):
+    with io.BytesIO() as f:
+        s3.download_fileobj(MODEL_BUCKET, name, f)
+        f.seek(0)
+        return joblib.load(f)
 
 @app.route('/upload', methods=['POST'], content_types=['multipart/form-data'])
 def upload():
@@ -57,8 +66,17 @@ def upload():
     app.log.debug('done parsing pdf')
     os.remove(filename)
 
-    # TODO: classify
-    return output.getvalue()
+    # classification
+    classifier = get_model("svm_classifier.pkl")
+    transformer = get_model("tfidf_transformer.pkl")
+    label_transformer = get_model("label_transformer.pkl")
+    output.seek(0)
+    df = pd.read_csv(output)
+    pred = classifier.predict(transformer.transform(df['description']))
+    categories = label_transformer.inverse_transform(pred)
+    df['category'] = categories
+
+    return df.to_csv()
 
 
 @app.route('/confirm', methods=['POST'], content_types=['multipart/form-data'])

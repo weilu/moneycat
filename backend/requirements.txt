@@ -2,3 +2,7 @@ chalice==1.1.1
 dateparser==0.7.0
 iso4217==1.5.20180101
 boto3==1.7.3
+sklearn==0.0
+numpy==1.14.2
+pandas==0.22.0
+scipy==1.0.1
