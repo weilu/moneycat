@@ -15,5 +15,5 @@ curl localhost:8000/upload -F 'file=@path/to/file'
 
 # remote
 chalice deploy
-curl https://nh6971slj8.execute-api.ap-southeast-1.amazonaws.com/api/upload -F 'file=@path/to/file'
+curl https://42q6iw44o2.execute-api.ap-southeast-1.amazonaws.com/api/upload -F 'file=@path/to/file'
 ```
