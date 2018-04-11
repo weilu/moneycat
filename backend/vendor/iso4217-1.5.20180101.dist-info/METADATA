@@ -1,0 +1,75 @@
+Metadata-Version: 2.0
+Name: iso4217
+Version: 1.5.20180101
+Summary: ISO 4217 currency data package for Python
+Home-page: https://github.com/spoqa/iso4217
+Author: Hong Minhee
+Author-email: hong.minhee@gmail.com
+License: Public Domain
+Description-Content-Type: UNKNOWN
+Keywords: internationalization i18n currency iso4217
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: Public Domain
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 2.5
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.2
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: Programming Language :: Python :: Implementation :: Stackless
+Classifier: Topic :: Office/Business :: Financial
+Classifier: Topic :: Software Development :: Internationalization
+Requires-Dist: setuptools
+Requires-Dist: enum34; python_version=='2.5'
+Requires-Dist: enum34; python_version=='2.6'
+Requires-Dist: enum34; python_version=='2.7'
+Requires-Dist: enum34; python_version=='3.2'
+Requires-Dist: enum34; python_version=='3.3'
+
+``iso4217``: Currency data package for Python
+=============================================
+
+.. image:: https://badge.fury.io/py/iso4217.svg?
+   :target: https://pypi.python.org/pypi/iso4217
+.. image:: https://travis-ci.org/spoqa/iso4217.svg?branch=master
+   :target: https://travis-ci.org/spoqa/iso4217
+
+This Python package contains `ISO 4217`_ currency data, represented as
+enum_ module which was introduced in 3.4.  Note that this works on Python 2.5
+as well as 3.5, the latest version of Python, through enum34_ package.
+
+>>> from iso4217 import Currency
+>>> Currency.usd
+<Currency.usd: 'USD'>
+>>> Currency.usd.code
+'USD'
+>>> Currency.usd.currency_name
+'US Dollar'
+>>> Currency.usd.exponent  # USD has cents
+2
+>>> Currency.jpy
+<Currency.jpy: 'JPY'>
+>>> Currency.jpy.currency_name
+'Yen'
+>>> Currency.jpy.exponent  # JPY has no minor units
+0
+>>> Currency('KRW')  # Get by the code string
+<Currency.krw: 'KRW'>
+>>> Currency.krw is Currency('KRW')
+True
+
+Written by `Hong Minhee`_.  Distributed under Public Domain.
+
+
+.. _ISO 4217: http://www.iso.org/iso/home/standards/currency_codes.htm
+.. _enum: https://docs.python.org/3/library/enum.html
+.. _enum34: https://pypi.python.org/pypi/enum34
+.. _Hong Minhee: http://hongminhee.org/
+
+
