@@ -39,3 +39,11 @@ Be careful about add dependencies to backend (labmda) as the packaged code size 
 - unzipped: no more than 250MB
 
 After adding new dependency, you will need to deploy with the `-r` option
+
+## References
+
+https://hackernoon.com/exploring-the-aws-lambda-deployment-limits-9a8384b0bec3
+https://serverlesscode.com/post/deploy-scikitlearn-on-lamba/
+http://chalice.readthedocs.io/en/latest/topics/packaging.html
+http://chalice.readthedocs.io/en/latest/topics/views.html#binary-content
+https://github.com/skylander86/lambda-text-extractor/blob/master/functions/simple/main.py

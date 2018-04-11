@@ -1,6 +1,7 @@
 #!/bin/bash
 set -ex
 
+# https://rsalveti.wordpress.com/2007/04/03/bash-parsing-arguments-with-getopts/
 usage()
 {
 cat << EOF
