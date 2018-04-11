@@ -1,0 +1,5 @@
+[submodule "backend/sklearn-build-lambda"]
+	path = backend/sklearn-build-lambda
+	url = https://github.com/weilu/sklearn-build-lambda
+	branch = python36
+
