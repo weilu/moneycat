@@ -17,9 +17,14 @@ app.api.binary_types.append('multipart/form-data')
 app.debug = True
 app.log.setLevel(logging.DEBUG)
 
-LAMBDA_TASK_ROOT = os.environ.get('LAMBDA_TASK_ROOT', os.path.dirname(os.path.abspath(__file__)))
-BIN_DIR = os.path.join(LAMBDA_TASK_ROOT, 'bin')
-LIB_DIR = os.path.join(LAMBDA_TASK_ROOT, 'lib')
+lambda_task_root = os.environ.get('LAMBDA_TASK_ROOT',
+                                  os.path.dirname(os.path.abspath(__file__)))
+# Only exists in production lambda env
+maybe_exist = os.path.join(lambda_task_root, 'pdftotext')
+if os.path.isdir(maybe_exist):
+    lambda_task_root = maybe_exist
+BIN_DIR = os.path.join(lambda_task_root, 'bin')
+LIB_DIR = os.path.join(lambda_task_root, 'lib')
 
 PDF_BUCKET = 'cs4225-bank-pdfs'
 MODEL_BUCKET = 'cs4225-models'
