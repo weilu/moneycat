@@ -1,4 +1,4 @@
-from chalice import Chalice
+from chalice import Chalice, CORSConfig
 import subprocess
 import os
 import io
@@ -11,6 +11,11 @@ import logging
 from sklearn.externals import joblib
 import pandas as pd
 
+
+# TODO: stricter cors rules
+# cors_config = CORSConfig(
+#     allow_origin='https://weilu.github.io/cs4225',
+# )
 
 app = Chalice(app_name='parseBankStatement')
 app.api.binary_types.append('multipart/form-data')
@@ -45,7 +50,8 @@ def get_model(name):
         f.seek(0)
         return joblib.load(f)
 
-@app.route('/upload', methods=['POST'], content_types=['multipart/form-data'])
+@app.route('/upload', methods=['POST'],
+           content_types=['multipart/form-data'], cors=True)
 def upload():
     form_file = get_multipart_data()['file'][0]
 
@@ -84,7 +90,8 @@ def upload():
     return df.to_csv()
 
 
-@app.route('/confirm', methods=['POST'], content_types=['multipart/form-data'])
+@app.route('/confirm', methods=['POST'],
+           content_types=['multipart/form-data'], cors=True)
 def confirm():
     form_data = get_multipart_data()
     form_file = form_data['file'][0]
