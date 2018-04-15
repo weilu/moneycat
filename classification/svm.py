@@ -26,13 +26,14 @@ def main():
     # print("Number of Columns:\n", origin_data.shape[1], "\n\n")
     # print("List of Columns:\n", ", ".join(origin_data.columns), "\n\n")
     # print("Data:\n", origin_data.head(), "\n\n")
-    print("Size of train data(m):\n", origin_data.shape[0])
+    # print("Size of train data(m):\n", origin_data.shape[0])
 
     origin_items = pd.DataFrame(origin_data, columns=['Description', 'Vendor', 'category_draft_1'])
+    origin_items = origin_items.sample(frac=0.05, replace=True, random_state=4252)
     origin_text = origin_items["Description"] + " " + origin_items["Vendor"]
+    print("Size of train data(m):\n", origin_text.shape[0])
 
     test_items = pd.DataFrame(predict_data, columns=['description', 'category'])
-    test_items = test_items.sample(frac=0.05, replace=True, random_state=4252)
 
     a_test_items, b_test_items = train_test_split(test_items, test_size=0.2)
     a_test_text = a_test_items["description"]
