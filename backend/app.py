@@ -37,6 +37,7 @@ MODEL_BUCKET = 'cs4225-models'
 CLASSIFIER_FILENAME = "svm_classifier.pkl"
 s3 = boto3.client('s3')
 
+
 def get_multipart_data():
     content_type_obj = app.current_request.headers['content-type']
     content_type, property_dict = cgi.parse_header(content_type_obj)
@@ -63,6 +64,7 @@ def s3_csvs_to_df(files):
         df = df.append(pd.read_csv(csv_io))
         df.drop_duplicates(inplace=True)
     return df
+
 
 @app.route('/upload', methods=['POST'],
            content_types=['multipart/form-data'], cors=True)
@@ -132,6 +134,7 @@ def transactions(uuid):
     files = s3.list_objects(Bucket=CSV_BUCKET, Prefix=uuid)['Contents']
     df = s3_csvs_to_df(files)
     return df.to_csv()
+
 
 @app.route('/refresh-model', methods=['GET'])
 def refresh_model():
