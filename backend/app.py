@@ -156,6 +156,9 @@ def refresh_model():
         app.log.debug('Updating model with file: {} {} {}'.format(obj['Key'], obj['Size'], obj['LastModified']))
         file_metas.append(obj)
 
+    if not file_metas: # no new data to update model with
+        return Response(body='', status_code=304)
+
     df = s3_csvs_to_df(file_metas)
 
     label_transformer = get_model("label_transformer.pkl")[0]
