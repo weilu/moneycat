@@ -70,10 +70,11 @@ def upload():
     output = io.StringIO()
     csv_writer = csv.writer(output)
     csv_writer.writerow(['date', 'description', 'amount', 'foreign_amount',
-                         'statement_date', 'source'])
+                         'statement_date'])
     app.log.debug('start parsing pdf')
     pdftotxt.process_pdf(filename, csv_writer,
                 pdftotxt_bin=os.path.join(BIN_DIR, 'pdftotext'),
+                include_source=False,
                 env=dict(LD_LIBRARY_PATH=LIB_DIR))
     app.log.debug('done parsing pdf')
     os.remove(filename)
@@ -88,7 +89,7 @@ def upload():
     categories = label_transformer.inverse_transform(pred)
     df['category'] = categories
 
-    return {'csv': df.to_csv()}
+    return df.to_csv()
 
 
 @app.route('/confirm', methods=['POST'],
@@ -111,3 +112,19 @@ def confirm():
     s3.upload_file(filename, CSV_BUCKET, key_name)
 
     return Response(body='', status_code=201)
+
+
+@app.route('/transactions/{uuid}', methods=['GET'], cors=True)
+def transactions(uuid):
+    files = s3.list_objects(Bucket=CSV_BUCKET, Prefix=uuid)
+
+    df = pd.DataFrame()
+    for file_meta in files['Contents']:
+        print(file_meta['Key'])
+        csv_file = s3.get_object(Bucket=CSV_BUCKET, Key=file_meta['Key'])
+        csv_io = io.StringIO(csv_file['Body'].read().decode('utf-8'))
+        df = df.append(pd.read_csv(csv_io))
+        df.drop_duplicates(inplace=True)
+
+    return df.to_csv()
+

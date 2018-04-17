@@ -35,7 +35,8 @@ def peek_forward_for_currency(iterator, max_lines=2):
                     return found.group(1)
 
 
-def process_pdf(filename, csv_writer, pdftotxt_bin='pdftotext', **kwargs):
+def process_pdf(filename, csv_writer, pdftotxt_bin='pdftotext',
+                include_source=True, **kwargs):
 
     # recursive fn
     def process_line(iterator, statement_date):
@@ -63,8 +64,11 @@ def process_pdf(filename, csv_writer, pdftotxt_bin='pdftotext', **kwargs):
                 iterator, iterator_copy = tee(iterator)
                 foreign_amount = peek_forward_for_currency(iterator_copy)
 
-                csv_writer.writerow([groups[0], description, groups[-1], foreign_amount,
-                                     statement_date, path.basename(filename)])
+                row = [groups[0], description, groups[-1], foreign_amount,
+                       statement_date]
+                if include_source:
+                    row.append(path.basename(filename))
+                csv_writer.writerow(row)
 
             process_line(iterator, statement_date)
         except StopIteration:
