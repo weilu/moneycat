@@ -34,6 +34,7 @@ LIB_DIR = os.path.join(lambda_task_root, 'lib')
 PDF_BUCKET = 'cs4225-bank-pdfs'
 CSV_BUCKET = 'cs4225-bank-csvs'
 MODEL_BUCKET = 'cs4225-models'
+CLASSIFIER_FILENAME = "svm_classifier.pkl"
 s3 = boto3.client('s3')
 
 def get_multipart_data():
@@ -47,9 +48,21 @@ def get_multipart_data():
 
 def get_model(name):
     with io.BytesIO() as f:
-        s3.download_fileobj(MODEL_BUCKET, name, f)
+        model_obj = s3.get_object(Bucket=MODEL_BUCKET, Key=name)
+        f.write(model_obj['Body'].read())
         f.seek(0)
-        return joblib.load(f)
+        return (joblib.load(f), model_obj)
+
+
+def s3_csvs_to_df(files):
+    df = pd.DataFrame()
+    for file_meta in files:
+        print(file_meta['Key'])
+        csv_file = s3.get_object(Bucket=CSV_BUCKET, Key=file_meta['Key'])
+        csv_io = io.StringIO(csv_file['Body'].read().decode('utf-8'))
+        df = df.append(pd.read_csv(csv_io))
+        df.drop_duplicates(inplace=True)
+    return df
 
 @app.route('/upload', methods=['POST'],
            content_types=['multipart/form-data'], cors=True)
@@ -80,9 +93,9 @@ def upload():
     os.remove(filename)
 
     # classification
-    classifier = get_model("svm_classifier.pkl")
-    transformer = get_model("tfidf_transformer.pkl")
-    label_transformer = get_model("label_transformer.pkl")
+    classifier = get_model(CLASSIFIER_FILENAME)[0]
+    transformer = get_model("tfidf_transformer.pkl")[0]
+    label_transformer = get_model("label_transformer.pkl")[0]
     output.seek(0)
     df = pd.read_csv(output)
     pred = classifier.predict(transformer.transform(df['description']))
@@ -116,15 +129,48 @@ def confirm():
 
 @app.route('/transactions/{uuid}', methods=['GET'], cors=True)
 def transactions(uuid):
-    files = s3.list_objects(Bucket=CSV_BUCKET, Prefix=uuid)
-
-    df = pd.DataFrame()
-    for file_meta in files['Contents']:
-        print(file_meta['Key'])
-        csv_file = s3.get_object(Bucket=CSV_BUCKET, Key=file_meta['Key'])
-        csv_io = io.StringIO(csv_file['Body'].read().decode('utf-8'))
-        df = df.append(pd.read_csv(csv_io))
-        df.drop_duplicates(inplace=True)
-
+    files = s3.list_objects(Bucket=CSV_BUCKET, Prefix=uuid)['Contents']
+    df = s3_csvs_to_df(files)
     return df.to_csv()
 
+@app.route('/refresh-model', methods=['GET'])
+def refresh_model():
+    classifier, model_obj = get_model(CLASSIFIER_FILENAME)
+    get_last_modified = lambda obj: obj['LastModified']
+    compare_last_modified = lambda obj: get_last_modified(obj) >= last_refresh_ts
+    last_refresh_ts = get_last_modified(model_obj)
+    files = s3.list_objects(Bucket=CSV_BUCKET)['Contents']
+
+    # get all CSVs created since last refresh
+    sorted_files = sorted(filter(compare_last_modified, files),
+                          key=get_last_modified, reverse=True)
+
+    # make sure we don't load more than what we can handle in memory
+    size = 0
+    file_metas = []
+    for obj in sorted_files:
+        size += obj['Size']
+        if size > 1000000000: # 1GB
+            app.log.warning('Unprocessed files greater than 1GB! Processing the latest 1GB')
+            break
+        app.log.debug('Updating model with file: {} {} {}'.format(obj['Key'], obj['Size'], obj['LastModified']))
+        file_metas.append(obj)
+
+    df = s3_csvs_to_df(file_metas)
+
+    label_transformer = get_model("label_transformer.pkl")[0]
+    y = label_transformer.transform(df['category'])
+
+    transformer = get_model("tfidf_transformer.pkl")[0]
+    X = df['description']
+    X_train = transformer.transform(X)
+
+    # update model
+    classifier = classifier.partial_fit(X_train, y)
+
+    # serialize & upload to s3
+    # TODO: only save classifier if accuracy is higher
+    with NamedTemporaryFile(mode='wb', suffix='.pkl', delete=False) as f:
+        filename = f.name
+    joblib.dump(classifier, filename)
+    s3.upload_file(filename, MODEL_BUCKET, CLASSIFIER_FILENAME)
