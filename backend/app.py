@@ -89,7 +89,7 @@ def upload():
     categories = label_transformer.inverse_transform(pred)
     df['category'] = categories
 
-    return df.to_csv()
+    return {'csv': df.to_csv()}
 
 
 @app.route('/confirm', methods=['POST'],
