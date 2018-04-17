@@ -1,4 +1,4 @@
-from chalice import Chalice, CORSConfig
+from chalice import Chalice, CORSConfig, Response
 import subprocess
 import os
 import io
@@ -32,6 +32,7 @@ BIN_DIR = os.path.join(lambda_task_root, 'bin')
 LIB_DIR = os.path.join(lambda_task_root, 'lib')
 
 PDF_BUCKET = 'cs4225-bank-pdfs'
+CSV_BUCKET = 'cs4225-bank-csvs'
 MODEL_BUCKET = 'cs4225-models'
 s3 = boto3.client('s3')
 
@@ -95,6 +96,18 @@ def upload():
 def confirm():
     form_data = get_multipart_data()
     form_file = form_data['file'][0]
-    uuid = form_data['uuid']
-    # TODO: save csv to s3 by user
+    uuid = form_data['uuid'][0]
+    if not uuid:
+        return Response(body='Invalid uuid {}'.format(uuid), status_code=400)
+    uuid = uuid.decode("utf-8")
 
+    with NamedTemporaryFile(mode='wb', suffix='.csv', delete=False) as f:
+        filename = f.name
+        f.write(form_file)
+
+    # upload to s3
+    key_name = "{}/{}".format(uuid, os.path.basename(filename))
+    app.log.debug('uploading {} to s3'.format(key_name))
+    s3.upload_file(filename, CSV_BUCKET, key_name)
+
+    return Response(body='', status_code=201)

@@ -12,7 +12,10 @@ API Usage
 
 ```
 # PDF upload, parse & classification
-curl https://42q6iw44o2.execute-api.ap-southeast-1.amazonaws.com/api/upload -F 'file=@path/to/file'
+curl https://42q6iw44o2.execute-api.ap-southeast-1.amazonaws.com/api/upload -F 'file=@path/to/file.pdf'
+
+# CSV upload, after user reviews & confirms parse & classification results
+curl https://42q6iw44o2.execute-api.ap-southeast-1.amazonaws.com/api/confirm -F 'uuid=42' -F 'file=@path/to/file.csv'
 ```
 
 Development
