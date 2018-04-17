@@ -4,6 +4,17 @@
     {
       "Effect": "Allow",
       "Action": [
+        "s3:GetObject",
+        "s3:ListBucket"
+      ],
+      "Resource": [
+        "*"
+      ],
+      "Sid": "7070dac7035c4be1926eab61cb5e7b3d"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
         "logs:CreateLogGroup",
         "logs:CreateLogStream",
         "logs:PutLogEvents"
