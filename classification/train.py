@@ -1,8 +1,8 @@
 import pandas as pd
 from sklearn.model_selection import KFold, train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.naive_bayes import BernoulliNB, MultinomialNB
-from sklearn import preprocessing, metrics, svm
+from sklearn.naive_bayes import MultinomialNB
+from sklearn import preprocessing, metrics
 from sklearn.linear_model import SGDClassifier
 from sklearn.externals import joblib
 from glob import glob
@@ -38,9 +38,7 @@ def train(X, y):
     max_df = 1.0
     transformer = TfidfVectorizer(max_df=max_df)
     X_train = transformer.fit_transform(X)
-    # classifier = MultinomialNB(alpha=.01)
-    # classifier = BernoulliNB(alpha=.01)
-    # classifier = svm.LinearSVC()
+    # classifier = MultinomialNB(alpha=.01) # TODO: try partial fit
     classifier = SGDClassifier(random_state=123, max_iter=1000, tol=1e-3)
     classifier.fit(X_train, y)
 
@@ -92,4 +90,4 @@ if __name__ == '__main__':
     score = metrics.accuracy_score(y_test, pred)
     test_samples = pd.DataFrame(data={'X': X_test, 'y': y_test})
     meta_data = {'train_size': X_train.shape[0], 'accuracy': score}
-    export_model(classifier, transformer, le, test_samples, meta_data, report)
+    # export_model(classifier, transformer, le, test_samples, meta_data, report)

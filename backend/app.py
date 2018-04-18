@@ -6,12 +6,13 @@ import csv
 from tempfile import NamedTemporaryFile
 from urllib.parse import parse_qs
 from chalicelib import pdftotxt
+from chalicelib.train import export_model
 import cgi
 import boto3
 import logging
 from sklearn.externals import joblib
+from sklearn import metrics
 import pandas as pd
-
 import random
 
 
@@ -38,6 +39,7 @@ PDF_BUCKET = 'cs4225-bank-pdfs'
 CSV_BUCKET = 'cs4225-bank-csvs'
 MODEL_BUCKET = 'cs4225-models'
 CLASSIFIER_FILENAME = "svm_classifier.pkl"
+META_FILENAME = 'meta.pkl'
 s3 = boto3.client('s3')
 
 
@@ -194,16 +196,39 @@ def refresh_model():
     label_transformer = get_model("label_transformer.pkl")[0]
     y = label_transformer.transform(df['category'])
 
-    transformer = get_model("tfidf_transformer.pkl")[0]
     X = df['description']
-    X_train = transformer.transform(X)
 
-    # update model
-    classifier = classifier.partial_fit(X_train, y)
+    existing_test_samples = get_model('test_samples.pkl')[0]
+    meta_data = get_model(META_FILENAME)[0]
+    new_df = pd.DataFrame(data={'X': X, 'y': y})
+    samples, remaining_ids = reservior_sampling(50, new_df,
+            meta_data['train_size'], existing_test_samples)
 
-    # serialize & upload to s3
-    # TODO: only save classifier if accuracy is higher
-    with NamedTemporaryFile(mode='wb', suffix='.pkl', delete=False) as f:
-        filename = f.name
-    joblib.dump(classifier, filename)
-    s3.upload_file(filename, MODEL_BUCKET, CLASSIFIER_FILENAME)
+    transformer = get_model("tfidf_transformer.pkl")[0]
+    X_test = transformer.transform(samples['X'])
+    y_test = samples['y']
+    score_before = metrics.accuracy_score(y_test, classifier.predict(X_test))
+    print('Accuracy before update: {}'.format(score_before))
+
+    # Test prediction with updated model
+    X_train = transformer.transform(new_df['X'][remaining_ids])
+    y_train = new_df['y'][remaining_ids]
+    classifier = classifier.partial_fit(X_train, y_train)
+    score_after = metrics.accuracy_score(y_test, classifier.predict(X_test))
+    print('Accuracy after update: {}, diff: {}'\
+          .format(score_after, score_after - score_before))
+
+    # did not improve model, do not update
+    if score_after <= score_before:
+        return Response(body='', status_code=304)
+
+    # serialize & upload everything to s3
+    pred = classifier.predict(X_test)
+    report = metrics.classification_report(y_test, pred,
+            target_names=list(label_transformer.classes_))
+    print(report)
+
+    meta_data = {'train_size': meta_data['train_size'] + X_train.shape[0],
+                 'accuracy': score_after}
+
+    export_model(classifier, transformer, label_transformer, samples, meta_data, report)
