@@ -12,6 +12,8 @@ import logging
 from sklearn.externals import joblib
 import pandas as pd
 
+import random
+
 
 # TODO: stricter cors rules
 # cors_config = CORSConfig(
@@ -65,6 +67,19 @@ def s3_csvs_to_df(files):
         df = df.append(pd.read_csv(csv_io))
         df.drop_duplicates(inplace=True)
     return df
+
+
+def reservior_sampling(sample_size, new_data,
+                       existing_record_count=0, existing_samples=[]):
+    samples = existing_samples if existing_samples else []
+    for index, record in enumerate(new_data):
+        if len(samples) < sample_size:
+            samples.append(record)
+        else:
+            r = random.randint(0, index)
+            if r < sample_size:
+                samples[r] = record
+    return samples
 
 
 @app.route('/upload', methods=['POST'],
