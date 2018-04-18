@@ -8,6 +8,7 @@ from sklearn.externals import joblib
 from glob import glob
 import boto3
 import os
+import pickle
 
 s3 = boto3.client('s3')
 
@@ -51,11 +52,13 @@ def train(X, y):
     return (classifier, transformer)
 
 
-def export_model(classifier, transformer, label_trasformer, test_samples, report):
+def export_model(classifier, transformer, label_trasformer, test_samples,
+                 meta_data, report):
     joblib.dump(classifier, 'svm_classifier.pkl')
     joblib.dump(transformer, 'tfidf_transformer.pkl')
     joblib.dump(label_trasformer, 'label_transformer.pkl')
     test_samples.to_pickle('test_samples.pkl')
+    pickle.dump(meta_data, open("meta.pkl", "wb"))
 
     # upload to s3
     model_bucket = 'cs4225-models'
@@ -66,6 +69,7 @@ def export_model(classifier, transformer, label_trasformer, test_samples, report
     print('\n\n============ Updated models on S3 ============')
     for obj in s3.list_objects(Bucket=model_bucket)['Contents']:
         print(obj['Key'], obj['LastModified'])
+
 
 if __name__ == '__main__':
     personal_data = read_data()
@@ -85,5 +89,7 @@ if __name__ == '__main__':
     report = metrics.classification_report(y_test, pred, target_names=list(le.classes_))
     print(report)
 
+    score = metrics.accuracy_score(y_test, pred)
     test_samples = pd.DataFrame(data={'X': X_test, 'y': y_test})
-    export_model(classifier, transformer, le, test_samples, report)
+    meta_data = {'train_size': X_train.shape[0], 'accuracy': score}
+    export_model(classifier, transformer, le, test_samples, meta_data, report)
