@@ -49,9 +49,6 @@ Be careful about add dependencies to backend (labmda) as the packaged code size 
 
 After adding new dependency, you will need to deploy with the `-r` option
 
-## TODO
-
-- Currently the API deploy script only redeploys aws lambda. Modify `chalice deploy` to take an `s3` option.
 
 ## References
 

@@ -46,6 +46,13 @@ then
   echo "It needs to be less than 250MB to be deployable"
 fi
 
+# package chalice & upload bundle to s3
 chalice package .chalice/deployments/
 aws s3 cp .chalice/deployments/deployment.zip s3://cs4225-models/
+
+mv vendor vendor_tmp # workaround: such that chalice deploy won't complain about package size
+chalice deploy # make sure aws API gateway is re-deployed
+mv vendor_tmp vendor
+
+# update lambda code from s3
 aws lambda update-function-code --function-name parseBankStatement-dev --region ap-southeast-1 --s3-bucket cs4225-models --s3-key deployment.zip
