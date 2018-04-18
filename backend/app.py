@@ -64,7 +64,7 @@ def s3_csvs_to_df(files):
         print(file_meta['Key'])
         csv_file = s3.get_object(Bucket=CSV_BUCKET, Key=file_meta['Key'])
         csv_io = io.StringIO(csv_file['Body'].read().decode('utf-8'))
-        df = df.append(pd.read_csv(csv_io))
+        df = df.append(pd.read_csv(csv_io), ignore_index=True)
         df.drop_duplicates(inplace=True)
     return df
 
@@ -151,6 +151,7 @@ def confirm():
     key_name = "{}/{}".format(uuid, os.path.basename(filename))
     app.log.debug('uploading {} to s3'.format(key_name))
     s3.upload_file(filename, CSV_BUCKET, key_name)
+    os.remove(filename)
 
     return Response(body='', status_code=201)
 
