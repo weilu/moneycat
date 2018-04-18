@@ -40,7 +40,7 @@ def train(X, y):
     # classifier = MultinomialNB(alpha=.01)
     # classifier = BernoulliNB(alpha=.01)
     # classifier = svm.LinearSVC()
-    classifier = SGDClassifier(random_state=123)
+    classifier = SGDClassifier(random_state=123, max_iter=1000, tol=1e-3)
     classifier.fit(X_train, y)
 
     print("train n_samples: %d, n_features: %d" % X_train.shape)
