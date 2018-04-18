@@ -4,6 +4,7 @@ import os
 import io
 import csv
 from tempfile import NamedTemporaryFile
+from urllib.parse import parse_qs
 from chalicelib import pdftotxt
 import cgi
 import boto3
@@ -108,16 +109,19 @@ def upload():
 
 
 @app.route('/confirm', methods=['POST'],
-           content_types=['multipart/form-data'], cors=True)
+           content_types=['application/x-www-form-urlencoded'], cors=True)
 def confirm():
-    form_data = get_multipart_data()
+    form_data = parse_qs(app.current_request.raw_body.decode())
+    if 'file' not in form_data or 'uuid' not in form_data:
+        return Response(body='Both file and uuid must be present',
+                        status_code=400)
     form_file = form_data['file'][0]
     uuid = form_data['uuid'][0]
-    if not uuid:
-        return Response(body='Invalid uuid {}'.format(uuid), status_code=400)
-    uuid = uuid.decode("utf-8")
+    if not uuid or not form_file:
+        return Response(body='Invalid uuid {} or file {}'.format(uuid, form_file),
+                        status_code=400)
 
-    with NamedTemporaryFile(mode='wb', suffix='.csv', delete=False) as f:
+    with NamedTemporaryFile(mode='w', suffix='.csv', delete=False) as f:
         filename = f.name
         f.write(form_file)
 
