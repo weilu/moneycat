@@ -189,7 +189,7 @@ def refresh_model():
         file_metas.append(obj)
 
     if not file_metas: # no new data to update model with
-        return Response(body='', status_code=304)
+        return Response(body='No new data to update model with', status_code=200)
 
     df = s3_csvs_to_df(file_metas)
 
@@ -220,15 +220,19 @@ def refresh_model():
 
     # did not improve model, do not update
     if score_after <= score_before:
-        return Response(body='', status_code=304)
+        msg = 'Accuracy with additional data is {}, which is no better than previous accuracy {}'\
+                .format(score_after, score_before)
+        return Response(body=msg, status_code=200)
 
     # serialize & upload everything to s3
     pred = classifier.predict(X_test)
     report = metrics.classification_report(y_test, pred,
             target_names=list(label_transformer.classes_))
     print(report)
-
     meta_data = {'train_size': meta_data['train_size'] + X_train.shape[0],
                  'accuracy': score_after}
-
     export_model(classifier, transformer, label_transformer, samples, meta_data, report)
+
+    msg = 'New model improved accuracy from {} to {}'.format(score_before, score_after)
+    return Response(body=msg, status_code=201)
+
