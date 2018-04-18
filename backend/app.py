@@ -69,16 +69,19 @@ def s3_csvs_to_df(files):
     return df
 
 
+# new_data and existing_samples should be of type pd.DataFrame
 def reservior_sampling(sample_size, new_data,
-                       existing_record_count=0, existing_samples=[]):
-    samples = existing_samples if existing_samples else []
-    for index, record in enumerate(new_data):
-        if len(samples) < sample_size:
-            samples.append(record)
+                       existing_record_count=0, existing_samples=pd.DataFrame()):
+    new_data = new_data.reset_index(drop=True)
+    samples = existing_samples.reset_index(drop=True)
+    for index, record in new_data.iterrows():
+        if samples.shape[0] < sample_size:
+            samples = samples.append(record, ignore_index=True)
         else:
-            r = random.randint(0, index)
+            r = random.randint(0, existing_record_count + index)
             if r < sample_size:
-                samples[r] = record
+                samples.loc[r] = record
+    samples.reset_index(inplace=True)
     return samples
 
 
