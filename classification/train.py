@@ -51,7 +51,7 @@ def train(X, y):
     return (classifier, transformer)
 
 
-def export_model(classifier, transformer, label_trasformer, test_samples):
+def export_model(classifier, transformer, label_trasformer, test_samples, report):
     joblib.dump(classifier, 'svm_classifier.pkl')
     joblib.dump(transformer, 'tfidf_transformer.pkl')
     joblib.dump(label_trasformer, 'label_transformer.pkl')
@@ -59,13 +59,13 @@ def export_model(classifier, transformer, label_trasformer, test_samples):
 
     # upload to s3
     model_bucket = 'cs4225-models'
+    s3.put_object(Bucket=model_bucket, Body=report, Key='report.txt')
     for filename in glob('*.pkl'):
         s3.upload_file(filename, model_bucket, filename)
         os.remove(filename)
     print('\n\n============ Updated models on S3 ============')
     for obj in s3.list_objects(Bucket=model_bucket)['Contents']:
         print(obj['Key'], obj['LastModified'])
-    print('\n\n')
 
 if __name__ == '__main__':
     personal_data = read_data()
@@ -81,7 +81,9 @@ if __name__ == '__main__':
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=50,
                                                         random_state=42)
     classifier, transformer = train(X_train, y_train)
-    test_samples = pd.DataFrame(data={'X': X_test, 'y': y_test})
-    export_model(classifier, transformer, le, test_samples)
     pred = classifier.predict(transformer.transform(X_test))
-    print(metrics.classification_report(y_test, pred, target_names=list(le.classes_)))
+    report = metrics.classification_report(y_test, pred, target_names=list(le.classes_))
+    print(report)
+
+    test_samples = pd.DataFrame(data={'X': X_test, 'y': y_test})
+    export_model(classifier, transformer, le, test_samples, report)
