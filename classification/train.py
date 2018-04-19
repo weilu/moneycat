@@ -15,7 +15,8 @@ import numpy as np
 
 s3 = boto3.client('s3')
 
-LOSS_FNS = ['hinge', 'log'] # hinge = linear SVM, log = logistic regression
+# LOSS_FNS = ['hinge', 'log'] # hinge = linear SVM, log = logistic regression
+LOSS_FNS = ['log'] # hinge = linear SVM, log = logistic regression
 PENALTIES = ['l1', 'l2', 'elasticnet']
 
 sgd_classifiers = []
@@ -30,15 +31,22 @@ def read_data():
     return pd.read_csv('../cleaning/pdf-mining/out_wei_labelled_full.csv', sep=",")
 
 
-def cross_validate(X, y, classifier):
+def cross_validate(X, y, classifier, X_extra=np.array([])):
     fold = 10
     kf = KFold(n_splits=fold, shuffle=True, random_state=42)
     accuracies = []
     f1s = []
     for train_index, test_index in kf.split(X):
-        transformer = train(X[train_index], y[train_index], classifier)
+        X_train_extra = X_extra[train_index] if X_extra.any() else X_extra
+        transformer, classifier2 = train(X[train_index], y[train_index], classifier, X_train_extra)
+
         X_test = transformer.transform(X[test_index])
-        pred = classifier.predict(X_test)
+        proba = classifier.predict_proba(X_test)
+
+        # use predicted prob as dense features, plus extra features to predict
+        X_test2 = np.hstack((proba, X_extra[test_index])) if X_extra.any() else proba
+        pred = classifier2.predict(X_test2)
+
         accuracy = metrics.accuracy_score(y[test_index], pred)
         f1 = metrics.f1_score(y[test_index], pred, average='weighted')
         print("test sample size: %d, accuracy: %0.3f, f1 score: %0.3f" \
@@ -51,7 +59,7 @@ def cross_validate(X, y, classifier):
     return (classifier, accuracy)
 
 
-def train(X, y, classifier):
+def train(X, y, classifier, X_extra=np.array([])):
     max_df = 1.0
     transformer = TfidfVectorizer(max_df=max_df)
     X_train = transformer.fit_transform(X)
@@ -62,7 +70,13 @@ def train(X, y, classifier):
         print("idf stop words: ")
         print(" ".join(transformer.stop_words_))
 
-    return transformer
+    proba = classifier.predict_proba(X_train)
+    X_train2 = np.hstack((proba, X_extra)) if X_extra.any() else proba
+    classifier2 = SGDClassifier(loss='hinge', penalty='l2',
+            random_state=123, max_iter=1000, tol=1e-3)
+    classifier2.fit(X_train2, y)
+
+    return (transformer, classifier2)
 
 
 def export_model(classifier, transformer, label_trasformer, test_samples,
@@ -85,8 +99,8 @@ def export_model(classifier, transformer, label_trasformer, test_samples,
 
 
 # Return model with the highest accuracy
-def test_models(X, y):
-    classifier_n_accuracies = map(lambda c: cross_validate(X, y, c), CLASSIFIERS)
+def test_models(X, y, X_extra):
+    classifier_n_accuracies = map(lambda c: cross_validate(X, y, c, X_extra), CLASSIFIERS)
     return sorted(classifier_n_accuracies, key=lambda pair: pair[1], reverse=True)[0]
 
 
@@ -122,7 +136,7 @@ def test_additional_train_data():
     y_train = np.concatenate((y_train, extra_y))
 
     for classifier in CLASSIFIERS:
-        transformer = train(X_train, y_train, classifier)
+        transformer, _ = train(X_train, y_train, classifier)
         pred = classifier.predict(transformer.transform(X_test))
         accuracy = metrics.accuracy_score(y_test, pred)
         f1 = metrics.f1_score(y_test, pred, average='weighted')
@@ -139,8 +153,13 @@ def train_pure_personal_data():
     y = le.transform(y_raw)
     X = personal_data['description']
 
+    parse_amount = lambda a: float(a.lower().replace('cr', '').replace(',', '')) # won't work for EU
+    amount = personal_data.amount.apply(parse_amount)
+    is_credit = personal_data.amount.apply(lambda amount: 'cr' in amount.lower())
+    X_extra = preprocessing.normalize(np.column_stack((amount, is_credit)))
+
     # report cross validation accuracy
-    classifier, accuracy = test_models(X, y)
+    classifier, accuracy = test_models(X, y, X_extra)
     print('Using {} with accuracy {}'.format(classifier, accuracy))
 
     # leave out a small test subset for benchmarking
