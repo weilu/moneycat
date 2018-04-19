@@ -12,6 +12,7 @@ import os
 import pickle
 from statistics import mean
 import numpy as np
+from scipy import sparse
 
 s3 = boto3.client('s3')
 
@@ -30,14 +31,17 @@ def read_data():
     return pd.read_csv('../cleaning/pdf-mining/out_wei_labelled_full.csv', sep=",")
 
 
-def cross_validate(X, y, classifier):
+def cross_validate(X, y, classifier, X_extra=np.array([])):
     fold = 10
     kf = KFold(n_splits=fold, shuffle=True, random_state=42)
     accuracies = []
     f1s = []
     for train_index, test_index in kf.split(X):
-        transformer = train(X[train_index], y[train_index], classifier)
+        X_train_extra = X_extra[train_index] if X_extra.any() else X_extra
+        transformer = train(X[train_index], y[train_index], classifier, X_train_extra)
         X_test = transformer.transform(X[test_index])
+        if X_extra.any():
+            X_test = sparse.hstack((X_test, X_extra[test_index]))
         pred = classifier.predict(X_test)
         accuracy = metrics.accuracy_score(y[test_index], pred)
         f1 = metrics.f1_score(y[test_index], pred, average='weighted')
@@ -51,10 +55,12 @@ def cross_validate(X, y, classifier):
     return (classifier, accuracy)
 
 
-def train(X, y, classifier):
+def train(X, y, classifier, X_extra=np.array([])):
     max_df = 1.0
     transformer = TfidfVectorizer(max_df=max_df)
     X_train = transformer.fit_transform(X)
+    if X_extra.any():
+        X_train = sparse.hstack((X_train, X_extra))
     classifier.fit(X_train, y)
 
     print("train n_samples: %d, n_features: %d" % X_train.shape)
@@ -85,8 +91,8 @@ def export_model(classifier, transformer, label_trasformer, test_samples,
 
 
 # Return model with the highest accuracy
-def test_models(X, y):
-    classifier_n_accuracies = map(lambda c: cross_validate(X, y, c), CLASSIFIERS)
+def test_models(X, y, X_extra):
+    classifier_n_accuracies = map(lambda c: cross_validate(X, y, c, X_extra), CLASSIFIERS)
     return sorted(classifier_n_accuracies, key=lambda pair: pair[1], reverse=True)[0]
 
 
@@ -139,8 +145,13 @@ def train_pure_personal_data():
     y = le.transform(y_raw)
     X = personal_data['description']
 
+    parse_amount = lambda a: float(a.lower().replace('cr', '').replace(',', '')) # won't work for EU
+    amount = personal_data.amount.apply(parse_amount)
+    is_credit = personal_data.amount.apply(lambda amount: 'cr' in amount.lower())
+    X_extra = preprocessing.normalize(np.column_stack((amount, is_credit)))
+
     # report cross validation accuracy
-    classifier, accuracy = test_models(X, y)
+    classifier, accuracy = test_models(X, y, X_extra)
     print('Using {} with accuracy {}'.format(classifier, accuracy))
 
     # leave out a small test subset for benchmarking
