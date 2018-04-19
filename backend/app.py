@@ -66,9 +66,13 @@ def s3_csvs_to_df(files):
         print(file_meta['Key'])
         csv_file = s3.get_object(Bucket=CSV_BUCKET, Key=file_meta['Key'])
         csv_io = io.StringIO(csv_file['Body'].read().decode('utf-8'))
-        df = df.append(pd.read_csv(csv_io), ignore_index=True)
+        df = df.append(pd.read_csv(csv_io, index_col=False), ignore_index=True)
         df.drop_duplicates(inplace=True)
-    return df
+    col_names = list(df.columns.values)
+    if 'date' not in col_names:
+        return pd.DataFrame()
+    start_idx = col_names.index('date')
+    return df[df.columns[start_idx::]]
 
 
 # new_data and existing_samples should be of type pd.DataFrame
