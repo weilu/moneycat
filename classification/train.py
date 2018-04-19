@@ -1,4 +1,5 @@
 import pandas as pd
+from sklearn.decomposition import TruncatedSVD
 from sklearn.model_selection import KFold, train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
@@ -24,7 +25,7 @@ for loss in LOSS_FNS:
     for penalty in PENALTIES:
         sgd_classifiers.append(SGDClassifier(loss=loss, penalty=penalty,
             random_state=123, max_iter=1000, tol=1e-3))
-CLASSIFIERS = [MultinomialNB(alpha=.01), KNeighborsClassifier()] + sgd_classifiers
+CLASSIFIERS = [KNeighborsClassifier()] + sgd_classifiers
 
 
 def read_data():
@@ -38,10 +39,10 @@ def cross_validate(X, y, classifier, X_extra=np.array([])):
     f1s = []
     for train_index, test_index in kf.split(X):
         X_train_extra = X_extra[train_index] if X_extra.any() else X_extra
-        transformer = train(X[train_index], y[train_index], classifier, X_train_extra)
-        X_test = transformer.transform(X[test_index])
+        transformer_fn = train(X[train_index], y[train_index], classifier, X_train_extra)
+        X_test = transformer_fn(X[test_index])
         if X_extra.any():
-            X_test = sparse.hstack((X_test, X_extra[test_index]))
+            X_test = np.hstack((X_test, X_extra[test_index]))
         pred = classifier.predict(X_test)
         accuracy = metrics.accuracy_score(y[test_index], pred)
         f1 = metrics.f1_score(y[test_index], pred, average='weighted')
@@ -59,8 +60,11 @@ def train(X, y, classifier, X_extra=np.array([])):
     max_df = 1.0
     transformer = TfidfVectorizer(max_df=max_df)
     X_train = transformer.fit_transform(X)
+    svd_transformer = TruncatedSVD(n_components=500)
+    X_train = svd_transformer.fit_transform(X_train) # dimension reduction
+    # print(svd_transformer.explained_variance_ratio_.sum())
     if X_extra.any():
-        X_train = sparse.hstack((X_train, X_extra))
+        X_train = np.hstack((X_train, X_extra))
     classifier.fit(X_train, y)
 
     print("train n_samples: %d, n_features: %d" % X_train.shape)
@@ -68,7 +72,8 @@ def train(X, y, classifier, X_extra=np.array([])):
         print("idf stop words: ")
         print(" ".join(transformer.stop_words_))
 
-    return transformer
+    transform_fn = lambda X: svd_transformer.transform(transformer.transform(X))
+    return transform_fn
 
 
 def export_model(classifier, transformer, label_trasformer, test_samples,
@@ -128,8 +133,8 @@ def test_additional_train_data():
     y_train = np.concatenate((y_train, extra_y))
 
     for classifier in CLASSIFIERS:
-        transformer = train(X_train, y_train, classifier)
-        pred = classifier.predict(transformer.transform(X_test))
+        transformer_fn = train(X_train, y_train, classifier)
+        pred = classifier.predict(transformer_fn(X_test))
         accuracy = metrics.accuracy_score(y_test, pred)
         f1 = metrics.f1_score(y_test, pred, average='weighted')
         meta_data = {'train_size': X_train.shape[0], 'accuracy': accuracy, 'f1': f1}
@@ -157,8 +162,8 @@ def train_pure_personal_data():
     # leave out a small test subset for benchmarking
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=50,
                                                         random_state=123)
-    transformer = train(X_train, y_train, classifier)
-    pred = classifier.predict(transformer.transform(X_test))
+    transformer_fn = train(X_train, y_train, classifier)
+    pred = classifier.predict(transformer_fn(X_test))
     report = metrics.classification_report(y_test, pred, target_names=list(le.classes_))
     # print(report)
 
