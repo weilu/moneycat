@@ -15,9 +15,16 @@ import numpy as np
 
 s3 = boto3.client('s3')
 
-CLASSIFIERS = [MultinomialNB(alpha=.01),
-               KNeighborsClassifier(),
-               SGDClassifier(random_state=123, max_iter=1000, tol=1e-3)]
+LOSS_FNS = ['hinge', 'log'] # hinge = linear SVM, log = logistic regression
+PENALTIES = ['l1', 'l2', 'elasticnet']
+
+sgd_classifiers = []
+for loss in LOSS_FNS:
+    for penalty in PENALTIES:
+        sgd_classifiers.append(SGDClassifier(loss=loss, penalty=penalty,
+            random_state=123, max_iter=1000, tol=1e-3))
+CLASSIFIERS = [MultinomialNB(alpha=.01), KNeighborsClassifier()] + sgd_classifiers
+
 
 def read_data():
     return pd.read_csv('../cleaning/pdf-mining/out_wei_labelled_full.csv', sep=",")
@@ -40,7 +47,7 @@ def cross_validate(X, y, classifier):
         f1s.append(f1)
     accuracy = mean(accuracies)
     print('%s produces an accuracy of %0.3f, and f1 score of %0.3f'\
-            % (classifier.__class__.__name__, accuracy, mean(f1s)))
+            % (classifier, accuracy, mean(f1s)))
     return (classifier, accuracy)
 
 
@@ -85,7 +92,8 @@ def test_models(X, y):
 
 def get_label_encoder(y, y_additional=pd.DataFrame()):
     le = preprocessing.LabelEncoder()
-    le.fit(y.append(y_additional, ignore_index=True))
+    y_raw = y.append(y_additional, ignore_index=True) if not y_additional.empty else y
+    le.fit(y_raw)
     return le
 
 
@@ -149,7 +157,7 @@ def train_pure_personal_data():
     meta_data = {'train_size': X_train.shape[0], 'accuracy': accuracy, 'f1': f1}
     print("test sample size: %d, accuracy: %0.3f, f1 score: %0.3f" \
             % (X_test.shape[0], accuracy, f1))
-    export_model(classifier, transformer, le, test_samples, meta_data, report)
+    # export_model(classifier, transformer, le, test_samples, meta_data, report)
 
 
 if __name__ == '__main__':
