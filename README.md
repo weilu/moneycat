@@ -11,17 +11,17 @@ CS4225 project: Automatic Personal Bank Transaction Extraction &amp; Categorizat
 API Usage
 
 ```
-# PDF upload, parse & classification
-curl https://42q6iw44o2.execute-api.ap-southeast-1.amazonaws.com/api/upload -F 'file=@[path/to/file].pdf'
+# PDF upload, parse & classification, returns a csv
+curl https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/upload -F 'file=@[path/to/file].pdf'
 
 # CSV upload, after user reviews & confirms parse & classification results
-curl -v https://42q6iw44o2.execute-api.ap-southeast-1.amazonaws.com/api/confirm -X POST -d 'uuid=[uuid]' -d 'file=@[path/to/file].csv'
+curl -v https://q5i6ef1jfi42q6iw44o2.execute-api.ap-southeast-1.amazonaws.com/api/confirm -X POST -d 'uuid=[uuid]' -d 'file=@[path/to/file].csv'
 
 # User transaction data fetch, returns a csv of all transaction data for the given uuid
-curl https://42q6iw44o2.execute-api.ap-southeast-1.amazonaws.com/api/transactions/[uuid]
+curl https://q5i6ef1jfi42q6iw44o2.execute-api.ap-southeast-1.amazonaws.com/api/transactions/[uuid]
 
 # Refresh model with new csv data
-curl -v https://42q6iw44o2.execute-api.ap-southeast-1.amazonaws.com/api/refresh-model
+curl -v https://q5i6ef1jfi42q6iw44o2.execute-api.ap-southeast-1.amazonaws.com/api/refresh-model
 ```
 
 Development

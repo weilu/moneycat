@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "app_name": "parseBankStatement",
+  "app_name": "money-api",
   "lambda_memory_size": 1024,
   "stages": {
     "dev": {
