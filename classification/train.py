@@ -6,12 +6,15 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn import preprocessing, metrics
 from sklearn.linear_model import SGDClassifier
 from sklearn.externals import joblib
+from sklearn.exceptions import UndefinedMetricWarning
 from glob import glob
 import boto3
 import os
 import pickle
 from statistics import mean
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=UndefinedMetricWarning)
 
 s3 = boto3.client('s3')
 
@@ -41,8 +44,8 @@ def cross_validate(X, y, classifier):
         pred = classifier.predict(X_test)
         accuracy = metrics.accuracy_score(y[test_index], pred)
         f1 = metrics.f1_score(y[test_index], pred, average='weighted')
-        print("test sample size: %d, accuracy: %0.3f, f1 score: %0.3f" \
-                % (X_test.shape[0], accuracy, f1))
+        # print("test sample size: %d, accuracy: %0.3f, f1 score: %0.3f" \
+        #         % (X_test.shape[0], accuracy, f1))
         accuracies.append(accuracy)
         f1s.append(f1)
     accuracy = mean(accuracies)
@@ -57,7 +60,7 @@ def train(X, y, classifier):
     X_train = transformer.fit_transform(X)
     classifier.fit(X_train, y)
 
-    print("train n_samples: %d, n_features: %d" % X_train.shape)
+    # print("train n_samples: %d, n_features: %d" % X_train.shape)
     if len(transformer.stop_words_):
         print("idf stop words: ")
         print(" ".join(transformer.stop_words_))
