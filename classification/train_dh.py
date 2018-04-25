@@ -22,6 +22,7 @@ X = personal_data['description']
 
 CLASSIFIERS = [SGDClassifier(penalty='l2', loss='hinge'),
                SGDClassifier(penalty='l1', loss='log'),
+               SGDClassifier(penalty='elasticnet', loss='log'),
                DecisionTreeClassifier(),
                RandomForestClassifier()
                ]
