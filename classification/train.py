@@ -26,7 +26,9 @@ for loss in LOSS_FNS:
     for penalty in PENALTIES:
         sgd_classifiers.append(SGDClassifier(loss=loss, penalty=penalty,
             random_state=123, max_iter=1000, tol=1e-3))
-CLASSIFIERS = [MultinomialNB(alpha=.01), KNeighborsClassifier()] + sgd_classifiers
+MNB_CLASSIFIERS = [MultinomialNB(alpha=.01), MultinomialNB(alpha=.1), MultinomialNB(alpha=.5), MultinomialNB(alpha=1)]
+KNN_CLASSIFIERS = [KNeighborsClassifier(algorithm='auto')] # auto will try ‘ball_tree’, ‘kd_tree’, ‘brute’ and select the best
+CLASSIFIERS = MNB_CLASSIFIERS + KNN_CLASSIFIERS + sgd_classifiers
 
 
 def read_data():
@@ -49,8 +51,8 @@ def cross_validate(X, y, classifier):
         accuracies.append(accuracy)
         f1s.append(f1)
     accuracy = mean(accuracies)
-    print('%s produces an accuracy of %0.3f, and f1 score of %0.3f'\
-            % (classifier, accuracy, mean(f1s)))
+    print('%s produces an accuracy of %0.3f, and f1 score of %0.3f, train sample size: %d, feature size: %d'\
+            % (classifier, accuracy, mean(f1s), len(X[train_index]), len(transformer.idf_)))
     return (classifier, accuracy)
 
 
@@ -131,7 +133,7 @@ def test_additional_train_data():
         f1 = metrics.f1_score(y_test, pred, average='weighted')
         meta_data = {'train_size': X_train.shape[0], 'accuracy': accuracy, 'f1': f1}
         print('%s produces an accuracy of %0.3f, and f1 score of %0.3f'\
-                % (classifier.__class__.__name__, accuracy, f1))
+                % (classifier, accuracy, f1))
 
 def train_pure_personal_data():
     personal_data = read_data()
