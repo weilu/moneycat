@@ -15,8 +15,7 @@ import numpy as np
 
 s3 = boto3.client('s3')
 
-# LOSS_FNS = ['hinge', 'log'] # hinge = linear SVM, log = logistic regression
-LOSS_FNS = ['log'] # hinge = linear SVM, log = logistic regression
+LOSS_FNS = ['hinge', 'log'] # hinge = linear SVM, log = logistic regression
 PENALTIES = ['l1', 'l2', 'elasticnet']
 
 sgd_classifiers = []
@@ -24,7 +23,7 @@ for loss in LOSS_FNS:
     for penalty in PENALTIES:
         sgd_classifiers.append(SGDClassifier(loss=loss, penalty=penalty,
             random_state=123, max_iter=1000, tol=1e-3))
-CLASSIFIERS = [MultinomialNB(alpha=.01), KNeighborsClassifier()] + sgd_classifiers
+CLASSIFIERS = sgd_classifiers
 
 
 def read_data():
@@ -38,19 +37,20 @@ def cross_validate(X, y, classifier, X_extra=np.array([])):
     f1s = []
     for train_index, test_index in kf.split(X):
         X_train_extra = X_extra[train_index] if X_extra.any() else X_extra
-        transformer, classifier2 = train(X[train_index], y[train_index], classifier, X_train_extra)
+        transformer, classifier1 = train(X[train_index], y[train_index], classifier, X_train_extra)
 
         X_test = transformer.transform(X[test_index])
-        proba = classifier.predict_proba(X_test)
+        proba = classifier1.predict_proba(X_test)
 
         # use predicted prob as dense features, plus extra features to predict
         X_test2 = np.hstack((proba, X_extra[test_index])) if X_extra.any() else proba
-        pred = classifier2.predict(X_test2)
+        X_test2 = preprocessing.normalize(X_test2)
+        pred = classifier.predict(X_test2)
 
         accuracy = metrics.accuracy_score(y[test_index], pred)
         f1 = metrics.f1_score(y[test_index], pred, average='weighted')
-        print("test sample size: %d, accuracy: %0.3f, f1 score: %0.3f" \
-                % (X_test.shape[0], accuracy, f1))
+        # print("test sample size: %d, accuracy: %0.3f, f1 score: %0.3f" \
+        #         % (X_test.shape[0], accuracy, f1))
         accuracies.append(accuracy)
         f1s.append(f1)
     accuracy = mean(accuracies)
@@ -63,20 +63,23 @@ def train(X, y, classifier, X_extra=np.array([])):
     max_df = 1.0
     transformer = TfidfVectorizer(max_df=max_df)
     X_train = transformer.fit_transform(X)
-    classifier.fit(X_train, y)
+    # can only use logistic in this step as SVM doesn't have predict_prob
+    # use the best performing classifier (highest classification accuracy)
+    classifier1 = SGDClassifier(loss='log', penalty='elasticnet',
+            random_state=123, max_iter=1000, tol=1e-3)
+    classifier1.fit(X_train, y)
 
-    print("train n_samples: %d, n_features: %d" % X_train.shape)
+    # print("train n_samples: %d, n_features: %d" % X_train.shape)
     if len(transformer.stop_words_):
         print("idf stop words: ")
         print(" ".join(transformer.stop_words_))
 
-    proba = classifier.predict_proba(X_train)
+    proba = classifier1.predict_proba(X_train)
     X_train2 = np.hstack((proba, X_extra)) if X_extra.any() else proba
-    classifier2 = SGDClassifier(loss='hinge', penalty='l2',
-            random_state=123, max_iter=1000, tol=1e-3)
-    classifier2.fit(X_train2, y)
+    X_train2 = preprocessing.normalize(X_train2)
+    classifier.fit(X_train2, y)
 
-    return (transformer, classifier2)
+    return (transformer, classifier1)
 
 
 def export_model(classifier, transformer, label_trasformer, test_samples,
@@ -161,22 +164,6 @@ def train_pure_personal_data():
     # report cross validation accuracy
     classifier, accuracy = test_models(X, y, X_extra)
     print('Using {} with accuracy {}'.format(classifier, accuracy))
-
-    # leave out a small test subset for benchmarking
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=50,
-                                                        random_state=123)
-    transformer = train(X_train, y_train, classifier)
-    pred = classifier.predict(transformer.transform(X_test))
-    report = metrics.classification_report(y_test, pred, target_names=list(le.classes_))
-    # print(report)
-
-    accuracy = metrics.accuracy_score(y_test, pred)
-    f1 = metrics.f1_score(y_test, pred, average='weighted')
-    test_samples = pd.DataFrame(data={'X': X_test, 'y': y_test})
-    meta_data = {'train_size': X_train.shape[0], 'accuracy': accuracy, 'f1': f1}
-    print("test sample size: %d, accuracy: %0.3f, f1 score: %0.3f" \
-            % (X_test.shape[0], accuracy, f1))
-    # export_model(classifier, transformer, le, test_samples, meta_data, report)
 
 
 if __name__ == '__main__':
