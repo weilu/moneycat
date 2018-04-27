@@ -1,4 +1,6 @@
 import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import KFold, train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
@@ -13,10 +15,12 @@ import os
 import pickle
 from statistics import mean
 import numpy as np
+
 import warnings
 warnings.filterwarnings("ignore", category=UndefinedMetricWarning)
 
 s3 = boto3.client('s3')
+N_FOLD = 10
 
 LOSS_FNS = ['hinge', 'log'] # hinge = linear SVM, log = logistic regression
 PENALTIES = ['l1', 'l2', 'elasticnet']
@@ -28,16 +32,24 @@ for loss in LOSS_FNS:
             random_state=123, max_iter=1000, tol=1e-3))
 MNB_CLASSIFIERS = [MultinomialNB(alpha=.01), MultinomialNB(alpha=.1), MultinomialNB(alpha=.5), MultinomialNB(alpha=1)]
 KNN_CLASSIFIERS = [KNeighborsClassifier(algorithm='auto')] # auto will try ‘ball_tree’, ‘kd_tree’, ‘brute’ and select the best
-CLASSIFIERS = MNB_CLASSIFIERS + KNN_CLASSIFIERS + sgd_classifiers
+CLASSIFIERS = MNB_CLASSIFIERS + KNN_CLASSIFIERS + sgd_classifiers + [DecisionTreeClassifier(), RandomForestClassifier()]
+
+def time_me(fn):
+  def _wrapper(*args, **kwargs):
+    start = time.clock()
+    result = fn(*args, **kwargs)
+    print ("%s cost %s second\n"%(fn.__name__, (time.clock() - start) / N_FOLD))
+    return result
+  return _wrapper
 
 
 def read_data():
     return pd.read_csv('../cleaning/pdf-mining/out_wei_labelled_full.csv', sep=",")
 
 
+@time_me
 def cross_validate(X, y, classifier):
-    fold = 10
-    kf = KFold(n_splits=fold, shuffle=True, random_state=42)
+    kf = KFold(n_splits=N_FOLD, shuffle=True, random_state=42)
     accuracies = []
     f1s = []
     for train_index, test_index in kf.split(X):
