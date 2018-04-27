@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import time
 from statistics import mean
-from sklearn import preprocessing, metrics
+from sklearn import preprocessing, metrics, neighbors
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import KFold, cross_val_score, train_test_split
@@ -112,8 +112,8 @@ def process_features():
     return processed
 
 def test_models(X, y):
-    classifier_n_accuracies = map(lambda c: cross_validate(X, y, c), CLASSIFIERS)
-    return sorted(classifier_n_accuracies, key=lambda pair: pair[1], reverse=True)[0]
+    for classifier in CLASSIFIERS:
+        cross_validate(X, y, classifier)
 
 
 personal_data = pd.read_csv('assets/out_wei_labelled_full.csv', sep=",")
@@ -131,11 +131,10 @@ additional_feature_names = ['amount', 'amount_type']
 CLASSIFIERS = [SGDClassifier(penalty='l2', loss='hinge'),
                SGDClassifier(penalty='l1', loss='log'),
                SGDClassifier(penalty='elasticnet', loss='log'),
+               neighbors.KNeighborsClassifier(10),
                DecisionTreeClassifier(),
                RandomForestClassifier()
                ]
 
 if __name__ == '__main__':
-    # report cross validation accuracy
-    classifier, accuracy = test_models(X, y)
-    print('Using {} with accuracy {} with additional features {}'.format(classifier, accuracy, additional_feature_names))
+    test_models(X, y)
