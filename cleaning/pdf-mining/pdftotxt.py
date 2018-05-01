@@ -9,6 +9,8 @@ from os import path
 
 
 DATE_CLUES = ['statement date', 'as at']
+END_CLUES = ['End of Transaction Details', # uob
+             'TOTAL   $'] #dbs
 CURRENCIES = set([c.code for c in Currency])
 CURRENCY_AMOUNT_REGEX = '({} \d+[\.|,|\d]*\d+)'
 
@@ -20,6 +22,13 @@ def parse_statement_date(line):
             statement_date = dateparser.parse(line_lower.split(clue)[-1])
             if statement_date:
                 return statement_date
+
+
+def contains_end_clue(line):
+    for clue in END_CLUES:
+        if clue in line:
+            return True
+    return False
 
 
 # Foreign currency transaction often include the foreign currency &
@@ -41,15 +50,16 @@ def process_pdf(filename, csv_writer, pdftotxt_bin='pdftotext',
     # recursive fn
     def process_line(iterator, statement_date):
         try:
-            line = next(iterator).strip()
-            if not line:
-                return process_line(iterator, statement_date)
-            # this assumes that statement date is always before transaction records
-            if not statement_date:
-                statement_date = parse_statement_date(line)
-            groups = re.split(r'\s{2,}', line)
-            if not groups or len(groups) < 3 or len(groups[0]) < 5:
-                return process_line(iterator, statement_date)
+            # skip empty & short lines
+            line, groups = None, None
+            while not line or not groups or len(groups) < 3 or len(groups[0]) < 5:
+                line = next(iterator).strip()
+                if line:
+                    groups = re.split(r'\s{2,}', line)
+                    if not statement_date:
+                        statement_date = parse_statement_date(line)
+                    elif contains_end_clue(line):
+                        return
 
             # consider a line as a transaction when it begins with date
             date_found = dateparser.parse(groups[0])
