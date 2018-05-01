@@ -2,17 +2,19 @@ import unittest
 import csv
 import io
 import difflib
+import os
 import time
 from glob import glob
 from pprint import pprint
 from pdftotxt import process_pdf
 
-SUPPORTED_BANKS = ['dbs', 'uob', 'ocbc']
+SUPPORTED_BANKS = ['dbs', 'uob', 'ocbc', 'anz']
 
 class TestPdftotxt(unittest.TestCase):
 
     def test_process_pdf(self):
         for bank in SUPPORTED_BANKS:
+            maybe_create_expected_csv(bank)
             with open(f'data/{bank}.csv') as ef:
                 expected = ef.readlines()
             with io.StringIO() as f:
@@ -33,6 +35,16 @@ def diff(a, b):
         pprint(results)
     return results
 
+
+# This is for development purposes only
+# To add support for a new bank, this is invoked.
+# Make sure to manually check the output in the csv & modify pdftotxt.py if necessary
+def maybe_create_expected_csv(bank):
+    expected_filename = f'data/{bank}.csv'
+    if not os.path.exists(expected_filename):
+        with open(expected_filename, 'w') as f:
+            csv_writer = csv.writer(f)
+            process_pdf(f'./data/{bank}.pdf', csv_writer)
 
 if __name__ == '__main__':
     unittest.main()

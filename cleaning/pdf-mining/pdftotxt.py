@@ -22,16 +22,16 @@ def parse_statement_date(line, iterator):
                                               languages=LANGUAGES)
             if statement_date:
                 return statement_date
-            else: # in OCBC's case, need to look at the next non-empty line
+            else: # in OCBC & ANZ's case, need to look at the next non-empty line
                 line = next(iterator).strip()
                 while not line:
                     line = next(iterator).strip()
-                    groups = re.split(r'\s{2,}', line)
-                    if not groups:
-                        return
-                    statement_date = dateparser.parse(groups[0], languages=LANGUAGES)
-                    if statement_date:
-                        return statement_date
+                groups = re.split(r'\s{2,}', line)
+                if not groups:
+                    return
+                statement_date = dateparser.parse(groups[0], languages=LANGUAGES)
+                if statement_date:
+                    return statement_date
 
 
 # Foreign currency transaction often include the foreign currency &
