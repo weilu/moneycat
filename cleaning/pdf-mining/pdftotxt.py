@@ -62,7 +62,7 @@ def process_pdf(filename, csv_writer, pdftotxt_bin='pdftotext',
                         return
 
             # consider a line as a transaction when it begins with date
-            date_found = dateparser.parse(groups[0])
+            date_found = dateparser.parse(groups[0], languages=['en'])
             if date_found:
                 description_end_index = -1
                 if '$' in groups:

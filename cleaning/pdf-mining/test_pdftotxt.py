@@ -2,6 +2,7 @@ import unittest
 import csv
 import io
 import difflib
+import time
 from glob import glob
 from pprint import pprint
 from pdftotxt import process_pdf
@@ -16,7 +17,9 @@ class TestPdftotxt(unittest.TestCase):
                 expected = ef.readlines()
             with io.StringIO() as f:
                 csv_writer = csv.writer(f)
+                start = time.clock()
                 process_pdf(f'./data/{bank}.pdf', csv_writer)
+                print(f"Parsing {bank} statement took {time.clock() - start} second")
                 f.seek(0)
                 actual = f.readlines()
                 self.assertFalse(diff(expected, actual))
