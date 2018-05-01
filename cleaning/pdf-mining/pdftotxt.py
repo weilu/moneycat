@@ -11,15 +11,27 @@ from os import path
 DATE_CLUES = ['statement date', 'as at']
 CURRENCIES = set([c.code for c in Currency])
 CURRENCY_AMOUNT_REGEX = '({} \d+[\.|,|\d]*\d+)'
+LANGUAGES = ['en']
 
 
-def parse_statement_date(line):
+def parse_statement_date(line, iterator):
     line_lower = line.lower()
     for clue in DATE_CLUES:
         if clue in line_lower:
-            statement_date = dateparser.parse(line_lower.split(clue)[-1])
+            statement_date = dateparser.parse(line_lower.split(clue)[-1],
+                                              languages=LANGUAGES)
             if statement_date:
                 return statement_date
+            else: # in OCBC's case, need to look at the next non-empty line
+                line = next(iterator).strip()
+                while not line:
+                    line = next(iterator).strip()
+                    groups = re.split(r'\s{2,}', line)
+                    if not groups:
+                        return
+                    statement_date = dateparser.parse(groups[0], languages=LANGUAGES)
+                    if statement_date:
+                        return statement_date
 
 
 # Foreign currency transaction often include the foreign currency &
@@ -48,10 +60,10 @@ def process_pdf(filename, csv_writer, pdftotxt_bin='pdftotext',
                 if line:
                     groups = re.split(r'\s{2,}', line)
                     if not statement_date:
-                        statement_date = parse_statement_date(line)
+                        statement_date = parse_statement_date(line, iterator)
 
             # consider a line as a transaction when it begins with date
-            date_found = dateparser.parse(groups[0], languages=['en'])
+            date_found = dateparser.parse(groups[0], languages=LANGUAGES)
             if date_found:
                 description_end_index = -1
                 if '$' in groups:

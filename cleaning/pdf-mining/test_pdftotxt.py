@@ -7,7 +7,7 @@ from glob import glob
 from pprint import pprint
 from pdftotxt import process_pdf
 
-SUPPORTED_BANKS = ['dbs', 'uob']
+SUPPORTED_BANKS = ['dbs', 'uob', 'ocbc']
 
 class TestPdftotxt(unittest.TestCase):
 
