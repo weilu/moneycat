@@ -49,6 +49,20 @@ def parse_amount(amount_str):
         return None
 
 
+# cross year statement needs statement_date to determine the year of date_str
+# because transaction date_str often don't contain year
+def parse_transaction_date(date_str, statement_date):
+    transaction_date = dateparser.parse(date_str, languages=LANGUAGES).replace(year=statement_date.year)
+    alt_date = transaction_date.replace(year=(statement_date.year-1))
+    if (abs(alt_date - statement_date) < abs(transaction_date - statement_date)):
+        transaction_date = alt_date
+    return format_date(transaction_date)
+
+
+def format_date(datetime_obj):
+    return datetime_obj.strftime('%Y-%m-%d')
+
+
 # Foreign currency transaction often include the foreign currency &
 # amount in a separate line
 def peek_forward_for_currency(iterator, max_lines=2):
@@ -90,8 +104,10 @@ def process_pdf(filename, csv_writer, pdftotxt_bin='pdftotext',
                 iterator, iterator_copy = tee(iterator)
                 foreign_amount = peek_forward_for_currency(iterator_copy)
 
-                row = [groups[0], description, parse_amount(groups[-1]), foreign_amount,
-                       statement_date]
+                date = parse_transaction_date(groups[0], statement_date)
+                amount = parse_amount(groups[-1])
+                row = [date, description, amount, foreign_amount,
+                       format_date(statement_date)]
                 if include_source:
                     row.append(path.basename(filename))
                 csv_writer.writerow(row)
