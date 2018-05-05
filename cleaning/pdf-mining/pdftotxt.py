@@ -6,6 +6,7 @@ import csv
 from iso4217 import Currency
 from itertools import tee
 from os import path
+import logging
 
 
 DATE_CLUES = ['statement date', 'as at']
@@ -32,6 +33,20 @@ def parse_statement_date(line, iterator):
                 statement_date = dateparser.parse(groups[0], languages=LANGUAGES)
                 if statement_date:
                     return statement_date
+
+
+# "(1,380.77)" and "1,380.77 CR" will translate to -1380.77
+def parse_amount(amount_str):
+    try:
+        amount_str = amount_str.lower().strip().replace(',', '')
+        cleaned = re.sub(r'\(|\)|cr', '', amount_str).strip()
+        amount = float(cleaned)
+        if cleaned != amount_str:
+            amount = -amount
+        return amount
+    except ValueError:
+        logging.error(f'Failed to parse amount string {amount_str}')
+        return None
 
 
 # Foreign currency transaction often include the foreign currency &
@@ -75,7 +90,7 @@ def process_pdf(filename, csv_writer, pdftotxt_bin='pdftotext',
                 iterator, iterator_copy = tee(iterator)
                 foreign_amount = peek_forward_for_currency(iterator_copy)
 
-                row = [groups[0], description, groups[-1], foreign_amount,
+                row = [groups[0], description, parse_amount(groups[-1]), foreign_amount,
                        statement_date]
                 if include_source:
                     row.append(path.basename(filename))
