@@ -19,8 +19,7 @@ def parse_statement_date(line, iterator):
     line_lower = line.lower()
     for clue in DATE_CLUES:
         if clue in line_lower:
-            statement_date = dateparser.parse(line_lower.split(clue)[-1],
-                                              languages=LANGUAGES)
+            statement_date = parse_date(line_lower.split(clue)[-1])
             if statement_date:
                 return statement_date
             else: # in OCBC & ANZ's case, need to look at the next non-empty line
@@ -30,7 +29,7 @@ def parse_statement_date(line, iterator):
                 groups = re.split(r'\s{2,}', line)
                 if not groups:
                     return
-                statement_date = dateparser.parse(groups[0], languages=LANGUAGES)
+                statement_date = parse_date(groups[0])
                 if statement_date:
                     return statement_date
 
@@ -52,7 +51,7 @@ def parse_amount(amount_str):
 # cross year statement needs statement_date to determine the year of date_str
 # because transaction date_str often don't contain year
 def parse_transaction_date(date_str, statement_date):
-    transaction_date = dateparser.parse(date_str, languages=LANGUAGES).replace(year=statement_date.year)
+    transaction_date = parse_date(date_str).replace(year=statement_date.year)
     alt_date = transaction_date.replace(year=(statement_date.year-1))
     if (abs(alt_date - statement_date) < abs(transaction_date - statement_date)):
         transaction_date = alt_date
@@ -62,6 +61,9 @@ def parse_transaction_date(date_str, statement_date):
 def format_date(datetime_obj):
     return datetime_obj.strftime('%Y-%m-%d')
 
+
+def parse_date(date_str):
+    return dateparser.parse(date_str, locales=['en-SG'])
 
 # Foreign currency transaction often include the foreign currency &
 # amount in a separate line
@@ -92,7 +94,7 @@ def process_pdf(filename, csv_writer, pdftotxt_bin='pdftotext',
                         statement_date = parse_statement_date(line, iterator)
 
             # consider a line as a transaction when it begins with date
-            date_found = dateparser.parse(groups[0], languages=LANGUAGES)
+            date_found = parse_date(groups[0])
             if date_found:
                 description_end_index = -1
                 if '$' in groups:
