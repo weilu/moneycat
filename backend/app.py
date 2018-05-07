@@ -95,16 +95,8 @@ def reservior_sampling(sample_size, new_data,
     return (samples, remaining_indexes)
 
 
-def dataframe_as_response(df, form_data):
-    if 'format' in form_data:
-        fmt = form_data['format']
-        payload_format = fmt if isinstance(fmt, str) else fmt[0]
-        if hasattr(payload_format, 'decode'): # in case of raw body
-            payload_format = payload_format.decode("utf-8")
-    else:
-        payload_format = 'csv'
-
-    if payload_format == 'json':
+def dataframe_as_response(df, accept_header):
+    if accept_header and 'application/json' in accept_header:
         return df.to_json(orient='records')
     else: # default to csv on unknown format
         return df.to_csv()
@@ -148,7 +140,7 @@ def upload():
     categories = label_transformer.inverse_transform(pred)
     df['category'] = categories
 
-    return dataframe_as_response(df, form_data)
+    return dataframe_as_response(df, app.current_request.headers['accept'])
 
 
 @app.route('/confirm', methods=['POST'],
@@ -181,7 +173,7 @@ def confirm():
 def transactions(uuid):
     files = s3.list_objects(Bucket=CSV_BUCKET, Prefix=uuid)['Contents']
     df = s3_csvs_to_df(files)
-    return dataframe_as_response(df, app.current_request.query_params)
+    return dataframe_as_response(df, app.current_request.headers['accept'])
 
 
 @app.route('/refresh-model', methods=['GET'])
