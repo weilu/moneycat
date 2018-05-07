@@ -110,7 +110,6 @@ def upload():
     s3.upload_file(filename, PDF_BUCKET, key_name)
 
     # parse
-    # TODO: parsing is slow, need to improve performance
     output = io.StringIO()
     csv_writer = csv.writer(output)
     csv_writer.writerow(['date', 'description', 'amount', 'foreign_amount',
