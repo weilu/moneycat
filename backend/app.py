@@ -95,10 +95,22 @@ def reservior_sampling(sample_size, new_data,
     return (samples, remaining_indexes)
 
 
+def dataframe_as_response(df, accept_header):
+    if accept_header and 'application/json' in accept_header:
+        payload = df.to_json(orient='records')
+        content_type = 'application/json'
+    else: # default to csv on unknown format
+        payload = df.to_csv()
+        content_type = 'text/csv'
+
+    return Response(body=payload, headers={'Content-Type': content_type})
+
+
 @app.route('/upload', methods=['POST'],
            content_types=['multipart/form-data'], cors=True)
 def upload():
-    form_file = get_multipart_data()['file'][0]
+    form_data = get_multipart_data()
+    form_file = form_data['file'][0]
 
     with NamedTemporaryFile(mode='wb', suffix='.pdf', delete=False) as f:
         filename = f.name
@@ -132,7 +144,7 @@ def upload():
     categories = label_transformer.inverse_transform(pred)
     df['category'] = categories
 
-    return df.to_csv()
+    return dataframe_as_response(df, app.current_request.headers['accept'])
 
 
 @app.route('/confirm', methods=['POST'],
@@ -165,7 +177,7 @@ def confirm():
 def transactions(uuid):
     files = s3.list_objects(Bucket=CSV_BUCKET, Prefix=uuid)['Contents']
     df = s3_csvs_to_df(files)
-    return df.to_csv()
+    return dataframe_as_response(df, app.current_request.headers['accept'])
 
 
 @app.route('/refresh-model', methods=['GET'])
