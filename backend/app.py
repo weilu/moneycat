@@ -97,9 +97,13 @@ def reservior_sampling(sample_size, new_data,
 
 def dataframe_as_response(df, accept_header):
     if accept_header and 'application/json' in accept_header:
-        return df.to_json(orient='records')
+        payload = df.to_json(orient='records')
+        content_type = 'application/json'
     else: # default to csv on unknown format
-        return df.to_csv()
+        payload = df.to_csv()
+        content_type = 'text/csv'
+
+    return Response(body=payload, headers={'Content-Type': content_type})
 
 
 @app.route('/upload', methods=['POST'],
