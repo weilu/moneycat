@@ -4,9 +4,10 @@ import io
 import difflib
 import os
 import time
+from datetime import datetime
 from glob import glob
 from pprint import pprint
-from pdftotxt import process_pdf
+from pdftotxt import process_pdf, parse_transaction_date
 
 SUPPORTED_BANKS = ['dbs', 'uob', 'ocbc', 'anz']
 
@@ -26,6 +27,15 @@ class TestPdftotxt(unittest.TestCase):
                 actual = f.readlines()
                 self.assertFalse(diff(expected, actual))
 
+
+    def test_parse_transaction_date(self):
+        statement_date = datetime(2016, 4, 1)
+        date = parse_transaction_date('24/03', statement_date)
+        self.assertEqual(date, '2016-03-24')
+
+        statement_date = datetime(2018, 1, 1)
+        date = parse_transaction_date('24/12', statement_date)
+        self.assertEqual(date, '2017-12-24')
 
 def diff(a, b):
     stripped_a = list(map(str.strip, a))
