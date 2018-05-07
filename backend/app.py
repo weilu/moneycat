@@ -95,10 +95,26 @@ def reservior_sampling(sample_size, new_data,
     return (samples, remaining_indexes)
 
 
+def dataframe_as_response(df, form_data):
+    if 'format' in form_data:
+        fmt = form_data['format']
+        payload_format = fmt if isinstance(fmt, str) else fmt[0]
+        if hasattr(payload_format, 'decode'): # in case of raw body
+            payload_format = payload_format.decode("utf-8")
+    else:
+        payload_format = 'csv'
+
+    if payload_format == 'json':
+        return df.to_json(orient='records')
+    else: # default to csv on unknown format
+        return df.to_csv()
+
+
 @app.route('/upload', methods=['POST'],
            content_types=['multipart/form-data'], cors=True)
 def upload():
-    form_file = get_multipart_data()['file'][0]
+    form_data = get_multipart_data()
+    form_file = form_data['file'][0]
 
     with NamedTemporaryFile(mode='wb', suffix='.pdf', delete=False) as f:
         filename = f.name
@@ -132,7 +148,7 @@ def upload():
     categories = label_transformer.inverse_transform(pred)
     df['category'] = categories
 
-    return df.to_csv()
+    return dataframe_as_response(df, form_data)
 
 
 @app.route('/confirm', methods=['POST'],
@@ -165,7 +181,7 @@ def confirm():
 def transactions(uuid):
     files = s3.list_objects(Bucket=CSV_BUCKET, Prefix=uuid)['Contents']
     df = s3_csvs_to_df(files)
-    return df.to_csv()
+    return dataframe_as_response(df, app.current_request.query_params)
 
 
 @app.route('/refresh-model', methods=['GET'])
