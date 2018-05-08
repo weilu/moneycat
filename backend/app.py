@@ -111,6 +111,7 @@ def dataframe_as_response(df, accept_header):
 def upload():
     form_data = get_multipart_data()
     form_file = form_data['file'][0]
+    password = form_data['password'][0] if 'password' in form_data else None
 
     with NamedTemporaryFile(mode='wb', suffix='.pdf', delete=False) as f:
         filename = f.name
@@ -127,12 +128,17 @@ def upload():
     csv_writer.writerow(['date', 'description', 'amount', 'foreign_amount',
                          'statement_date'])
     app.log.debug('start parsing pdf')
-    pdftotxt.process_pdf(filename, csv_writer,
-                pdftotxt_bin=os.path.join(BIN_DIR, 'pdftotext'),
-                include_source=False,
-                env=dict(LD_LIBRARY_PATH=LIB_DIR))
-    app.log.debug('done parsing pdf')
-    os.remove(filename)
+    try:
+        pdftotxt.process_pdf(filename, csv_writer,
+                    pdftotxt_bin=os.path.join(BIN_DIR, 'pdftotext'),
+                    include_source=False,
+                    password=password,
+                    env=dict(LD_LIBRARY_PATH=LIB_DIR))
+    except RuntimeError as e:
+        return Response(body=e.args[0], status_code=400)
+    finally:
+        app.log.debug('done parsing pdf')
+        os.remove(filename)
 
     # classification
     classifier = get_model(CLASSIFIER_FILENAME)[0]

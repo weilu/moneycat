@@ -13,7 +13,7 @@ API Usage
 ```
 # PDF upload, parse & classification, returns a csv or json
 # Use -H "Accept: application/json" header to control response format
-curl https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/upload -F 'file=@[path/to/file].pdf'
+curl https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/upload -F 'file=@[path/to/file].pdf' -F 'password=[pdf password]'
 
 # CSV upload, after user reviews & confirms parse & classification results
 curl -v https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/confirm -X POST -d 'uuid=[uuid]' -d 'file=@[path/to/file].csv'
