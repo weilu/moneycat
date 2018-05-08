@@ -37,6 +37,25 @@ class TestPdftotxt(unittest.TestCase):
         date = parse_transaction_date('24/12', statement_date)
         self.assertEqual(date, '2017-12-24')
 
+    def test_process_pdf_with_password(self):
+        with open(f'data/uob.csv') as ef:
+            expected = list(map(lambda line: line.replace('uob.pdf',
+                                'uob_password.pdf'), ef.readlines()))
+        with io.StringIO() as f:
+            csv_writer = csv.writer(f)
+            process_pdf(f'./data/uob_password.pdf', csv_writer, password='123abc')
+            f.seek(0)
+            actual = f.readlines()
+            self.assertFalse(diff(expected, actual))
+
+    def test_process_pdf_with_wrong_password(self):
+        with io.StringIO() as f:
+            csv_writer = csv.writer(f)
+            with self.assertRaises(RuntimeError) as ex:
+                process_pdf(f'./data/uob_password.pdf', csv_writer, password='123')
+            self.assertEqual(ex.exception.args[0], 'Incorrect password')
+
+
 def diff(a, b):
     stripped_a = list(map(str.strip, a))
     stripped_b = list(map(str.strip, b))

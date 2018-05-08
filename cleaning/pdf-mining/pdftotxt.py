@@ -13,6 +13,7 @@ DATE_CLUES = ['statement date', 'as at']
 CURRENCIES = set([c.code for c in Currency])
 CURRENCY_AMOUNT_REGEX = '({} \d+[\.|,|\d]*\d+)'
 LANGUAGES = ['en']
+INCORRECT_PWD = 'Incorrect password'
 
 
 def parse_statement_date(line, iterator):
@@ -123,10 +124,16 @@ def process_pdf(filename, csv_writer, pdftotxt_bin='pdftotext',
         command = [pdftotxt_bin, '-layout', '-upw', password, filename, '-']
     else:
         command = [pdftotxt_bin, '-layout', filename, '-']
-    result = subprocess.run(command, stdout=subprocess.PIPE, **kwargs)
-    lines = result.stdout.decode('utf-8').split('\n')
-    statement_date = None
-    process_line(iter(lines), statement_date)
+    try:
+        result = subprocess.check_output(command, stderr=subprocess.PIPE, **kwargs)
+        lines = result.decode('utf-8').split('\n')
+        statement_date = None
+        process_line(iter(lines), statement_date)
+    except subprocess.CalledProcessError as grepexc:
+        err = grepexc.stderr.decode('utf-8')
+        if INCORRECT_PWD in err:
+            raise RuntimeError(INCORRECT_PWD)
+        print("error code", grepexc.returncode, err)
 
 
 if __name__ == '__main__':
