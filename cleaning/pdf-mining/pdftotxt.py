@@ -79,7 +79,7 @@ def peek_forward_for_currency(iterator, max_lines=2):
 
 
 def process_pdf(filename, csv_writer, pdftotxt_bin='pdftotext',
-                include_source=True, **kwargs):
+                include_source=True, password=None, **kwargs):
 
     # recursive fn
     def process_line(iterator, statement_date):
@@ -119,8 +119,11 @@ def process_pdf(filename, csv_writer, pdftotxt_bin='pdftotext',
             pass
 
     print(filename)
-    result = subprocess.run([pdftotxt_bin, '-layout', filename, '-'],
-                            stdout=subprocess.PIPE, **kwargs)
+    if password:
+        command = [pdftotxt_bin, '-layout', '-upw', password, filename, '-']
+    else:
+        command = [pdftotxt_bin, '-layout', filename, '-']
+    result = subprocess.run(command, stdout=subprocess.PIPE, **kwargs)
     lines = result.stdout.decode('utf-8').split('\n')
     statement_date = None
     process_line(iter(lines), statement_date)
