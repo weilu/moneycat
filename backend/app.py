@@ -40,6 +40,8 @@ CSV_BUCKET = 'cs4225-bank-csvs'
 MODEL_BUCKET = 'cs4225-models'
 CLASSIFIER_FILENAME = "svm_classifier.pkl"
 META_FILENAME = 'meta.pkl'
+DYNAMODB_NAME = 'moneycat-dev'
+
 s3 = boto3.client('s3')
 dynamodb = boto3.client('dynamodb')
 
@@ -188,7 +190,7 @@ def batch_tx_writes(uuid, tx_df):
 
         requests.append({"PutRequest": { "Item": item}})
         if len(requests) == 25:
-            request = {"moneycat-dev": requests }
+            request = {DYNAMODB_NAME: requests }
             response = dynamodb.batch_write_item(RequestItems=request,
                     ReturnConsumedCapacity='TOTAL')
             print(response)
@@ -238,8 +240,25 @@ def confirm():
 
 @app.route('/transactions/{uuid}', methods=['GET'], cors=True)
 def transactions(uuid):
-    files = s3.list_objects(Bucket=CSV_BUCKET, Prefix=uuid)['Contents']
-    df = s3_csvs_to_df(files)
+    response = dynamodb.query(TableName=DYNAMODB_NAME,
+            ExpressionAttributeNames={'#uuid': 'uuid'},
+            KeyConditionExpression='#uuid = :uuid_val',
+            ExpressionAttributeValues={':uuid_val': {'S': uuid}})
+    df = pd.DataFrame.from_dict(response['Items'])
+    if not df.empty:
+        df.drop(columns=['txid', 'uuid'], inplace=True)
+
+        def convert_dynamo_data_type(type_value):
+            if pd.isnull(type_value):
+                return type_value
+            key = list(type_value.keys())[0]
+            value = type_value[key]
+            if 'N' == key:
+                return float(value)
+            else:
+                return value
+        df = df.applymap(convert_dynamo_data_type)
+
     return dataframe_as_response(df, app.current_request.headers['accept'])
 
 
