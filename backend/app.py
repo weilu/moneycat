@@ -41,6 +41,7 @@ MODEL_BUCKET = 'cs4225-models'
 CLASSIFIER_FILENAME = "svm_classifier.pkl"
 META_FILENAME = 'meta.pkl'
 s3 = boto3.client('s3')
+dynamodb = boto3.client('dynamodb')
 
 AUTH_ARN = 'arn:aws:cognito-idp:ap-southeast-1:674060739848:userpool/ap-southeast-1_DtDvWZFmc'
 authorizer = CognitoUserPoolAuthorizer('MoneyCat', provider_arns=[AUTH_ARN])
@@ -156,6 +157,44 @@ def upload():
     return dataframe_as_response(df, app.current_request.headers['accept'])
 
 
+def batch_tx_writes(uuid, tx_df):
+    requests = []
+    for index, row in tx_df.iterrows():
+        item = {
+          "uuid": {
+            "S": uuid
+          },
+          "txid": {
+            "S": row['date'] + '-' + format(index, '04')
+          },
+          "date": {
+            "S": row['date']
+          },
+          "description": {
+            "S": row['description']
+          },
+          "amount": {
+            "N": str(row['amount'])
+          },
+          "statement_date": {
+            "S": row['statement_date']
+          },
+          "category": {
+            "S": row['category']
+          },
+        }
+        if not pd.isnull(row['foreign_amount']):
+            item["foreign_amount"] = { "S": row['foreign_amount'] }
+
+        requests.append({"PutRequest": { "Item": item}})
+        if len(requests) == 25:
+            request = {"moneycat-dev": requests }
+            response = dynamodb.batch_write_item(RequestItems=request,
+                    ReturnConsumedCapacity='TOTAL')
+            print(response)
+            requests = [] # reset requests buffer for next batch
+
+
 @app.route('/confirm', methods=['POST'],
            content_types=['application/x-www-form-urlencoded'], cors=True)
 def confirm():
@@ -169,15 +208,10 @@ def confirm():
         return Response(body='Invalid uuid {} or file {}'.format(uuid, form_file),
                         status_code=400)
 
-    with NamedTemporaryFile(mode='w', suffix='.csv', delete=False) as f:
-        filename = f.name
-        f.write(form_file)
-
-    # upload to s3
-    key_name = "{}/{}".format(uuid, os.path.basename(filename))
-    app.log.debug('uploading {} to s3'.format(key_name))
-    s3.upload_file(filename, CSV_BUCKET, key_name)
-    os.remove(filename)
+    # update dynamoDB
+    csv_io = io.StringIO(form_file)
+    df = pd.read_csv(csv_io, index_col=False)
+    batch_tx_writes(uuid, df)
 
     return Response(body='', status_code=201)
 
