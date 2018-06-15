@@ -1,4 +1,4 @@
-from chalice import Chalice, CORSConfig, Response
+from chalice import Chalice, CORSConfig, Response, CognitoUserPoolAuthorizer
 import subprocess
 import os
 import io
@@ -41,6 +41,9 @@ MODEL_BUCKET = 'cs4225-models'
 CLASSIFIER_FILENAME = "svm_classifier.pkl"
 META_FILENAME = 'meta.pkl'
 s3 = boto3.client('s3')
+
+AUTH_ARN = 'arn:aws:cognito-idp:ap-southeast-1:674060739848:userpool/ap-southeast-1_DtDvWZFmc'
+authorizer = CognitoUserPoolAuthorizer('MoneyCat', provider_arns=[AUTH_ARN])
 
 
 def get_multipart_data():
@@ -256,4 +259,9 @@ def refresh_model():
 
     msg = 'New model improved accuracy from {} to {}'.format(score_before, score_after)
     return Response(body=msg, status_code=201)
+
+
+@app.route('/testauth', methods=['GET'], cors=True, authorizer=authorizer)
+def testauth():
+    return {"success": True}
 
