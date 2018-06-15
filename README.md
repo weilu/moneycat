@@ -16,7 +16,7 @@ API Usage
 curl https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/upload -F 'file=@[path/to/file].pdf' -F 'password=[pdf password]'
 
 # CSV upload, after user reviews & confirms parse & classification results
-curl -v https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/confirm -X POST -d 'uuid=[uuid]' -d 'file=@[path/to/file].csv'
+curl -v https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/confirm -X POST -d 'uuid=[uuid]' -data-urlencode 'file@[path/to/file].csv'
 
 # User transaction data fetch, returns a csv or json of all transaction data for the given uuid
 # Use -H "Accept: application/json" header to control response format
