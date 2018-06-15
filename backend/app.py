@@ -182,6 +182,26 @@ def confirm():
     return Response(body='', status_code=201)
 
 
+@app.route('/update', methods=['POST'],
+           content_types=['application/x-www-form-urlencoded'], cors=True)
+def confirm():
+    form_data = parse_qs(app.current_request.raw_body.decode())
+    if 'description' not in form_data or 'category' not in form_data or 'uuid' not in form_data:
+        return Response(body='Required form fields: description, category and uuid must be present',
+                        status_code=400)
+    description = form_data['description'][0]
+    category = form_data['category'][0]
+    uuid = form_data['uuid'][0]
+    if not uuid or not description or not category:
+        return Response(body='Invalid uuid {} or description {} or category {}'\
+                .format(uuid, description, category), status_code=400)
+
+    files = s3.list_objects(Bucket=CSV_BUCKET, Prefix=uuid)['Contents']
+    # TODO update every file
+
+    return Response(body='', status_code=201)
+
+
 @app.route('/transactions/{uuid}', methods=['GET'], cors=True)
 def transactions(uuid):
     files = s3.list_objects(Bucket=CSV_BUCKET, Prefix=uuid)['Contents']
