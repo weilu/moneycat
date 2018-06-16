@@ -14,7 +14,7 @@ from sklearn.externals import joblib
 from sklearn import metrics
 import pandas as pd
 import random
-
+from dateparser.search import search_dates
 
 # TODO: stricter cors rules
 # cors_config = CORSConfig(
@@ -239,7 +239,11 @@ def confirm():
         return Response(body='Invalid uuid {} or description {} or category {}'\
                 .format(uuid, description, category), status_code=400)
 
-    # TODO remove date from description
+    # remove dates from description to maximize description matching
+    date_strings = [pair[0] for pair in search_dates(description, languages=['en'])]
+    for date in date_strings:
+        description = description.replace(date, '')
+
     # TODO validate category, later
     query_params = query_by_uuid_param(uuid)
     query_params['FilterExpression'] = 'contains(description, :des_value)'
