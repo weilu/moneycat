@@ -110,7 +110,8 @@ def dataframe_as_response(df, accept_header):
 
 
 @app.route('/upload', methods=['POST'],
-           content_types=['multipart/form-data'], cors=True)
+           content_types=['multipart/form-data'], cors=True,
+           authorizer=authorizer)
 def upload():
     form_data = get_multipart_data()
     form_file = form_data['file'][0]
@@ -157,7 +158,8 @@ def upload():
 
 
 @app.route('/confirm', methods=['POST'],
-           content_types=['application/x-www-form-urlencoded'], cors=True)
+           content_types=['application/x-www-form-urlencoded'], cors=True,
+           authorizer=authorizer)
 def confirm():
     form_data = parse_qs(app.current_request.raw_body.decode())
     if 'file' not in form_data or 'uuid' not in form_data:
@@ -182,7 +184,8 @@ def confirm():
     return Response(body='', status_code=201)
 
 
-@app.route('/transactions/{uuid}', methods=['GET'], cors=True)
+@app.route('/transactions/{uuid}', methods=['GET'], cors=True,
+           authorizer=authorizer)
 def transactions(uuid):
     files = s3.list_objects(Bucket=CSV_BUCKET, Prefix=uuid)['Contents']
     df = s3_csvs_to_df(files)
@@ -259,9 +262,4 @@ def refresh_model():
 
     msg = 'New model improved accuracy from {} to {}'.format(score_before, score_after)
     return Response(body=msg, status_code=201)
-
-
-@app.route('/testauth', methods=['GET'], cors=True, authorizer=authorizer)
-def testauth():
-    return {"success": True}
 
