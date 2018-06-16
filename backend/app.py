@@ -162,13 +162,12 @@ def upload():
            authorizer=authorizer)
 def confirm():
     form_data = parse_qs(app.current_request.raw_body.decode())
-    if 'file' not in form_data or 'uuid' not in form_data:
-        return Response(body='Both file and uuid must be present',
-                        status_code=400)
+    if 'file' not in form_data:
+        return Response(body='file must be present', status_code=400)
     form_file = form_data['file'][0]
-    uuid = form_data['uuid'][0]
-    if not uuid or not form_file:
-        return Response(body='Invalid uuid {} or file {}'.format(uuid, form_file),
+    uuid = get_current_user_email()
+    if not form_file:
+        return Response(body='Invalid file {}'.format(form_file),
                         status_code=400)
 
     with NamedTemporaryFile(mode='w', suffix='.csv', delete=False) as f:
@@ -184,9 +183,10 @@ def confirm():
     return Response(body='', status_code=201)
 
 
-@app.route('/transactions/{uuid}', methods=['GET'], cors=True,
+@app.route('/transactions', methods=['GET'], cors=True,
            authorizer=authorizer)
-def transactions(uuid):
+def transactions():
+    uuid = get_current_user_email()
     files = s3.list_objects(Bucket=CSV_BUCKET, Prefix=uuid)['Contents']
     df = s3_csvs_to_df(files)
     return dataframe_as_response(df, app.current_request.headers['accept'])
@@ -263,3 +263,7 @@ def refresh_model():
     msg = 'New model improved accuracy from {} to {}'.format(score_before, score_after)
     return Response(body=msg, status_code=201)
 
+
+def get_current_user_email():
+    req_context = app.current_request.context
+    return req_context['authorizer']['claims']['email']
