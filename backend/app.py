@@ -49,6 +49,13 @@ AUTH_ARN = 'arn:aws:cognito-idp:ap-southeast-1:674060739848:userpool/ap-southeas
 authorizer = CognitoUserPoolAuthorizer('MoneyCat', provider_arns=[AUTH_ARN])
 
 
+def query_by_uuid_param(uuid):
+    return {'TableName': DYNAMODB_NAME,
+            'ExpressionAttributeNames': {'#uuid': 'uuid'},
+            'KeyConditionExpression': '#uuid = :uuid_val',
+            'ExpressionAttributeValues': {':uuid_val': {'S': uuid}}}
+
+
 def get_multipart_data():
     content_type_obj = app.current_request.headers['content-type']
     content_type, property_dict = cgi.parse_header(content_type_obj)
@@ -232,18 +239,29 @@ def confirm():
         return Response(body='Invalid uuid {} or description {} or category {}'\
                 .format(uuid, description, category), status_code=400)
 
-    files = s3.list_objects(Bucket=CSV_BUCKET, Prefix=uuid)['Contents']
-    # TODO update every file
+    # TODO remove date from description
+    # TODO validate category, later
+    query_params = query_by_uuid_param(uuid)
+    query_params['FilterExpression'] = 'contains(description, :des_value)'
+    query_params['ExpressionAttributeValues'][':des_value'] = {'S': description}
+    response = dynamodb.query(**query_params)
+    items = response['Items']
+    for tx in items:
+        key_params = {k: v for k, v in tx.items() if k in ['uuid', 'txid']}
+        update_params = {'TableName': DYNAMODB_NAME,
+                'Key': key_params,
+                'UpdateExpression': 'SET category = :new_cat_value',
+                'ExpressionAttributeValues': {':new_cat_value': {'S': category}},
+                'ReturnValues': 'UPDATED_NEW'}
+        update_response = dynamodb.update_item(**update_params)
+        print(update_response) # TODO handle failure & partial success cases
 
-    return Response(body='', status_code=201)
+    return Response(body='Updated {} transactions'.format(len(items)), status_code=200)
 
 
 @app.route('/transactions/{uuid}', methods=['GET'], cors=True)
 def transactions(uuid):
-    response = dynamodb.query(TableName=DYNAMODB_NAME,
-            ExpressionAttributeNames={'#uuid': 'uuid'},
-            KeyConditionExpression='#uuid = :uuid_val',
-            ExpressionAttributeValues={':uuid_val': {'S': uuid}})
+    response = dynamodb.query(**query_by_uuid_param(uuid))
     df = pd.DataFrame.from_dict(response['Items'])
     if not df.empty:
         df.drop(columns=['txid', 'uuid'], inplace=True)
