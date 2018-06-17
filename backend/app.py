@@ -15,6 +15,7 @@ from sklearn import metrics
 import pandas as pd
 import random
 from dateparser.search import search_dates
+from datetime import datetime
 
 # TODO: stricter cors rules
 # cors_config = CORSConfig(
@@ -167,13 +168,14 @@ def upload():
 
 
 def batch_tx_writes(uuid, tx_df):
+    updated_at = str(datetime.utcnow())
     requests = []
     for index, row in tx_df.iterrows():
         item = {
           "uuid": {
             "S": uuid
           },
-          "txid": {
+          "txid": { # bad, doesn't allow for statements from multiple banks to have the same transaction date
             "S": row['date'] + '-' + format(index, '04')
           },
           "date": {
@@ -190,6 +192,9 @@ def batch_tx_writes(uuid, tx_df):
           },
           "category": {
             "S": row['category']
+          },
+          "updated_at": {
+            "S": updated_at
           },
         }
         if not pd.isnull(row['foreign_amount']):
@@ -227,7 +232,7 @@ def confirm():
 
 @app.route('/update', methods=['POST'],
            content_types=['application/x-www-form-urlencoded'], cors=True)
-def confirm():
+def update():
     form_data = parse_qs(app.current_request.raw_body.decode())
     if 'description' not in form_data or 'category' not in form_data or 'uuid' not in form_data:
         return Response(body='Required form fields: description, category and uuid must be present',
@@ -250,12 +255,16 @@ def confirm():
     query_params['ExpressionAttributeValues'][':des_value'] = {'S': description}
     response = dynamodb.query(**query_params)
     items = response['Items']
+    updated_at = str(datetime.utcnow())
     for tx in items:
         key_params = {k: v for k, v in tx.items() if k in ['uuid', 'txid']}
         update_params = {'TableName': DYNAMODB_NAME,
                 'Key': key_params,
-                'UpdateExpression': 'SET category = :new_cat_value',
-                'ExpressionAttributeValues': {':new_cat_value': {'S': category}},
+                'UpdateExpression': 'SET category = :new_cat_value, updated_at = :updated_at',
+                'ExpressionAttributeValues': {
+                    ':new_cat_value': {'S': category},
+                    ':updated_at': {'S': updated_at}
+                },
                 'ReturnValues': 'UPDATED_NEW'}
         update_response = dynamodb.update_item(**update_params)
         print(update_response) # TODO handle failure & partial success cases
