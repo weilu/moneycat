@@ -55,6 +55,11 @@ class TestPdftotxt(unittest.TestCase):
                 process_pdf(f'./data/uob_password.pdf', csv_writer, password='123')
             self.assertEqual(ex.exception.args[0], 'Incorrect password')
 
+    def test_process_pdf_returns_content_hash(self):
+        with io.StringIO() as f:
+            csv_writer = csv.writer(f)
+            content_hash = process_pdf(f'./data/uob.pdf', csv_writer)
+        self.assertEqual(content_hash, '92dd267e7cbccf0824e55b9fd88175ee52f8e5b7')
 
 def diff(a, b):
     stripped_a = list(map(str.strip, a))

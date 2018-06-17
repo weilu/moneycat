@@ -7,6 +7,7 @@ from iso4217 import Currency
 from itertools import tee
 from os import path
 import logging
+import hashlib
 
 
 DATE_CLUES = ['statement date', 'as at']
@@ -126,6 +127,7 @@ def process_pdf(filename, csv_writer, pdftotxt_bin='pdftotext',
         command = [pdftotxt_bin, '-layout', filename, '-']
     try:
         result = subprocess.check_output(command, stderr=subprocess.PIPE, **kwargs)
+        content_hash = hashlib.sha1(result).hexdigest()
         lines = result.decode('utf-8').split('\n')
         statement_date = None
         process_line(iter(lines), statement_date)
@@ -134,6 +136,7 @@ def process_pdf(filename, csv_writer, pdftotxt_bin='pdftotext',
         if INCORRECT_PWD in err:
             raise RuntimeError(INCORRECT_PWD)
         print("error code", grepexc.returncode, err)
+    return content_hash
 
 
 if __name__ == '__main__':
