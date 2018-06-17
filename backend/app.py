@@ -16,6 +16,7 @@ import pandas as pd
 import random
 from dateparser.search import search_dates
 from datetime import datetime
+import hashlib
 
 # TODO: stricter cors rules
 # cors_config = CORSConfig(
@@ -168,6 +169,9 @@ def upload():
 
 
 def batch_tx_writes(uuid, tx_df):
+    # ignore category as the same transaction may be classified differently by different models
+    content = tx_df.drop(columns=['category']).to_csv()
+    content_hash = hashlib.sha1(content.encode('utf-8')).hexdigest()
     updated_at = str(datetime.utcnow())
     requests = []
     for index, row in tx_df.iterrows():
@@ -175,8 +179,8 @@ def batch_tx_writes(uuid, tx_df):
           "uuid": {
             "S": uuid
           },
-          "txid": { # bad, doesn't allow for statements from multiple banks to have the same transaction date
-            "S": row['date'] + '-' + format(index, '04')
+          "txid": {
+            "S": row['date'] + '-' + content_hash + '-' + format(index, '04')
           },
           "date": {
             "S": row['date']
