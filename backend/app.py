@@ -281,7 +281,7 @@ def transactions(uuid):
     response = dynamodb.query(**query_by_uuid_param(uuid))
     df = pd.DataFrame.from_dict(response['Items'])
     if not df.empty:
-        df.drop(columns=['txid', 'uuid'], inplace=True)
+        df.drop(columns=['txid', 'uuid', 'updated_at'], inplace=True)
 
         def convert_dynamo_data_type(type_value):
             if pd.isnull(type_value):
