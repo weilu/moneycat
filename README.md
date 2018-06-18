@@ -22,6 +22,10 @@ curl -v https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/confirm 
 # Use -H "Accept: application/json" header to control response format
 curl https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/transactions -H 'Authorization: [jwtToken]'
 
+# Update category for a given transaction description and user, auth required
+# This will affect all transactions that matches the given description, for the given user
+curl -v https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/transactions -X POST -d 'description=[tx description]' -d 'category=[category]' -H 'Authorization: [jwtToken]'
+
 # Refresh model with new csv data
 curl -v https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/refresh-model
 ```
