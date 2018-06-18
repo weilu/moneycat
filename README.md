@@ -15,7 +15,8 @@ API Usage
 # Use -H "Accept: application/json" header to control response format
 curl https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/upload -F 'file=@[path/to/file].pdf' -F 'password=[pdf password]' -H 'Authorization: [jwtToken]'
 
-# CSV upload, after user reviews & confirms parse & classification results, auth required
+# CSV or JSON upload, after user reviews & confirms parse & classification results, auth required
+# Use -H "Accept: application/json" header to indicate the request payload format
 curl -v https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/confirm -X POST --data-urlencode 'file@[path/to/file].csv' -H 'Authorization: [jwtToken]'
 
 # User transaction data fetch, returns a csv or json of all transaction data for the given user, auth required

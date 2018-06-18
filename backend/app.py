@@ -231,8 +231,12 @@ def confirm():
                         status_code=400)
 
     # update dynamoDB
-    csv_io = io.StringIO(form_file)
-    df = pd.read_csv(csv_io, index_col=False)
+    file_io = io.StringIO(form_file)
+    accept_header = app.current_request.headers['accept']
+    if accept_header and 'application/json' in accept_header:
+        df = pd.read_json(file_io, orient='records', convert_dates=False)
+    else:
+        df = pd.read_csv(file_io, index_col=False)
     batch_tx_writes(uuid, df)
 
     return Response(body='', status_code=201)
