@@ -4,13 +4,25 @@
     {
       "Effect": "Allow",
       "Action": [
-        "s3:GetObject",
-        "s3:ListBucket"
+        "dynamodb:BatchWriteItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
       ],
       "Resource": [
         "*"
       ],
-      "Sid": "03b0287f50174c8e86cfa0e9f0870270"
+      "Sid": "3fe66d602df448279caad4cd7173e1c8"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Resource": [
+        "*"
+      ],
+      "Sid": "26b92decb9d0458f8d613ac334ebf2fc"
     },
     {
       "Effect": "Allow",
