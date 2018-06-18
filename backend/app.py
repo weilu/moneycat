@@ -252,13 +252,13 @@ def update():
         return Response(body='Invalid description {} or category {}'\
                 .format(description, category), status_code=400)
 
-    uuid = get_current_user_email()
     # remove dates from description to maximize description matching
     date_strings = [pair[0] for pair in search_dates(description, languages=['en'])]
     for date in date_strings:
         description = description.replace(date, '')
-
     # TODO validate category, later
+
+    uuid = get_current_user_email()
     query_params = query_by_uuid_param(uuid)
     query_params['FilterExpression'] = 'contains(description, :des_value)'
     query_params['ExpressionAttributeValues'][':des_value'] = {'S': description}
@@ -292,11 +292,14 @@ def transactions():
 @app.route('/refresh-model', methods=['GET'])
 def refresh_model():
     classifier, model_obj = get_model(CLASSIFIER_FILENAME)
+    # note: LastModified is based on when the model file is last written on s3
+    # using it as query condition may miss transactions written to db while
+    # this function is running. It's not critical.
     get_last_modified = lambda obj: obj['LastModified']
     last_refresh_ts = str(get_last_modified(model_obj))
     last_refresh_ts = last_refresh_ts[0:last_refresh_ts.index('+')]
     response = dynamodb.scan(TableName=DYNAMODB_NAME,
-      FilterExpression='updated_at > :updated_at_val',
+      FilterExpression='updated_at >= :updated_at_val',
       ExpressionAttributeValues={':updated_at_val': {'S': last_refresh_ts}})
     df = dynamodb_response_to_df(response)
 
