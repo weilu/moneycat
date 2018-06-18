@@ -125,7 +125,8 @@ def dataframe_as_response(df, accept_header):
 
 
 @app.route('/upload', methods=['POST'],
-           content_types=['multipart/form-data'], cors=True)
+           content_types=['multipart/form-data'], cors=True,
+           authorizer=authorizer)
 def upload():
     form_data = get_multipart_data()
     form_file = form_data['file'][0]
@@ -217,16 +218,16 @@ def batch_tx_writes(uuid, tx_df):
 
 
 @app.route('/confirm', methods=['POST'],
-           content_types=['application/x-www-form-urlencoded'], cors=True)
+           content_types=['application/x-www-form-urlencoded'], cors=True,
+           authorizer=authorizer)
 def confirm():
     form_data = parse_qs(app.current_request.raw_body.decode())
-    if 'file' not in form_data or 'uuid' not in form_data:
-        return Response(body='Both file and uuid must be present',
-                        status_code=400)
+    if 'file' not in form_data:
+        return Response(body='file must be present', status_code=400)
     form_file = form_data['file'][0]
-    uuid = form_data['uuid'][0]
-    if not uuid or not form_file:
-        return Response(body='Invalid uuid {} or file {}'.format(uuid, form_file),
+    uuid = get_current_user_email()
+    if not form_file:
+        return Response(body='Invalid file {}'.format(form_file),
                         status_code=400)
 
     # update dynamoDB
@@ -238,19 +239,20 @@ def confirm():
 
 
 @app.route('/update', methods=['POST'],
-           content_types=['application/x-www-form-urlencoded'], cors=True)
+           content_types=['application/x-www-form-urlencoded'], cors=True,
+           authorizer=authorizer)
 def update():
     form_data = parse_qs(app.current_request.raw_body.decode())
-    if 'description' not in form_data or 'category' not in form_data or 'uuid' not in form_data:
-        return Response(body='Required form fields: description, category and uuid must be present',
+    if 'description' not in form_data or 'category' not in form_data:
+        return Response(body='Required form fields: description and category must be present',
                         status_code=400)
     description = form_data['description'][0]
     category = form_data['category'][0]
-    uuid = form_data['uuid'][0]
-    if not uuid or not description or not category:
-        return Response(body='Invalid uuid {} or description {} or category {}'\
-                .format(uuid, description, category), status_code=400)
+    if not description or not category:
+        return Response(body='Invalid description {} or category {}'\
+                .format(description, category), status_code=400)
 
+    uuid = get_current_user_email()
     # remove dates from description to maximize description matching
     date_strings = [pair[0] for pair in search_dates(description, languages=['en'])]
     for date in date_strings:
@@ -279,8 +281,9 @@ def update():
     return Response(body='Updated {} transactions'.format(len(items)), status_code=200)
 
 
-@app.route('/transactions/{uuid}', methods=['GET'], cors=True)
-def transactions(uuid):
+@app.route('/transactions', methods=['GET'], cors=True, authorizer=authorizer)
+def transactions():
+    uuid = get_current_user_email()
     response = dynamodb.query(**query_by_uuid_param(uuid))
     df = dynamodb_response_to_df(response)
     return dataframe_as_response(df, app.current_request.headers['accept'])
@@ -344,7 +347,6 @@ def refresh_model():
     return Response(body=msg, status_code=201)
 
 
-@app.route('/testauth', methods=['GET'], cors=True, authorizer=authorizer)
-def testauth():
-    return {"success": True}
-
+def get_current_user_email():
+    req_context = app.current_request.context
+    return req_context['authorizer']['claims']['email']

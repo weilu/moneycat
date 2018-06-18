@@ -11,16 +11,16 @@ CS4225 project: Automatic Personal Bank Transaction Extraction &amp; Categorizat
 API Usage
 
 ```
-# PDF upload, parse & classification, returns a csv or json
+# PDF upload, parse & classification, returns a csv or json, auth required
 # Use -H "Accept: application/json" header to control response format
-curl https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/upload -F 'file=@[path/to/file].pdf' -F 'password=[pdf password]'
+curl https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/upload -F 'file=@[path/to/file].pdf' -F 'password=[pdf password]' -H 'Authorization: [jwtToken]'
 
-# CSV upload, after user reviews & confirms parse & classification results
-curl -v https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/confirm -X POST -d 'uuid=[uuid]' -data-urlencode 'file@[path/to/file].csv'
+# CSV upload, after user reviews & confirms parse & classification results, auth required
+curl -v https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/confirm -X POST --data-urlencode 'file@[path/to/file].csv' -H 'Authorization: [jwtToken]'
 
-# User transaction data fetch, returns a csv or json of all transaction data for the given uuid
+# User transaction data fetch, returns a csv or json of all transaction data for the given user, auth required
 # Use -H "Accept: application/json" header to control response format
-curl https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/transactions/[uuid]
+curl https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/transactions -H 'Authorization: [jwtToken]'
 
 # Refresh model with new csv data
 curl -v https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/refresh-model
