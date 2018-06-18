@@ -75,19 +75,22 @@ def get_model(name):
         return (joblib.load(f), model_obj)
 
 
-def s3_csvs_to_df(files):
-    df = pd.DataFrame()
-    for file_meta in files:
-        print(file_meta['Key'])
-        csv_file = s3.get_object(Bucket=CSV_BUCKET, Key=file_meta['Key'])
-        csv_io = io.StringIO(csv_file['Body'].read().decode('utf-8'))
-        df = df.append(pd.read_csv(csv_io, index_col=False), ignore_index=True)
-        df.drop_duplicates(inplace=True)
-    col_names = list(df.columns.values)
-    if 'date' not in col_names:
-        return pd.DataFrame()
-    start_idx = col_names.index('date')
-    return df[df.columns[start_idx::]]
+def dynamodb_response_to_df(response):
+    df = pd.DataFrame.from_dict(response['Items'])
+    if not df.empty:
+        df.drop(columns=['txid', 'uuid', 'updated_at'], inplace=True)
+
+        def convert_dynamo_data_type(type_value):
+            if pd.isnull(type_value):
+                return type_value
+            key = list(type_value.keys())[0]
+            value = type_value[key]
+            if 'N' == key:
+                return float(value)
+            else:
+                return value
+        df = df.applymap(convert_dynamo_data_type)
+    return df
 
 
 # new_data and existing_samples should be of type pd.DataFrame
@@ -279,21 +282,7 @@ def update():
 @app.route('/transactions/{uuid}', methods=['GET'], cors=True)
 def transactions(uuid):
     response = dynamodb.query(**query_by_uuid_param(uuid))
-    df = pd.DataFrame.from_dict(response['Items'])
-    if not df.empty:
-        df.drop(columns=['txid', 'uuid', 'updated_at'], inplace=True)
-
-        def convert_dynamo_data_type(type_value):
-            if pd.isnull(type_value):
-                return type_value
-            key = list(type_value.keys())[0]
-            value = type_value[key]
-            if 'N' == key:
-                return float(value)
-            else:
-                return value
-        df = df.applymap(convert_dynamo_data_type)
-
+    df = dynamodb_response_to_df(response)
     return dataframe_as_response(df, app.current_request.headers['accept'])
 
 
@@ -301,29 +290,15 @@ def transactions(uuid):
 def refresh_model():
     classifier, model_obj = get_model(CLASSIFIER_FILENAME)
     get_last_modified = lambda obj: obj['LastModified']
-    compare_last_modified = lambda obj: get_last_modified(obj) >= last_refresh_ts
-    last_refresh_ts = get_last_modified(model_obj)
-    files = s3.list_objects(Bucket=CSV_BUCKET)['Contents']
+    last_refresh_ts = str(get_last_modified(model_obj))
+    last_refresh_ts = last_refresh_ts[0:last_refresh_ts.index('+')]
+    response = dynamodb.scan(TableName=DYNAMODB_NAME,
+      FilterExpression='updated_at > :updated_at_val',
+      ExpressionAttributeValues={':updated_at_val': {'S': last_refresh_ts}})
+    df = dynamodb_response_to_df(response)
 
-    # get all CSVs created since last refresh
-    sorted_files = sorted(filter(compare_last_modified, files),
-                          key=get_last_modified, reverse=True)
-
-    # make sure we don't load more than what we can handle in memory
-    size = 0
-    file_metas = []
-    for obj in sorted_files:
-        size += obj['Size']
-        if size > 1000000000: # 1GB
-            app.log.warning('Unprocessed files greater than 1GB! Processing the latest 1GB')
-            break
-        app.log.debug('Updating model with file: {} {} {}'.format(obj['Key'], obj['Size'], obj['LastModified']))
-        file_metas.append(obj)
-
-    if not file_metas: # no new data to update model with
+    if df.empty: # no new data to update model with
         return Response(body='No new data to update model with', status_code=200)
-
-    df = s3_csvs_to_df(file_metas)
 
     label_transformer = get_model("label_transformer.pkl")[0]
     y = label_transformer.transform(df['category'])
