@@ -16,11 +16,15 @@ API Usage
 curl https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/upload -F 'file=@[path/to/file].pdf' -F 'password=[pdf password]' -H 'Authorization: [jwtToken]'
 
 # CSV upload, after user reviews & confirms parse & classification results, auth required
-curl -v https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/confirm -X POST -d 'file=@[path/to/file].csv' -H 'Authorization: [jwtToken]'
+curl -v https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/confirm -X POST --data-urlencode 'file@[path/to/file].csv' -H 'Authorization: [jwtToken]'
 
 # User transaction data fetch, returns a csv or json of all transaction data for the given user, auth required
 # Use -H "Accept: application/json" header to control response format
 curl https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/transactions -H 'Authorization: [jwtToken]'
+
+# Update category for a given transaction description and user, auth required
+# This will affect all transactions that matches the given description, for the given user
+curl -v https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/transactions -X POST -d 'description=[tx description]' -d 'category=[category]' -H 'Authorization: [jwtToken]'
 
 # Refresh model with new csv data
 curl -v https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/refresh-model

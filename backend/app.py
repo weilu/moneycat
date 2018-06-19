@@ -14,7 +14,9 @@ from sklearn.externals import joblib
 from sklearn import metrics
 import pandas as pd
 import random
-
+from dateparser.search import search_dates
+from datetime import datetime
+import hashlib
 
 # TODO: stricter cors rules
 # cors_config = CORSConfig(
@@ -40,10 +42,20 @@ CSV_BUCKET = 'cs4225-bank-csvs'
 MODEL_BUCKET = 'cs4225-models'
 CLASSIFIER_FILENAME = "svm_classifier.pkl"
 META_FILENAME = 'meta.pkl'
+DYNAMODB_NAME = 'moneycat-dev'
+
 s3 = boto3.client('s3')
+dynamodb = boto3.client('dynamodb')
 
 AUTH_ARN = 'arn:aws:cognito-idp:ap-southeast-1:674060739848:userpool/ap-southeast-1_DtDvWZFmc'
 authorizer = CognitoUserPoolAuthorizer('MoneyCat', provider_arns=[AUTH_ARN])
+
+
+def query_by_uuid_param(uuid):
+    return {'TableName': DYNAMODB_NAME,
+            'ExpressionAttributeNames': {'#uuid': 'uuid'},
+            'KeyConditionExpression': '#uuid = :uuid_val',
+            'ExpressionAttributeValues': {':uuid_val': {'S': uuid}}}
 
 
 def get_multipart_data():
@@ -63,19 +75,22 @@ def get_model(name):
         return (joblib.load(f), model_obj)
 
 
-def s3_csvs_to_df(files):
-    df = pd.DataFrame()
-    for file_meta in files:
-        print(file_meta['Key'])
-        csv_file = s3.get_object(Bucket=CSV_BUCKET, Key=file_meta['Key'])
-        csv_io = io.StringIO(csv_file['Body'].read().decode('utf-8'))
-        df = df.append(pd.read_csv(csv_io, index_col=False), ignore_index=True)
-        df.drop_duplicates(inplace=True)
-    col_names = list(df.columns.values)
-    if 'date' not in col_names:
-        return pd.DataFrame()
-    start_idx = col_names.index('date')
-    return df[df.columns[start_idx::]]
+def dynamodb_response_to_df(response):
+    df = pd.DataFrame.from_dict(response['Items'])
+    if not df.empty:
+        df.drop(columns=['txid', 'uuid', 'updated_at'], inplace=True)
+
+        def convert_dynamo_data_type(type_value):
+            if pd.isnull(type_value):
+                return type_value
+            key = list(type_value.keys())[0]
+            value = type_value[key]
+            if 'N' == key:
+                return float(value)
+            else:
+                return value
+        df = df.applymap(convert_dynamo_data_type)
+    return df
 
 
 # new_data and existing_samples should be of type pd.DataFrame
@@ -157,6 +172,51 @@ def upload():
     return dataframe_as_response(df, app.current_request.headers['accept'])
 
 
+def batch_tx_writes(uuid, tx_df):
+    # ignore category as the same transaction may be classified differently by different models
+    content = tx_df.drop(columns=['category']).to_csv()
+    content_hash = hashlib.sha1(content.encode('utf-8')).hexdigest()
+    updated_at = str(datetime.utcnow())
+    requests = []
+    for index, row in tx_df.iterrows():
+        item = {
+          "uuid": {
+            "S": uuid
+          },
+          "txid": {
+            "S": row['date'] + '-' + content_hash + '-' + format(index, '04')
+          },
+          "date": {
+            "S": row['date']
+          },
+          "description": {
+            "S": row['description']
+          },
+          "amount": {
+            "N": str(row['amount'])
+          },
+          "statement_date": {
+            "S": row['statement_date']
+          },
+          "category": {
+            "S": row['category']
+          },
+          "updated_at": {
+            "S": updated_at
+          },
+        }
+        if not pd.isnull(row['foreign_amount']):
+            item["foreign_amount"] = { "S": row['foreign_amount'] }
+
+        requests.append({"PutRequest": { "Item": item}})
+        if len(requests) == 25:
+            request = {DYNAMODB_NAME: requests }
+            response = dynamodb.batch_write_item(RequestItems=request,
+                    ReturnConsumedCapacity='TOTAL')
+            print(response)
+            requests = [] # reset requests buffer for next batch
+
+
 @app.route('/confirm', methods=['POST'],
            content_types=['application/x-www-form-urlencoded'], cors=True,
            authorizer=authorizer)
@@ -170,55 +230,81 @@ def confirm():
         return Response(body='Invalid file {}'.format(form_file),
                         status_code=400)
 
-    with NamedTemporaryFile(mode='w', suffix='.csv', delete=False) as f:
-        filename = f.name
-        f.write(form_file)
-
-    # upload to s3
-    key_name = "{}/{}".format(uuid, os.path.basename(filename))
-    app.log.debug('uploading {} to s3'.format(key_name))
-    s3.upload_file(filename, CSV_BUCKET, key_name)
-    os.remove(filename)
+    # update dynamoDB
+    csv_io = io.StringIO(form_file)
+    df = pd.read_csv(csv_io, index_col=False)
+    batch_tx_writes(uuid, df)
 
     return Response(body='', status_code=201)
 
 
-@app.route('/transactions', methods=['GET'], cors=True,
+@app.route('/update', methods=['POST'],
+           content_types=['application/x-www-form-urlencoded'], cors=True,
            authorizer=authorizer)
+def update():
+    form_data = parse_qs(app.current_request.raw_body.decode())
+    if 'description' not in form_data or 'category' not in form_data:
+        return Response(body='Required form fields: description and category must be present',
+                        status_code=400)
+    description = form_data['description'][0]
+    category = form_data['category'][0]
+    if not description or not category:
+        return Response(body='Invalid description {} or category {}'\
+                .format(description, category), status_code=400)
+
+    # remove dates from description to maximize description matching
+    date_strings = [pair[0] for pair in search_dates(description, languages=['en'])]
+    for date in date_strings:
+        description = description.replace(date, '')
+    # TODO validate category, later
+
+    uuid = get_current_user_email()
+    query_params = query_by_uuid_param(uuid)
+    query_params['FilterExpression'] = 'contains(description, :des_value)'
+    query_params['ExpressionAttributeValues'][':des_value'] = {'S': description}
+    response = dynamodb.query(**query_params)
+    items = response['Items']
+    updated_at = str(datetime.utcnow())
+    for tx in items:
+        key_params = {k: v for k, v in tx.items() if k in ['uuid', 'txid']}
+        update_params = {'TableName': DYNAMODB_NAME,
+                'Key': key_params,
+                'UpdateExpression': 'SET category = :new_cat_value, updated_at = :updated_at',
+                'ExpressionAttributeValues': {
+                    ':new_cat_value': {'S': category},
+                    ':updated_at': {'S': updated_at}
+                },
+                'ReturnValues': 'UPDATED_NEW'}
+        update_response = dynamodb.update_item(**update_params)
+        print(update_response) # TODO handle failure & partial success cases
+
+    return Response(body='Updated {} transactions'.format(len(items)), status_code=200)
+
+
+@app.route('/transactions', methods=['GET'], cors=True, authorizer=authorizer)
 def transactions():
     uuid = get_current_user_email()
-    files = s3.list_objects(Bucket=CSV_BUCKET, Prefix=uuid)['Contents']
-    df = s3_csvs_to_df(files)
+    response = dynamodb.query(**query_by_uuid_param(uuid))
+    df = dynamodb_response_to_df(response)
     return dataframe_as_response(df, app.current_request.headers['accept'])
 
 
 @app.route('/refresh-model', methods=['GET'])
 def refresh_model():
     classifier, model_obj = get_model(CLASSIFIER_FILENAME)
+    # note: LastModified is based on when the model file is last written on s3
+    # using it as query condition may miss transactions written to db while
+    # this function is running. It's not critical.
     get_last_modified = lambda obj: obj['LastModified']
-    compare_last_modified = lambda obj: get_last_modified(obj) >= last_refresh_ts
-    last_refresh_ts = get_last_modified(model_obj)
-    files = s3.list_objects(Bucket=CSV_BUCKET)['Contents']
+    last_refresh_ts = str(get_last_modified(model_obj))
+    last_refresh_ts = last_refresh_ts[0:last_refresh_ts.index('+')]
+    response = dynamodb.scan(TableName=DYNAMODB_NAME,
+      FilterExpression='updated_at >= :updated_at_val',
+      ExpressionAttributeValues={':updated_at_val': {'S': last_refresh_ts}})
+    df = dynamodb_response_to_df(response)
 
-    # get all CSVs created since last refresh
-    sorted_files = sorted(filter(compare_last_modified, files),
-                          key=get_last_modified, reverse=True)
-
-    # make sure we don't load more than what we can handle in memory
-    size = 0
-    file_metas = []
-    for obj in sorted_files:
-        size += obj['Size']
-        if size > 1000000000: # 1GB
-            app.log.warning('Unprocessed files greater than 1GB! Processing the latest 1GB')
-            break
-        app.log.debug('Updating model with file: {} {} {}'.format(obj['Key'], obj['Size'], obj['LastModified']))
-        file_metas.append(obj)
-
-    if not file_metas: # no new data to update model with
+    if df.empty: # no new data to update model with
         return Response(body='No new data to update model with', status_code=200)
-
-    df = s3_csvs_to_df(file_metas)
 
     label_transformer = get_model("label_transformer.pkl")[0]
     y = label_transformer.transform(df['category'])
