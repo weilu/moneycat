@@ -172,6 +172,13 @@ def upload():
     return dataframe_as_response(df, app.current_request.headers['accept'])
 
 
+def send_write_request(requests):
+    request = {DYNAMODB_NAME: requests}
+    response = dynamodb.batch_write_item(RequestItems=request,
+            ReturnConsumedCapacity='TOTAL')
+    print(response)
+
+
 def batch_tx_writes(uuid, tx_df):
     # ignore category as the same transaction may be classified differently by different models
     content = tx_df.drop(columns=['category']).to_csv()
@@ -210,11 +217,10 @@ def batch_tx_writes(uuid, tx_df):
 
         requests.append({"PutRequest": { "Item": item}})
         if len(requests) == 25:
-            request = {DYNAMODB_NAME: requests }
-            response = dynamodb.batch_write_item(RequestItems=request,
-                    ReturnConsumedCapacity='TOTAL')
-            print(response)
+            send_write_request(requests)
             requests = [] # reset requests buffer for next batch
+    if len(requests) > 0:
+        send_write_request(requests)
 
 
 @app.route('/confirm', methods=['POST'],
