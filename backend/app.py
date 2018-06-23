@@ -38,6 +38,7 @@ BIN_DIR = os.path.join(lambda_task_root, 'bin')
 LIB_DIR = os.path.join(lambda_task_root, 'lib')
 
 PDF_BUCKET = 'cs4225-bank-pdfs'
+PDF_REQUEST_BUCKET = 'cs4225-request-pdfs'
 CSV_BUCKET = 'cs4225-bank-csvs'
 MODEL_BUCKET = 'cs4225-models'
 CLASSIFIER_FILENAME = "svm_classifier.pkl"
@@ -358,6 +359,34 @@ def refresh_model():
 
     msg = 'New model improved accuracy from {} to {}'.format(score_before, score_after)
     return Response(body=msg, status_code=201)
+
+
+@app.route('/request', methods=['POST'],
+           content_types=['multipart/form-data'], cors=True,
+           authorizer=authorizer)
+def request():
+    form_data = get_multipart_data()
+    form_file = form_data['file'][0]
+    password = form_data['password'][0] if 'password' in form_data else ''
+
+    with NamedTemporaryFile(mode='wb', suffix='.pdf', delete=False) as f:
+        filename = f.name
+        f.write(form_file)
+
+    # upload to s3
+    key_name = os.path.basename(filename)
+    app.log.debug('uploading {} to s3'.format(key_name))
+    s3.upload_file(filename, PDF_REQUEST_BUCKET, key_name)
+
+    # tag file with user email and password
+    tag_args = {'TagSet': [
+        {'Key': 'uuid', 'Value': get_current_user_email()},
+        {'Key': 'password', 'Value': password}]}
+    response = s3.put_object_tagging(Bucket=PDF_REQUEST_BUCKET,
+                                     Key=key_name, Tagging=tag_args)
+    app.log.debug(response)
+
+    return Response(body='', status_code=201)
 
 
 def get_current_user_email():
