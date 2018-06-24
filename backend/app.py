@@ -264,9 +264,11 @@ def update():
                 .format(description, category), status_code=400)
 
     # remove dates from description to maximize description matching
-    date_strings = [pair[0] for pair in search_dates(description, languages=['en'])]
-    for date in date_strings:
-        description = description.replace(date, '')
+    search_result = search_dates(description, languages=['en'])
+    if search_result:
+        date_strings = [pair[0] for pair in search_result]
+        for date in date_strings:
+            description = description.replace(date, '')
     # TODO validate category, later
 
     uuid = get_current_user_email()
