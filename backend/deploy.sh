@@ -12,11 +12,13 @@ This packages & deploy the chalice app to aws labmda
 OPTIONS:
    -h      Show this message
    -r      Rebuild python dependencies
+   -s      stage to deploy to, can be dev (default) or prod
 EOF
 }
 
 REBUILD_DEP=0
-while getopts “hr” OPTION
+STAGE=dev
+while getopts “hrs:” OPTION
 do
   case $OPTION in
     h)
@@ -25,6 +27,9 @@ do
       ;;
     r)
       REBUILD_DEP=1
+      ;;
+    s)
+      STAGE=$OPTARG
       ;;
     ?)
       usage
@@ -47,12 +52,12 @@ then
 fi
 
 # package chalice & upload bundle to s3
-chalice package .chalice/deployments/
-aws s3 cp .chalice/deployments/deployment.zip s3://money-api-deployment/
+chalice package --stage $STAGE .chalice/deployments/
+aws s3 cp .chalice/deployments/deployment.zip s3://moneycat-deployment-$STAGE/
 
 mv vendor vendor_tmp # workaround: such that chalice deploy won't complain about package size
-chalice deploy # make sure aws API gateway is re-deployed
+chalice deploy --stage $STAGE # make sure aws API gateway is re-deployed
 mv vendor_tmp vendor
 
 # update lambda code from s3
-aws lambda update-function-code --function-name money-api-dev --region ap-southeast-1 --s3-bucket money-api-deployment --s3-key deployment.zip
+aws lambda update-function-code --function-name money-api-$STAGE --region ap-southeast-1 --s3-bucket moneycat-deployment-$STAGE --s3-key deployment.zip
