@@ -40,7 +40,6 @@ LIB_DIR = os.path.join(lambda_task_root, 'lib')
 MODEL_BUCKET = 'cs4225-models'
 CLASSIFIER_FILENAME = "svm_classifier.pkl"
 META_FILENAME = 'meta.pkl'
-DYNAMODB_NAME = 'moneycat-dev'
 
 s3 = boto3.client('s3')
 dynamodb = boto3.client('dynamodb')
@@ -57,8 +56,12 @@ def get_request_pdf_bucket():
     return 'moneycat-request-pdfs-{}'.format(os.environ.get('ENV'))
 
 
+def get_db_name():
+    return 'moneycat-{}'.format(os.environ.get('ENV'))
+
+
 def query_by_uuid_param(uuid):
-    return {'TableName': DYNAMODB_NAME,
+    return {'TableName': get_db_name(),
             'ExpressionAttributeNames': {'#uuid': 'uuid'},
             'KeyConditionExpression': '#uuid = :uuid_val',
             'ExpressionAttributeValues': {':uuid_val': {'S': uuid}}}
@@ -179,7 +182,7 @@ def upload():
 
 
 def send_write_request(requests):
-    request = {DYNAMODB_NAME: requests}
+    request = {get_db_name(): requests}
     response = dynamodb.batch_write_item(RequestItems=request,
             ReturnConsumedCapacity='TOTAL')
     print(response)
@@ -285,7 +288,7 @@ def update():
     updated_at = str(datetime.utcnow())
     for tx in items:
         key_params = {k: v for k, v in tx.items() if k in ['uuid', 'txid']}
-        update_params = {'TableName': DYNAMODB_NAME,
+        update_params = {'TableName': get_db_name(),
                 'Key': key_params,
                 'UpdateExpression': 'SET category = :new_cat_value, updated_at = :updated_at',
                 'ExpressionAttributeValues': {
@@ -316,7 +319,7 @@ def refresh_model():
     get_last_modified = lambda obj: obj['LastModified']
     last_refresh_ts = str(get_last_modified(model_obj))
     last_refresh_ts = last_refresh_ts[0:last_refresh_ts.index('+')]
-    response = dynamodb.scan(TableName=DYNAMODB_NAME,
+    response = dynamodb.scan(TableName=get_db_name(),
       FilterExpression='updated_at >= :updated_at_val',
       ExpressionAttributeValues={':updated_at_val': {'S': last_refresh_ts}})
     df = dynamodb_response_to_df(response)
