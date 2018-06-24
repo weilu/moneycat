@@ -6,13 +6,17 @@
     "dev": {
       "api_gateway_stage": "api",
       "environment_variables": {
-        "ENV": "dev"
+        "ENV": "dev",
+        "AUTH_ARN": "arn:aws:cognito-idp:ap-southeast-1:674060739848:userpool/ap-southeast-1_DtDvWZFmc",
+        "AUTH_POOL_NAME": "MoneyCat"
       }
     },
     "prod": {
       "api_gateway_stage": "api",
       "environment_variables": {
-        "ENV": "prod"
+        "ENV": "prod",
+        "AUTH_ARN": "arn:aws:cognito-idp:ap-southeast-1:674060739848:userpool/ap-southeast-1_5ft6WxIrG",
+        "AUTH_POOL_NAME": "moneycat-prod"
       }
     }
   }

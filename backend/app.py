@@ -43,9 +43,15 @@ META_FILENAME = 'meta.pkl'
 
 s3 = boto3.client('s3')
 dynamodb = boto3.client('dynamodb')
+authorizer = None
 
-AUTH_ARN = 'arn:aws:cognito-idp:ap-southeast-1:674060739848:userpool/ap-southeast-1_DtDvWZFmc'
-authorizer = CognitoUserPoolAuthorizer('MoneyCat', provider_arns=[AUTH_ARN])
+
+def get_authorizer():
+    global authorizer
+    if not authorizer:
+        authorizer = CognitoUserPoolAuthorizer(os.environ.get('AUTH_POOL_NAME'),
+            provider_arns=[os.environ.get('AUTH_ARN')])
+    return authorizer
 
 
 def get_pdf_bucket():
@@ -135,7 +141,7 @@ def dataframe_as_response(df, accept_header):
 
 @app.route('/upload', methods=['POST'],
            content_types=['multipart/form-data'], cors=True,
-           authorizer=authorizer)
+           authorizer=get_authorizer())
 def upload():
     form_data = get_multipart_data()
     form_file = form_data['file'][0]
@@ -234,7 +240,7 @@ def batch_tx_writes(uuid, tx_df):
 
 @app.route('/confirm', methods=['POST'],
            content_types=['application/x-www-form-urlencoded'], cors=True,
-           authorizer=authorizer)
+           authorizer=get_authorizer())
 def confirm():
     form_data = parse_qs(app.current_request.raw_body.decode())
     if 'file' not in form_data:
@@ -259,7 +265,7 @@ def confirm():
 
 @app.route('/update', methods=['POST'],
            content_types=['application/x-www-form-urlencoded'], cors=True,
-           authorizer=authorizer)
+           authorizer=get_authorizer())
 def update():
     form_data = parse_qs(app.current_request.raw_body.decode())
     if 'description' not in form_data or 'category' not in form_data:
@@ -302,7 +308,7 @@ def update():
     return Response(body='Updated {} transactions'.format(len(items)), status_code=200)
 
 
-@app.route('/transactions', methods=['GET'], cors=True, authorizer=authorizer)
+@app.route('/transactions', methods=['GET'], cors=True, authorizer=get_authorizer())
 def transactions():
     uuid = get_current_user_email()
     response = dynamodb.query(**query_by_uuid_param(uuid))
@@ -373,7 +379,7 @@ def refresh_model():
 
 @app.route('/request', methods=['POST'],
            content_types=['multipart/form-data'], cors=True,
-           authorizer=authorizer)
+           authorizer=get_authorizer())
 def request():
     form_data = get_multipart_data()
     form_file = form_data['file'][0]
