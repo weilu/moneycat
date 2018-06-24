@@ -25,7 +25,7 @@ curl https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/transaction
 
 # Update category for a given transaction description and user, auth required
 # This will affect all transactions that matches the given description, for the given user
-curl -v https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/transactions -X POST -d 'description=[tx description]' -d 'category=[category]' -H 'Authorization: [jwtToken]'
+curl -v https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/update -X POST -d 'description=[tx description]' -d 'category=[category]' -H 'Authorization: [jwtToken]'
 
 # New bank statement support request
 curl https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/request -F 'file=@[path/to/file].pdf' -F 'password=[pdf password]' -H 'Authorization: [jwtToken]'
