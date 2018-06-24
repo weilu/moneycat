@@ -30,16 +30,13 @@ app.log.setLevel(logging.DEBUG)
 
 lambda_task_root = os.environ.get('LAMBDA_TASK_ROOT',
                                   os.path.dirname(os.path.abspath(__file__)))
-# Only exists in production lambda env
+# Only exists in non-local lambda env
 maybe_exist = os.path.join(lambda_task_root, 'pdftotext')
 if os.path.isdir(maybe_exist):
     lambda_task_root = maybe_exist
 BIN_DIR = os.path.join(lambda_task_root, 'bin')
 LIB_DIR = os.path.join(lambda_task_root, 'lib')
 
-PDF_BUCKET = 'cs4225-bank-pdfs'
-PDF_REQUEST_BUCKET = 'cs4225-request-pdfs'
-CSV_BUCKET = 'cs4225-bank-csvs'
 MODEL_BUCKET = 'cs4225-models'
 CLASSIFIER_FILENAME = "svm_classifier.pkl"
 META_FILENAME = 'meta.pkl'
@@ -50,6 +47,14 @@ dynamodb = boto3.client('dynamodb')
 
 AUTH_ARN = 'arn:aws:cognito-idp:ap-southeast-1:674060739848:userpool/ap-southeast-1_DtDvWZFmc'
 authorizer = CognitoUserPoolAuthorizer('MoneyCat', provider_arns=[AUTH_ARN])
+
+
+def get_pdf_bucket():
+    return 'moneycat-pdfs-{}'.format(os.environ.get('ENV'))
+
+
+def get_request_pdf_bucket():
+    return 'moneycat-request-pdfs-{}'.format(os.environ.get('ENV'))
 
 
 def query_by_uuid_param(uuid):
@@ -140,7 +145,7 @@ def upload():
     # upload to s3
     key_name = os.path.basename(filename)
     app.log.debug('uploading {} to s3'.format(key_name))
-    s3.upload_file(filename, PDF_BUCKET, key_name)
+    s3.upload_file(filename, get_pdf_bucket(), key_name)
 
     # parse
     output = io.StringIO()
@@ -378,13 +383,14 @@ def request():
     # upload to s3
     key_name = os.path.basename(filename)
     app.log.debug('uploading {} to s3'.format(key_name))
-    s3.upload_file(filename, PDF_REQUEST_BUCKET, key_name)
+    bucket_name = get_request_pdf_bucket()
+    s3.upload_file(filename, bucket_name, key_name)
 
     # tag file with user email and password
     tag_args = {'TagSet': [
         {'Key': 'uuid', 'Value': get_current_user_email()},
         {'Key': 'password', 'Value': password}]}
-    response = s3.put_object_tagging(Bucket=PDF_REQUEST_BUCKET,
+    response = s3.put_object_tagging(Bucket=bucket_name,
                                      Key=key_name, Tagging=tag_args)
     app.log.debug(response)
 
