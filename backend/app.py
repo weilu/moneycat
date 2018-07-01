@@ -30,30 +30,44 @@ app.log.setLevel(logging.DEBUG)
 
 lambda_task_root = os.environ.get('LAMBDA_TASK_ROOT',
                                   os.path.dirname(os.path.abspath(__file__)))
-# Only exists in production lambda env
+# Only exists in non-local lambda env
 maybe_exist = os.path.join(lambda_task_root, 'pdftotext')
 if os.path.isdir(maybe_exist):
     lambda_task_root = maybe_exist
 BIN_DIR = os.path.join(lambda_task_root, 'bin')
 LIB_DIR = os.path.join(lambda_task_root, 'lib')
 
-PDF_BUCKET = 'cs4225-bank-pdfs'
-PDF_REQUEST_BUCKET = 'cs4225-request-pdfs'
-CSV_BUCKET = 'cs4225-bank-csvs'
 MODEL_BUCKET = 'cs4225-models'
 CLASSIFIER_FILENAME = "svm_classifier.pkl"
 META_FILENAME = 'meta.pkl'
-DYNAMODB_NAME = 'moneycat-dev'
 
 s3 = boto3.client('s3')
 dynamodb = boto3.client('dynamodb')
+authorizer = None
 
-AUTH_ARN = 'arn:aws:cognito-idp:ap-southeast-1:674060739848:userpool/ap-southeast-1_DtDvWZFmc'
-authorizer = CognitoUserPoolAuthorizer('MoneyCat', provider_arns=[AUTH_ARN])
+
+def get_authorizer():
+    global authorizer
+    if not authorizer:
+        authorizer = CognitoUserPoolAuthorizer(os.environ.get('AUTH_POOL_NAME'),
+            provider_arns=[os.environ.get('AUTH_ARN')])
+    return authorizer
+
+
+def get_pdf_bucket():
+    return 'moneycat-pdfs-{}'.format(os.environ.get('ENV'))
+
+
+def get_request_pdf_bucket():
+    return 'moneycat-request-pdfs-{}'.format(os.environ.get('ENV'))
+
+
+def get_db_name():
+    return 'moneycat-{}'.format(os.environ.get('ENV'))
 
 
 def query_by_uuid_param(uuid):
-    return {'TableName': DYNAMODB_NAME,
+    return {'TableName': get_db_name(),
             'ExpressionAttributeNames': {'#uuid': 'uuid'},
             'KeyConditionExpression': '#uuid = :uuid_val',
             'ExpressionAttributeValues': {':uuid_val': {'S': uuid}}}
@@ -127,7 +141,7 @@ def dataframe_as_response(df, accept_header):
 
 @app.route('/upload', methods=['POST'],
            content_types=['multipart/form-data'], cors=True,
-           authorizer=authorizer)
+           authorizer=get_authorizer())
 def upload():
     form_data = get_multipart_data()
     form_file = form_data['file'][0]
@@ -140,7 +154,7 @@ def upload():
     # upload to s3
     key_name = os.path.basename(filename)
     app.log.debug('uploading {} to s3'.format(key_name))
-    s3.upload_file(filename, PDF_BUCKET, key_name)
+    s3.upload_file(filename, get_pdf_bucket(), key_name)
 
     # parse
     output = io.StringIO()
@@ -174,7 +188,7 @@ def upload():
 
 
 def send_write_request(requests):
-    request = {DYNAMODB_NAME: requests}
+    request = {get_db_name(): requests}
     response = dynamodb.batch_write_item(RequestItems=request,
             ReturnConsumedCapacity='TOTAL')
     print(response)
@@ -226,7 +240,7 @@ def batch_tx_writes(uuid, tx_df):
 
 @app.route('/confirm', methods=['POST'],
            content_types=['application/x-www-form-urlencoded'], cors=True,
-           authorizer=authorizer)
+           authorizer=get_authorizer())
 def confirm():
     form_data = parse_qs(app.current_request.raw_body.decode())
     if 'file' not in form_data:
@@ -251,7 +265,7 @@ def confirm():
 
 @app.route('/update', methods=['POST'],
            content_types=['application/x-www-form-urlencoded'], cors=True,
-           authorizer=authorizer)
+           authorizer=get_authorizer())
 def update():
     form_data = parse_qs(app.current_request.raw_body.decode())
     if 'description' not in form_data or 'category' not in form_data:
@@ -280,7 +294,7 @@ def update():
     updated_at = str(datetime.utcnow())
     for tx in items:
         key_params = {k: v for k, v in tx.items() if k in ['uuid', 'txid']}
-        update_params = {'TableName': DYNAMODB_NAME,
+        update_params = {'TableName': get_db_name(),
                 'Key': key_params,
                 'UpdateExpression': 'SET category = :new_cat_value, updated_at = :updated_at',
                 'ExpressionAttributeValues': {
@@ -294,7 +308,7 @@ def update():
     return Response(body='Updated {} transactions'.format(len(items)), status_code=200)
 
 
-@app.route('/transactions', methods=['GET'], cors=True, authorizer=authorizer)
+@app.route('/transactions', methods=['GET'], cors=True, authorizer=get_authorizer())
 def transactions():
     uuid = get_current_user_email()
     response = dynamodb.query(**query_by_uuid_param(uuid))
@@ -311,7 +325,7 @@ def refresh_model():
     get_last_modified = lambda obj: obj['LastModified']
     last_refresh_ts = str(get_last_modified(model_obj))
     last_refresh_ts = last_refresh_ts[0:last_refresh_ts.index('+')]
-    response = dynamodb.scan(TableName=DYNAMODB_NAME,
+    response = dynamodb.scan(TableName=get_db_name(),
       FilterExpression='updated_at >= :updated_at_val',
       ExpressionAttributeValues={':updated_at_val': {'S': last_refresh_ts}})
     df = dynamodb_response_to_df(response)
@@ -365,7 +379,7 @@ def refresh_model():
 
 @app.route('/request', methods=['POST'],
            content_types=['multipart/form-data'], cors=True,
-           authorizer=authorizer)
+           authorizer=get_authorizer())
 def request():
     form_data = get_multipart_data()
     form_file = form_data['file'][0]
@@ -378,13 +392,14 @@ def request():
     # upload to s3
     key_name = os.path.basename(filename)
     app.log.debug('uploading {} to s3'.format(key_name))
-    s3.upload_file(filename, PDF_REQUEST_BUCKET, key_name)
+    bucket_name = get_request_pdf_bucket()
+    s3.upload_file(filename, bucket_name, key_name)
 
     # tag file with user email and password
     tag_args = {'TagSet': [
         {'Key': 'uuid', 'Value': get_current_user_email()},
         {'Key': 'password', 'Value': password}]}
-    response = s3.put_object_tagging(Bucket=PDF_REQUEST_BUCKET,
+    response = s3.put_object_tagging(Bucket=bucket_name,
                                      Key=key_name, Tagging=tag_args)
     app.log.debug(response)
 
