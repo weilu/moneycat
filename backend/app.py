@@ -174,12 +174,23 @@ def upload():
         app.log.debug('done parsing pdf')
         os.remove(filename)
 
-    # classification
+    output.seek(0)
+    return classify_transactions(output)
+
+
+@app.route('/classify', methods=['POST'],
+           content_types=['multipart/form-data'])
+def classify():
+    form_data = get_multipart_data()
+    form_file = form_data['file'][0]
+    return classify_transactions(io.StringIO(form_file.decode('utf-8')))
+
+
+def classify_transactions(csv_input):
     classifier = get_model(CLASSIFIER_FILENAME)[0]
     transformer = get_model("tfidf_transformer.pkl")[0]
     label_transformer = get_model("label_transformer.pkl")[0]
-    output.seek(0)
-    df = pd.read_csv(output)
+    df = pd.read_csv(csv_input)
     pred = classifier.predict(transformer.transform(df['description']))
     categories = label_transformer.inverse_transform(pred)
     df['category'] = categories
