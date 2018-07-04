@@ -38,7 +38,7 @@ BIN_DIR = os.path.join(lambda_task_root, 'bin')
 LIB_DIR = os.path.join(lambda_task_root, 'lib')
 
 MODEL_BUCKET = 'cs4225-models'
-CLASSIFIER_FILENAME = "svm_classifier.pkl"
+CLASSIFIER_FILENAME = "classifier.pkl"
 META_FILENAME = 'meta.pkl'
 
 s3 = boto3.client('s3')
