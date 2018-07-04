@@ -139,8 +139,7 @@ def process_pdf(filename, csv_writer, pdftotxt_bin='pdftotext',
 
 if __name__ == '__main__':
     parser = ArgumentParser()
-    parser.add_argument("-i", "--input", dest="input",
-                        help="Input pdf file or directory")
+    parser.add_argument("input", help="Input pdf file or directory")
     parser.add_argument("-o", "--output", dest="output",
                         help="output csv filename", default="out.csv")
     args = parser.parse_args()
