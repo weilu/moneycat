@@ -1,4 +1,5 @@
 import pandas as pd
+from argparse import ArgumentParser
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import KFold, train_test_split
@@ -10,10 +11,11 @@ from sklearn.linear_model import SGDClassifier
 from sklearn.externals import joblib
 from sklearn.exceptions import UndefinedMetricWarning
 from glob import glob
+from statistics import mean
+import time
 import boto3
 import os
 import pickle
-from statistics import mean
 import numpy as np
 
 import warnings
@@ -43,8 +45,13 @@ def time_me(fn):
   return _wrapper
 
 
-def read_data():
-    return pd.read_csv('../cleaning/pdf-mining/out_wei_labelled_full.csv', sep=",")
+def read_data(input_dir):
+    if os.path.isdir(input_dir):
+        filenames = glob('{}/*.csv'.format(input_dir))
+    else:
+        filenames = [input_dir]
+    df_from_each_file = (pd.read_csv(f) for f in filenames)
+    return pd.concat(df_from_each_file, ignore_index=True)
 
 
 @time_me
@@ -84,7 +91,7 @@ def train(X, y, classifier):
 
 def export_model(classifier, transformer, label_trasformer, test_samples,
                  meta_data, report):
-    joblib.dump(classifier, 'svm_classifier.pkl')
+    joblib.dump(classifier, 'classifier.pkl')
     joblib.dump(transformer, 'tfidf_transformer.pkl')
     joblib.dump(label_trasformer, 'label_transformer.pkl')
     test_samples.to_pickle('test_samples.pkl')
@@ -114,7 +121,7 @@ def get_label_encoder(y, y_additional=pd.DataFrame()):
     return le
 
 
-def test_additional_train_data():
+def test_additional_train_data(personal_data_dir):
     gov_data = pd.read_csv('./assets/res_purchase_card_cleaned.csv', sep=",")
     print("gov data size:", gov_data.shape)
 
@@ -124,7 +131,7 @@ def test_additional_train_data():
     extra_X = gov_data['description']
     extra_y_raw = gov_data['category']
 
-    personal_data = read_data()
+    personal_data = read_data(personal_data_dir)
     X = personal_data['description']
     y_raw = personal_data['category']
 
@@ -147,8 +154,8 @@ def test_additional_train_data():
         print('%s produces an accuracy of %0.3f, and f1 score of %0.3f'\
                 % (classifier, accuracy, f1))
 
-def train_pure_personal_data():
-    personal_data = read_data()
+def train_pure_personal_data(input_dir, export=False):
+    personal_data = read_data(input_dir)
     print("data size:", personal_data.shape)
 
     y_raw = personal_data['category']
@@ -174,9 +181,18 @@ def train_pure_personal_data():
     meta_data = {'train_size': X_train.shape[0], 'accuracy': accuracy, 'f1': f1}
     print("test sample size: %d, accuracy: %0.3f, f1 score: %0.3f" \
             % (X_test.shape[0], accuracy, f1))
-    # export_model(classifier, transformer, le, test_samples, meta_data, report)
+    if export:
+        export_model(classifier, transformer, le, test_samples, meta_data, report)
 
 
 if __name__ == '__main__':
-    # test_additional_train_data()
-    train_pure_personal_data()
+    parser = ArgumentParser()
+    parser.add_argument("input", help="Input csv file or directory")
+    parser.add_argument("-e", "--export", action="store_true",
+                        help="Serialize & export models")
+    args = parser.parse_args()
+
+    # TODO: make this an arg option
+    # test_additional_train_data(args.input)
+
+    train_pure_personal_data(args.input, export=args.export)
