@@ -90,6 +90,11 @@ def get_model(name):
         return (joblib.load(f), model_obj)
 
 
+def get_current_user_email():
+    req_context = app.current_request.context
+    return req_context['authorizer']['claims']['email']
+
+
 def dynamodb_response_to_df(response):
     df = pd.DataFrame.from_dict(response['Items'])
     if not df.empty:
@@ -406,6 +411,6 @@ def request():
     return Response(body='', status_code=201)
 
 
-def get_current_user_email():
-    req_context = app.current_request.context
-    return req_context['authorizer']['claims']['email']
+@app.route('/testauth', methods=['GET'], cors=True, authorizer=get_authorizer())
+def testauth():
+    return {"success": True}
