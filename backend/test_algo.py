@@ -1,6 +1,6 @@
 import unittest
 import random
-from app import reservior_sampling
+from chalicelib.algo import reservior_sampling
 from statistics import mean
 import pandas as pd
 
@@ -9,10 +9,10 @@ SAMPLE_SIZE = 10
 population = list(range(1, MAX_INT+1))
 # random.shuffle(population)
 POP = pd.DataFrame(data={'x': population})
-REPEAT_TIMES = 50
+REPEAT_TIMES = 100
 THRESHOLD = 0.03
 
-class TestApp(unittest.TestCase):
+class TestAlgo(unittest.TestCase):
 
     def test_reservior_sampling(self):
         means = []
