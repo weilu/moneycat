@@ -28,8 +28,11 @@ app.api.binary_types.append('multipart/form-data')
 app.debug = True
 app.log.setLevel(logging.DEBUG)
 
-lambda_task_root = os.environ.get('LAMBDA_TASK_ROOT',
-                                  os.path.dirname(os.path.abspath(__file__)))
+ENV = os.environ.get('ENV', 'dev')
+if ENV == 'dev':
+    lambda_task_root = '/usr/local/'
+else:
+    lambda_task_root = os.path.dirname(os.path.abspath(__file__))
 # Only exists in non-local lambda env
 maybe_exist = os.path.join(lambda_task_root, 'pdftotext')
 if os.path.isdir(maybe_exist):
@@ -55,15 +58,15 @@ def get_authorizer():
 
 
 def get_pdf_bucket():
-    return 'moneycat-pdfs-{}'.format(os.environ.get('ENV'))
+    return 'moneycat-pdfs-{}'.format(ENV)
 
 
 def get_request_pdf_bucket():
-    return 'moneycat-request-pdfs-{}'.format(os.environ.get('ENV'))
+    return 'moneycat-request-pdfs-{}'.format(ENV)
 
 
 def get_db_name():
-    return 'moneycat-{}'.format(os.environ.get('ENV'))
+    return 'moneycat-{}'.format(ENV)
 
 
 def query_by_uuid_param(uuid):
@@ -76,6 +79,9 @@ def query_by_uuid_param(uuid):
 def get_multipart_data():
     content_type_obj = app.current_request.headers['content-type']
     content_type, property_dict = cgi.parse_header(content_type_obj)
+
+    if 'boundary' not in property_dict:
+        return None
 
     property_dict['boundary'] = bytes(property_dict['boundary'], "utf-8")
     body = io.BytesIO(app.current_request.raw_body)
@@ -124,7 +130,13 @@ def dataframe_as_response(df, accept_header):
            authorizer=get_authorizer())
 def upload():
     form_data = get_multipart_data()
+    if not form_data:
+        return Response(body='Missing form data', status_code=400)
+
+    if 'file' not in form_data or not form_data['file'] or not form_data['file'][0]:
+        return Response(body='Missing upload file', status_code=400)
     form_file = form_data['file'][0]
+
     password = form_data['password'][0] if 'password' in form_data else None
 
     with NamedTemporaryFile(mode='wb', suffix='.pdf', delete=False) as f:
@@ -164,7 +176,7 @@ def upload():
     categories = label_transformer.inverse_transform(pred)
     df['category'] = categories
 
-    return dataframe_as_response(df, app.current_request.headers['accept'])
+    return dataframe_as_response(df, app.current_request.headers.get('accept'))
 
 
 def send_write_request(requests):
@@ -233,7 +245,7 @@ def confirm():
 
     # update dynamoDB
     file_io = io.StringIO(form_file)
-    accept_header = app.current_request.headers['accept']
+    accept_header = app.current_request.headers.get('accept')
     if accept_header and 'application/json' in accept_header:
         df = pd.read_json(file_io, orient='records', convert_dates=False)
     else:
@@ -293,7 +305,7 @@ def transactions():
     uuid = get_current_user_email()
     response = dynamodb.query(**query_by_uuid_param(uuid))
     df = dynamodb_response_to_df(response)
-    return dataframe_as_response(df, app.current_request.headers['accept'])
+    return dataframe_as_response(df, app.current_request.headers.get('accept'))
 
 
 @app.route('/refresh-model', methods=['GET'])
