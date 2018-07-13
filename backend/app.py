@@ -95,10 +95,12 @@ def get_current_user_email():
     return req_context['authorizer']['claims']['email']
 
 
-def dynamodb_response_to_df(response):
+def dynamodb_response_to_df(response, include_txid=False):
     df = pd.DataFrame.from_dict(response['Items'])
     if not df.empty:
-        df.drop(columns=['txid', 'uuid', 'updated_at'], inplace=True)
+        df.drop(columns=['uuid', 'updated_at'], inplace=True)
+        if not include_txid:
+            df.drop(columns=['txid'], inplace=True)
 
         def convert_dynamo_data_type(type_value):
             if pd.isnull(type_value):
@@ -118,7 +120,7 @@ def dataframe_as_response(df, accept_header):
         payload = df.to_json(orient='records')
         content_type = 'application/json'
     else: # default to csv on unknown format
-        payload = df.to_csv()
+        payload = df.to_csv(index=False)
         content_type = 'text/csv'
 
     return Response(body=payload, headers={'Content-Type': content_type})
@@ -230,25 +232,24 @@ def batch_tx_writes(uuid, tx_df):
 
 
 @app.route('/confirm', methods=['POST'],
-           content_types=['application/x-www-form-urlencoded'], cors=True,
+           content_types=['application/json', 'text/csv'], cors=True,
            authorizer=get_authorizer())
 def confirm():
-    form_data = parse_qs(app.current_request.raw_body.decode())
-    if 'file' not in form_data:
-        return Response(body='file must be present', status_code=400)
-    form_file = form_data['file'][0]
-    uuid = get_current_user_email()
-    if not form_file:
-        return Response(body='Invalid file {}'.format(form_file),
-                        status_code=400)
-
-    # update dynamoDB
-    file_io = io.StringIO(form_file)
-    accept_header = app.current_request.headers.get('accept')
-    if accept_header and 'application/json' in accept_header:
-        df = pd.read_json(file_io, orient='records', convert_dates=False)
+    body = app.current_request.raw_body.decode()
+    if app.current_request.json_body:
+        df = pd.read_json(io.StringIO(body), orient='records',
+                          convert_dates=False)
+    elif body:
+        df = pd.read_csv(io.StringIO(body), index_col=False)
     else:
-        df = pd.read_csv(file_io, index_col=False)
+        df = pd.DataFrame()
+
+    if df.empty:
+        msg = ("Missing or invalid request payload. Make sure it's in"
+               "json or csv format with a matching Content-Type header.")
+        return Response(body=msg, status_code=400)
+
+    uuid = get_current_user_email()
     batch_tx_writes(uuid, df)
 
     return Response(body='', status_code=201)
@@ -303,7 +304,9 @@ def update():
 def transactions():
     uuid = get_current_user_email()
     response = dynamodb.query(**query_by_uuid_param(uuid))
-    df = dynamodb_response_to_df(response)
+    query_params = app.current_request.query_params
+    include_txid = query_params and query_params.get('txid')
+    df = dynamodb_response_to_df(response, include_txid)
     return dataframe_as_response(df, app.current_request.headers.get('accept'))
 
 
