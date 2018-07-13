@@ -153,6 +153,17 @@ date,description,amount,statement_date,category
         self.assert_str_as_dataframe_equal(io.StringIO(response['body']),
                                            io.StringIO(expected_payload))
 
+    def test_update_invalid_payload(self):
+        response = self.lg.handle_request(method='POST', path='/update',
+                headers={'Content-type': 'application/json'}, body='')
+        self.assertEqual(response['statusCode'], 400)
+
+        incomplete_update_payload = json.dumps({'description': 'foo'})
+        response = self.lg.handle_request(method='POST', path='/update',
+                headers={'Content-type': 'application/json'},
+                body=incomplete_update_payload)
+        self.assertEqual(response['statusCode'], 400)
+
     def test_request(self):
         password = '123abc'
         payload = self.get_pdf_payload(password)

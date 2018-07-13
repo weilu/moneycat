@@ -17,6 +17,7 @@ from dateparser.search import search_dates
 from datetime import datetime
 import hashlib
 import re
+from json.decoder import JSONDecodeError
 
 # TODO: stricter cors rules
 # cors_config = CORSConfig(
@@ -259,7 +260,11 @@ def confirm():
            content_types=['application/json'], cors=True,
            authorizer=get_authorizer())
 def update():
-    form_data = app.current_request.json_body
+    try:
+        form_data = app.current_request.json_body
+    except JSONDecodeError:
+        return Response(body='Malformed JSON', status_code=400)
+
     if 'description' not in form_data or 'category' not in form_data:
         return Response(body='Required form fields: description and category must be present',
                         status_code=400)
