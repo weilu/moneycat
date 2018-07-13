@@ -17,7 +17,7 @@ curl https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/upload -F '
 
 # CSV or JSON upload, after user reviews & confirms parse & classification results, auth required
 # Use -H "Accept: application/json" header to indicate the request payload format
-curl -v https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/confirm -X POST --data-urlencode 'file@[path/to/file].csv' -H 'Authorization: [jwtToken]'
+curl -v https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/confirm -X POST -d '@[path/to/file].csv' -H "Content-Type: text/csv" -H 'Authorization: [jwtToken]'
 
 # User transaction data fetch, returns a csv or json of all transaction data for the given user, auth required
 # Use -H "Accept: application/json" header to control response format
@@ -25,7 +25,7 @@ curl https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/transaction
 
 # Update category for a given transaction description and user, auth required
 # This will affect all transactions that matches the given description, for the given user
-curl -v https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/update -X POST -d 'description=[tx description]' -d 'category=[category]' -H 'Authorization: [jwtToken]'
+curl -v https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/update -X POST -d '{"description": "[tx description]", "category": "[category]"}' -H "Content-Type: application/json" -H 'Authorization: [jwtToken]'
 
 # New bank statement support request
 curl https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/request -F 'file=@[path/to/file].pdf' -F 'password=[pdf password]' -H 'Authorization: [jwtToken]'
