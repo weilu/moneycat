@@ -83,9 +83,9 @@ class TestApp(unittest.TestCase):
         latest_pdf = sorted(pdfs, key=lambda k: k['LastModified'])[-1]
         pdf_obj = s3.get_object(Bucket=bucket, Key=latest_pdf['Key'])
         self.assertEqual(pdf_obj['Body'].read(), self.get_pdf_data())
-        self.assertEqual(pdf_obj['TagCount'], 2)
 
         if expected_tags:
+            self.assertEqual(pdf_obj['TagCount'], len(expected_tags))
             tags = s3.get_object_tagging(Bucket=bucket, Key=latest_pdf['Key'])['TagSet']
             self.assertEqual(tags, expected_tags)
 
