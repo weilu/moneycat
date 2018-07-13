@@ -4,7 +4,6 @@ import os
 import io
 import csv
 from tempfile import NamedTemporaryFile
-from urllib.parse import parse_qs
 from chalicelib import pdftotxt
 from chalicelib.algo import reservior_sampling
 from chalicelib.train import export_model
@@ -17,6 +16,7 @@ import pandas as pd
 from dateparser.search import search_dates
 from datetime import datetime
 import hashlib
+import re
 
 # TODO: stricter cors rules
 # cors_config = CORSConfig(
@@ -220,7 +220,7 @@ def batch_tx_writes(uuid, tx_df):
             "S": updated_at
           },
         }
-        if not pd.isnull(row['foreign_amount']):
+        if 'foreign_amount' in row and not pd.isnull(row['foreign_amount']):
             item["foreign_amount"] = { "S": row['foreign_amount'] }
 
         requests.append({"PutRequest": { "Item": item}})
@@ -256,25 +256,32 @@ def confirm():
 
 
 @app.route('/update', methods=['POST'],
-           content_types=['application/x-www-form-urlencoded'], cors=True,
+           content_types=['application/json'], cors=True,
            authorizer=get_authorizer())
 def update():
-    form_data = parse_qs(app.current_request.raw_body.decode())
+    form_data = app.current_request.json_body
     if 'description' not in form_data or 'category' not in form_data:
         return Response(body='Required form fields: description and category must be present',
                         status_code=400)
-    description = form_data['description'][0]
-    category = form_data['category'][0]
+    description = form_data['description']
+    category = form_data['category']
     if not description or not category:
         return Response(body='Invalid description {} or category {}'\
                 .format(description, category), status_code=400)
 
-    # remove dates from description to maximize description matching
+    ### remove known noise from description to maximize description matching ###
+    # remove dollar amount e.g. $110.12, sometimes it's misinterpreted by dateparser
+    description = re.sub(r'([$]\d+(?:\.\d{2})?)', '', description)
+    # remove auto-split transactions e.g. 001/003 in case of OCBC
+    description = re.sub(r'(\d{3}/\d{3})', '', description)
+    # remove dates
     search_result = search_dates(description, languages=['en'])
     if search_result:
         date_strings = [pair[0] for pair in search_result]
         for date in date_strings:
             description = description.replace(date, '')
+    description = description.strip()
+
     # TODO validate category, later
 
     uuid = get_current_user_email()

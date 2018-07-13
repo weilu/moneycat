@@ -3,6 +3,7 @@ import os
 import io
 import base64
 import pandas as pd
+import json
 from chalice.config import Config
 from chalice.local import LocalGateway
 from app import app, s3, send_write_request, dynamodb
@@ -74,12 +75,7 @@ class TestApp(unittest.TestCase):
     def verify_confirm_and_transactions(self,
             get_request_headers, post_request_headers,
             request_payload_filename, response_body_parse_fn):
-        # first delete all transactions of the test user's
-        response = self.lg.handle_request(method='GET', path='/transactions?txid=1',
-                headers=get_request_headers, body='')
-        self.assertEqual(response['statusCode'], 200)
-        df = response_body_parse_fn(io.StringIO(response['body']))
-        self.delete_all_tx_of_test_user(df)
+        self.delete_all_tx_of_test_user(get_request_headers, response_body_parse_fn)
 
         # create new transactions
         filename = os.path.join(os.path.dirname(__file__), 'data',
@@ -93,15 +89,8 @@ class TestApp(unittest.TestCase):
         response = self.lg.handle_request(method='GET', path='/transactions',
                 headers=get_request_headers, body='')
         self.assertEqual(response['statusCode'], 200)
-        expected_df = response_body_parse_fn(filename) \
-                .drop(columns=['foreign_amount']) \
-                .sort_values(['date', 'description', 'amount']) \
-                .reset_index(drop=True)
-        df = response_body_parse_fn(io.StringIO(response['body'])) \
-                .sort_values(['date', 'description', 'amount']) \
-                .reset_index(drop=True)
-        assert_frame_equal(df, expected_df, check_like=True)
-
+        self.assert_str_as_dataframe_equal(io.StringIO(response['body']), filename,
+                                        response_body_parse_fn)
     def test_confirm_invalid_payload(self):
         # missing payload
         response = self.lg.handle_request(method='POST', path='/confirm',
@@ -114,6 +103,55 @@ class TestApp(unittest.TestCase):
         response = self.lg.handle_request(method='POST', path='/confirm',
                 headers={'Content-Type': 'text/csv'}, body=payload)
         self.assertEqual(response['statusCode'], 400)
+
+    def test_update(self):
+        self.delete_all_tx_of_test_user()
+
+        confirm_payload = '''
+date,description,amount,statement_date,category
+2016-07-13,10 JUL CR INTEREST,-40.59,2016-08-12,Interest Income
+2016-07-18,15 JUL CR INTEREST,-72.97,2016-08-12,Interest Income
+2016-07-15,13 JUL GRAIN - GO106604 SINGAPORE,45.75,2016-08-12,Delivery
+2016-07-18,CGH CLINICS $110.12 001/003,75,2016-08-12,Dentist
+2016-07-18,CGH CLINICS $110.12 002/003,75,2016-08-12,Dentist
+2016-07-18,CGH CLINICS $110.12 003/003,75,2016-08-12,Dentist
+'''
+
+        response = self.lg.handle_request(method='POST', path='/confirm',
+                headers={'Content-type': 'text/csv'}, body=confirm_payload)
+        self.assertEqual(response['statusCode'], 201)
+
+        update_payload = json.dumps({
+            'description': '10 JUL CR INTEREST',
+            'category': 'Returned Purchase'})
+
+        response = self.lg.handle_request(method='POST', path='/update',
+                headers={'Content-type': 'application/json'}, body=update_payload)
+        self.assertEqual(response['statusCode'], 200)
+        self.assertEqual(response['body'], 'Updated 2 transactions')
+
+        update_payload = json.dumps({
+            'description': 'CGH CLINICS $110.12 003/003',
+            'category': 'Doctor'})
+
+        response = self.lg.handle_request(method='POST', path='/update',
+                headers={'Content-type': 'application/json'}, body=update_payload)
+        self.assertEqual(response['statusCode'], 200)
+        self.assertEqual(response['body'], 'Updated 3 transactions')
+
+        expected_payload = '''
+date,description,amount,statement_date,category
+2016-07-13,10 JUL CR INTEREST,-40.59,2016-08-12,Returned Purchase
+2016-07-18,15 JUL CR INTEREST,-72.97,2016-08-12,Returned Purchase
+2016-07-15,13 JUL GRAIN - GO106604 SINGAPORE,45.75,2016-08-12,Delivery
+2016-07-18,CGH CLINICS $110.12 001/003,75,2016-08-12,Doctor
+2016-07-18,CGH CLINICS $110.12 002/003,75,2016-08-12,Doctor
+2016-07-18,CGH CLINICS $110.12 003/003,75,2016-08-12,Doctor
+'''
+        response = self.lg.handle_request(method='GET', path='/transactions',
+                headers={}, body='')
+        self.assert_str_as_dataframe_equal(io.StringIO(response['body']),
+                                           io.StringIO(expected_payload))
 
     def test_request(self):
         password = '123abc'
@@ -156,10 +194,23 @@ class TestApp(unittest.TestCase):
         with open(filename, mode) as f:
             return f.read()
 
-    def delete_all_tx_of_test_user(self, tx_df):
+    def delete_all_tx_of_test_user(self, get_request_headers={},
+            response_body_parse_fn=None):
+        response = self.lg.handle_request(method='GET', path='/transactions?txid=1',
+                headers=get_request_headers, body='')
+        self.assertEqual(response['statusCode'], 200)
+
+        body = response['body']
+        if not body or not body.strip():
+            print('No data to delete')
+            return
+        if not response_body_parse_fn:
+            response_body_parse_fn = lambda body: pd.read_csv(body, index_col=False)
+        tx_df = response_body_parse_fn(io.StringIO(body))
         if tx_df.empty:
             print('No data to delete')
             return
+
         requests = []
         for index, row in tx_df.iterrows():
             item = {"uuid": {"S": "wei"},
@@ -171,6 +222,19 @@ class TestApp(unittest.TestCase):
         if len(requests) > 0:
             send_write_request(requests)
 
+    def assert_str_as_dataframe_equal(self, actual_str_io, expected_str_io,
+                                      str_parse_fn=None):
+        if not str_parse_fn:
+            str_parse_fn = lambda body: pd.read_csv(body, index_col=False)
+        expected_df = str_parse_fn(expected_str_io) \
+                .sort_values(['date', 'description', 'amount']) \
+                .reset_index(drop=True)
+        if 'foreign_amount' in expected_df:
+            expected_df.drop(columns=['foreign_amount'], inplace=True)
+        df = str_parse_fn(actual_str_io) \
+                .sort_values(['date', 'description', 'amount']) \
+                .reset_index(drop=True)
+        assert_frame_equal(df, expected_df, check_like=True)
 
 
 if __name__ == '__main__':
