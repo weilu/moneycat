@@ -368,6 +368,8 @@ def request():
     form_data = get_multipart_data()
     form_file = form_data['file'][0]
     password = form_data['password'][0] if 'password' in form_data else ''
+    if hasattr(password, 'decode'): # in case password somehow comes in as binary data
+        password = password.decode()
 
     with NamedTemporaryFile(mode='wb', suffix='.pdf', delete=False) as f:
         filename = f.name
@@ -391,4 +393,6 @@ def request():
 
 def get_current_user_email():
     req_context = app.current_request.context
+    if ENV == 'dev':
+        return 'wei' # fixture user for test & local dev purposes
     return req_context['authorizer']['claims']['email']
