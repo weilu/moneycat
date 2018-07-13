@@ -56,6 +56,7 @@ class TestApp(unittest.TestCase):
         self.assertEqual(response['body'], 'Missing upload file')
 
 
+    #### helper functions ###
     def get_pdf_payload(self, password=None):
         args = {'file': ('uob.pdf', self.get_pdf_data(), 'application/pdf')}
         if password:
@@ -75,6 +76,7 @@ class TestApp(unittest.TestCase):
 
         # only clean up if test passes, when it fails save pdf for debugging
         s3.delete_object(Bucket=bucket, Key=latest_pdf['Key'])
+
 
 if __name__ == '__main__':
     unittest.main()

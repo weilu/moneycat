@@ -29,6 +29,10 @@ app.debug = True
 app.log.setLevel(logging.DEBUG)
 
 ENV = os.environ.get('ENV', 'dev')
+PDF_BUCKET = 'moneycat-pdfs-{}'.format(ENV)
+REQUEST_PDF_BUCKET = 'moneycat-request-pdfs-{}'.format(ENV)
+DB_NAME = 'moneycat-{}'.format(ENV)
+
 if ENV == 'dev':
     lambda_task_root = '/usr/local/'
 else:
@@ -57,20 +61,8 @@ def get_authorizer():
     return authorizer
 
 
-def get_pdf_bucket():
-    return 'moneycat-pdfs-{}'.format(ENV)
-
-
-def get_request_pdf_bucket():
-    return 'moneycat-request-pdfs-{}'.format(ENV)
-
-
-def get_db_name():
-    return 'moneycat-{}'.format(ENV)
-
-
 def query_by_uuid_param(uuid):
-    return {'TableName': get_db_name(),
+    return {'TableName': DB_NAME,
             'ExpressionAttributeNames': {'#uuid': 'uuid'},
             'KeyConditionExpression': '#uuid = :uuid_val',
             'ExpressionAttributeValues': {':uuid_val': {'S': uuid}}}
@@ -146,7 +138,7 @@ def upload():
     # upload to s3
     key_name = os.path.basename(filename)
     app.log.debug('uploading {} to s3'.format(key_name))
-    s3.upload_file(filename, get_pdf_bucket(), key_name)
+    s3.upload_file(filename, PDF_BUCKET, key_name)
 
     # parse
     output = io.StringIO()
@@ -180,7 +172,7 @@ def upload():
 
 
 def send_write_request(requests):
-    request = {get_db_name(): requests}
+    request = {DB_NAME: requests}
     response = dynamodb.batch_write_item(RequestItems=request,
             ReturnConsumedCapacity='TOTAL')
     print(response)
@@ -286,7 +278,7 @@ def update():
     updated_at = str(datetime.utcnow())
     for tx in items:
         key_params = {k: v for k, v in tx.items() if k in ['uuid', 'txid']}
-        update_params = {'TableName': get_db_name(),
+        update_params = {'TableName': DB_NAME,
                 'Key': key_params,
                 'UpdateExpression': 'SET category = :new_cat_value, updated_at = :updated_at',
                 'ExpressionAttributeValues': {
@@ -317,7 +309,7 @@ def refresh_model():
     get_last_modified = lambda obj: obj['LastModified']
     last_refresh_ts = str(get_last_modified(model_obj))
     last_refresh_ts = last_refresh_ts[0:last_refresh_ts.index('+')]
-    response = dynamodb.scan(TableName=get_db_name(),
+    response = dynamodb.scan(TableName=DB_NAME,
       FilterExpression='updated_at >= :updated_at_val',
       ExpressionAttributeValues={':updated_at_val': {'S': last_refresh_ts}})
     df = dynamodb_response_to_df(response)
@@ -384,14 +376,13 @@ def request():
     # upload to s3
     key_name = os.path.basename(filename)
     app.log.debug('uploading {} to s3'.format(key_name))
-    bucket_name = get_request_pdf_bucket()
-    s3.upload_file(filename, bucket_name, key_name)
+    s3.upload_file(filename, REQUEST_PDF_BUCKET, key_name)
 
     # tag file with user email and password
     tag_args = {'TagSet': [
         {'Key': 'uuid', 'Value': get_current_user_email()},
         {'Key': 'password', 'Value': password}]}
-    response = s3.put_object_tagging(Bucket=bucket_name,
+    response = s3.put_object_tagging(Bucket=REQUEST_PDF_BUCKET,
                                      Key=key_name, Tagging=tag_args)
     app.log.debug(response)
 
