@@ -45,7 +45,7 @@ BIN_DIR = os.path.join(lambda_task_root, 'bin')
 LIB_DIR = os.path.join(lambda_task_root, 'lib')
 
 MODEL_BUCKET = 'cs4225-models'
-CLASSIFIER_FILENAME = "svm_classifier.pkl"
+CLASSIFIER_FILENAME = "classifier.pkl"
 META_FILENAME = 'meta.pkl'
 
 s3 = boto3.client('s3')
@@ -86,6 +86,13 @@ def get_model(name):
         f.write(model_obj['Body'].read())
         f.seek(0)
         return (joblib.load(f), model_obj)
+
+
+def get_current_user_email():
+    req_context = app.current_request.context
+    if ENV == 'dev':
+        return 'wei' # fixture user for test & local dev purposes
+    return req_context['authorizer']['claims']['email']
 
 
 def dynamodb_response_to_df(response):
@@ -390,9 +397,6 @@ def request():
 
     return Response(body='', status_code=201)
 
-
-def get_current_user_email():
-    req_context = app.current_request.context
-    if ENV == 'dev':
-        return 'wei' # fixture user for test & local dev purposes
-    return req_context['authorizer']['claims']['email']
+@app.route('/testauth', methods=['GET'], cors=True, authorizer=get_authorizer())
+def testauth():
+    return {"success": True}

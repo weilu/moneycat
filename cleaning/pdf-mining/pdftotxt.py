@@ -1,3 +1,4 @@
+from argparse import ArgumentParser
 from glob import glob
 import subprocess
 import re
@@ -137,9 +138,18 @@ def process_pdf(filename, csv_writer, pdftotxt_bin='pdftotext',
 
 
 if __name__ == '__main__':
-    with open('out_wei.csv', 'w', encoding='utf-8') as f:
+    parser = ArgumentParser()
+    parser.add_argument("input", help="Input pdf file or directory")
+    parser.add_argument("-o", "--output", dest="output",
+                        help="output csv filename", default="out.csv")
+    args = parser.parse_args()
+
+    with open(args.output, 'w', encoding='utf-8') as f:
         csv_writer = csv.writer(f)
         csv_writer.writerow(['date', 'description', 'amount', 'foreign_amount',
                              'statement_date', 'source'])
-        for filename in glob('/Users/luwei/drive/CS4225_project/data/pdf/*.pdf'):
-            process_pdf(filename, csv_writer)
+        if path.isdir(args.input):
+            for filename in glob('{}/*.pdf'.format(args.input)):
+                process_pdf(filename, csv_writer)
+        else:
+            process_pdf(args.input, csv_writer)
