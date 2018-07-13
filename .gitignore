@@ -1,3 +1,4 @@
 *.pdf
 cleaning/pdf-mining/**/*.csv
 classification/assets/*.csv
+**/*/test/data/
