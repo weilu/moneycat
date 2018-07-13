@@ -6,6 +6,7 @@ import csv
 from tempfile import NamedTemporaryFile
 from urllib.parse import parse_qs
 from chalicelib import pdftotxt
+from chalicelib.algo import reservior_sampling
 from chalicelib.train import export_model
 import cgi
 import boto3
@@ -13,7 +14,6 @@ import logging
 from sklearn.externals import joblib
 from sklearn import metrics
 import pandas as pd
-import random
 from dateparser.search import search_dates
 from datetime import datetime
 import hashlib
@@ -28,8 +28,15 @@ app.api.binary_types.append('multipart/form-data')
 app.debug = True
 app.log.setLevel(logging.DEBUG)
 
-lambda_task_root = os.environ.get('LAMBDA_TASK_ROOT',
-                                  os.path.dirname(os.path.abspath(__file__)))
+ENV = os.environ.get('ENV', 'dev')
+PDF_BUCKET = 'moneycat-pdfs-{}'.format(ENV)
+REQUEST_PDF_BUCKET = 'moneycat-request-pdfs-{}'.format(ENV)
+DB_NAME = 'moneycat-{}'.format(ENV)
+
+if ENV == 'dev':
+    lambda_task_root = '/usr/local/'
+else:
+    lambda_task_root = os.path.dirname(os.path.abspath(__file__))
 # Only exists in non-local lambda env
 maybe_exist = os.path.join(lambda_task_root, 'pdftotext')
 if os.path.isdir(maybe_exist):
@@ -54,20 +61,8 @@ def get_authorizer():
     return authorizer
 
 
-def get_pdf_bucket():
-    return 'moneycat-pdfs-{}'.format(os.environ.get('ENV'))
-
-
-def get_request_pdf_bucket():
-    return 'moneycat-request-pdfs-{}'.format(os.environ.get('ENV'))
-
-
-def get_db_name():
-    return 'moneycat-{}'.format(os.environ.get('ENV'))
-
-
 def query_by_uuid_param(uuid):
-    return {'TableName': get_db_name(),
+    return {'TableName': DB_NAME,
             'ExpressionAttributeNames': {'#uuid': 'uuid'},
             'KeyConditionExpression': '#uuid = :uuid_val',
             'ExpressionAttributeValues': {':uuid_val': {'S': uuid}}}
@@ -76,6 +71,9 @@ def query_by_uuid_param(uuid):
 def get_multipart_data():
     content_type_obj = app.current_request.headers['content-type']
     content_type, property_dict = cgi.parse_header(content_type_obj)
+
+    if 'boundary' not in property_dict:
+        return None
 
     property_dict['boundary'] = bytes(property_dict['boundary'], "utf-8")
     body = io.BytesIO(app.current_request.raw_body)
@@ -108,26 +106,6 @@ def dynamodb_response_to_df(response):
     return df
 
 
-# new_data and existing_samples should be of type pd.DataFrame
-def reservior_sampling(sample_size, new_data,
-                       existing_record_count=0, existing_samples=pd.DataFrame()):
-    new_data = new_data.reset_index(drop=True)
-    samples = existing_samples.reset_index(drop=True)
-    replaced_indexes = {}
-    for index, record in new_data.iterrows():
-        if samples.shape[0] < sample_size:
-            samples = samples.append(record, ignore_index=True)
-            replaced_indexes[index] = index
-        else:
-            r = random.randint(0, existing_record_count + index)
-            if r < sample_size:
-                samples.loc[r] = record
-                replaced_indexes[r] = index
-    samples.reset_index(inplace=True)
-    remaining_indexes = set(range(len(new_data))) - set(replaced_indexes.values())
-    return (samples, remaining_indexes)
-
-
 def dataframe_as_response(df, accept_header):
     if accept_header and 'application/json' in accept_header:
         payload = df.to_json(orient='records')
@@ -144,7 +122,13 @@ def dataframe_as_response(df, accept_header):
            authorizer=get_authorizer())
 def upload():
     form_data = get_multipart_data()
+    if not form_data:
+        return Response(body='Missing form data', status_code=400)
+
+    if 'file' not in form_data or not form_data['file'] or not form_data['file'][0]:
+        return Response(body='Missing upload file', status_code=400)
     form_file = form_data['file'][0]
+
     password = form_data['password'][0] if 'password' in form_data else None
 
     with NamedTemporaryFile(mode='wb', suffix='.pdf', delete=False) as f:
@@ -154,7 +138,7 @@ def upload():
     # upload to s3
     key_name = os.path.basename(filename)
     app.log.debug('uploading {} to s3'.format(key_name))
-    s3.upload_file(filename, get_pdf_bucket(), key_name)
+    s3.upload_file(filename, PDF_BUCKET, key_name)
 
     # parse
     output = io.StringIO()
@@ -184,11 +168,11 @@ def upload():
     categories = label_transformer.inverse_transform(pred)
     df['category'] = categories
 
-    return dataframe_as_response(df, app.current_request.headers['accept'])
+    return dataframe_as_response(df, app.current_request.headers.get('accept'))
 
 
 def send_write_request(requests):
-    request = {get_db_name(): requests}
+    request = {DB_NAME: requests}
     response = dynamodb.batch_write_item(RequestItems=request,
             ReturnConsumedCapacity='TOTAL')
     print(response)
@@ -253,7 +237,7 @@ def confirm():
 
     # update dynamoDB
     file_io = io.StringIO(form_file)
-    accept_header = app.current_request.headers['accept']
+    accept_header = app.current_request.headers.get('accept')
     if accept_header and 'application/json' in accept_header:
         df = pd.read_json(file_io, orient='records', convert_dates=False)
     else:
@@ -294,7 +278,7 @@ def update():
     updated_at = str(datetime.utcnow())
     for tx in items:
         key_params = {k: v for k, v in tx.items() if k in ['uuid', 'txid']}
-        update_params = {'TableName': get_db_name(),
+        update_params = {'TableName': DB_NAME,
                 'Key': key_params,
                 'UpdateExpression': 'SET category = :new_cat_value, updated_at = :updated_at',
                 'ExpressionAttributeValues': {
@@ -313,7 +297,7 @@ def transactions():
     uuid = get_current_user_email()
     response = dynamodb.query(**query_by_uuid_param(uuid))
     df = dynamodb_response_to_df(response)
-    return dataframe_as_response(df, app.current_request.headers['accept'])
+    return dataframe_as_response(df, app.current_request.headers.get('accept'))
 
 
 @app.route('/refresh-model', methods=['GET'])
@@ -325,7 +309,7 @@ def refresh_model():
     get_last_modified = lambda obj: obj['LastModified']
     last_refresh_ts = str(get_last_modified(model_obj))
     last_refresh_ts = last_refresh_ts[0:last_refresh_ts.index('+')]
-    response = dynamodb.scan(TableName=get_db_name(),
+    response = dynamodb.scan(TableName=DB_NAME,
       FilterExpression='updated_at >= :updated_at_val',
       ExpressionAttributeValues={':updated_at_val': {'S': last_refresh_ts}})
     df = dynamodb_response_to_df(response)
@@ -384,6 +368,8 @@ def request():
     form_data = get_multipart_data()
     form_file = form_data['file'][0]
     password = form_data['password'][0] if 'password' in form_data else ''
+    if hasattr(password, 'decode'): # in case password somehow comes in as binary data
+        password = password.decode()
 
     with NamedTemporaryFile(mode='wb', suffix='.pdf', delete=False) as f:
         filename = f.name
@@ -392,14 +378,13 @@ def request():
     # upload to s3
     key_name = os.path.basename(filename)
     app.log.debug('uploading {} to s3'.format(key_name))
-    bucket_name = get_request_pdf_bucket()
-    s3.upload_file(filename, bucket_name, key_name)
+    s3.upload_file(filename, REQUEST_PDF_BUCKET, key_name)
 
     # tag file with user email and password
     tag_args = {'TagSet': [
         {'Key': 'uuid', 'Value': get_current_user_email()},
         {'Key': 'password', 'Value': password}]}
-    response = s3.put_object_tagging(Bucket=bucket_name,
+    response = s3.put_object_tagging(Bucket=REQUEST_PDF_BUCKET,
                                      Key=key_name, Tagging=tag_args)
     app.log.debug(response)
 
@@ -408,4 +393,6 @@ def request():
 
 def get_current_user_email():
     req_context = app.current_request.context
+    if ENV == 'dev':
+        return 'wei' # fixture user for test & local dev purposes
     return req_context['authorizer']['claims']['email']
