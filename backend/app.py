@@ -4,7 +4,6 @@ import os
 import io
 import csv
 from tempfile import NamedTemporaryFile
-from urllib.parse import parse_qs
 from chalicelib import pdftotxt
 from chalicelib.algo import reservior_sampling
 from chalicelib.train import export_model
@@ -17,6 +16,8 @@ import pandas as pd
 from dateparser.search import search_dates
 from datetime import datetime
 import hashlib
+import re
+from json.decoder import JSONDecodeError
 
 # TODO: stricter cors rules
 # cors_config = CORSConfig(
@@ -95,10 +96,12 @@ def get_current_user_email():
     return req_context['authorizer']['claims']['email']
 
 
-def dynamodb_response_to_df(response):
+def dynamodb_response_to_df(response, include_txid=False):
     df = pd.DataFrame.from_dict(response['Items'])
     if not df.empty:
-        df.drop(columns=['txid', 'uuid', 'updated_at'], inplace=True)
+        df.drop(columns=['uuid', 'updated_at'], inplace=True)
+        if not include_txid:
+            df.drop(columns=['txid'], inplace=True)
 
         def convert_dynamo_data_type(type_value):
             if pd.isnull(type_value):
@@ -118,7 +121,7 @@ def dataframe_as_response(df, accept_header):
         payload = df.to_json(orient='records')
         content_type = 'application/json'
     else: # default to csv on unknown format
-        payload = df.to_csv()
+        payload = df.to_csv(index=False)
         content_type = 'text/csv'
 
     return Response(body=payload, headers={'Content-Type': content_type})
@@ -218,7 +221,7 @@ def batch_tx_writes(uuid, tx_df):
             "S": updated_at
           },
         }
-        if not pd.isnull(row['foreign_amount']):
+        if 'foreign_amount' in row and not pd.isnull(row['foreign_amount']):
             item["foreign_amount"] = { "S": row['foreign_amount'] }
 
         requests.append({"PutRequest": { "Item": item}})
@@ -230,50 +233,60 @@ def batch_tx_writes(uuid, tx_df):
 
 
 @app.route('/confirm', methods=['POST'],
-           content_types=['application/x-www-form-urlencoded'], cors=True,
+           content_types=['application/json', 'text/csv'], cors=True,
            authorizer=get_authorizer())
 def confirm():
-    form_data = parse_qs(app.current_request.raw_body.decode())
-    if 'file' not in form_data:
-        return Response(body='file must be present', status_code=400)
-    form_file = form_data['file'][0]
-    uuid = get_current_user_email()
-    if not form_file:
-        return Response(body='Invalid file {}'.format(form_file),
-                        status_code=400)
-
-    # update dynamoDB
-    file_io = io.StringIO(form_file)
-    accept_header = app.current_request.headers.get('accept')
-    if accept_header and 'application/json' in accept_header:
-        df = pd.read_json(file_io, orient='records', convert_dates=False)
+    body = app.current_request.raw_body.decode()
+    if app.current_request.json_body:
+        df = pd.read_json(io.StringIO(body), orient='records',
+                          convert_dates=False)
+    elif body:
+        df = pd.read_csv(io.StringIO(body), index_col=False)
     else:
-        df = pd.read_csv(file_io, index_col=False)
+        df = pd.DataFrame()
+
+    if df.empty:
+        msg = ("Missing or invalid request payload. Make sure it's in"
+               "json or csv format with a matching Content-Type header.")
+        return Response(body=msg, status_code=400)
+
+    uuid = get_current_user_email()
     batch_tx_writes(uuid, df)
 
     return Response(body='', status_code=201)
 
 
 @app.route('/update', methods=['POST'],
-           content_types=['application/x-www-form-urlencoded'], cors=True,
+           content_types=['application/json'], cors=True,
            authorizer=get_authorizer())
 def update():
-    form_data = parse_qs(app.current_request.raw_body.decode())
+    try:
+        form_data = app.current_request.json_body
+    except JSONDecodeError:
+        return Response(body='Malformed JSON', status_code=400)
+
     if 'description' not in form_data or 'category' not in form_data:
         return Response(body='Required form fields: description and category must be present',
                         status_code=400)
-    description = form_data['description'][0]
-    category = form_data['category'][0]
+    description = form_data['description']
+    category = form_data['category']
     if not description or not category:
         return Response(body='Invalid description {} or category {}'\
                 .format(description, category), status_code=400)
 
-    # remove dates from description to maximize description matching
+    ### remove known noise from description to maximize description matching ###
+    # remove dollar amount e.g. $110.12, sometimes it's misinterpreted by dateparser
+    description = re.sub(r'([$]\d+(?:\.\d{2})?)', '', description)
+    # remove auto-split transactions e.g. 001/003 in case of OCBC
+    description = re.sub(r'(\d{3}/\d{3})', '', description)
+    # remove dates
     search_result = search_dates(description, languages=['en'])
     if search_result:
         date_strings = [pair[0] for pair in search_result]
         for date in date_strings:
             description = description.replace(date, '')
+    description = description.strip()
+
     # TODO validate category, later
 
     uuid = get_current_user_email()
@@ -303,7 +316,9 @@ def update():
 def transactions():
     uuid = get_current_user_email()
     response = dynamodb.query(**query_by_uuid_param(uuid))
-    df = dynamodb_response_to_df(response)
+    query_params = app.current_request.query_params
+    include_txid = query_params and query_params.get('txid')
+    df = dynamodb_response_to_df(response, include_txid)
     return dataframe_as_response(df, app.current_request.headers.get('accept'))
 
 
