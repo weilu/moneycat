@@ -421,7 +421,11 @@ def categories():
     le = get_model("label_transformer.pkl")[0]
     subcategories = set(le.classes_)
     active_subcats = get_active_subcategories(subcategories)
-    return json.dumps(active_subcats, indent=2, sort_keys=True)
+    body = json.dumps(active_subcats, indent=2, sort_keys=True)
+    etag = hashlib.md5(body.encode('utf-8')).hexdigest()
+    return Response(body=body,
+                    headers={'Content-Type': 'application/json',
+                             'ETag': etag})
 
 
 @app.route('/testauth', methods=['GET'], cors=CORS_CONFIG,

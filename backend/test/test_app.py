@@ -9,6 +9,7 @@ from chalice.local import LocalGateway
 from app import app, s3, send_write_request, dynamodb
 from requests_toolbelt import MultipartEncoder
 from pandas.util.testing import assert_frame_equal
+import hashlib
 
 class TestApp(unittest.TestCase):
 
@@ -181,7 +182,10 @@ date,description,amount,statement_date,category
 
         self.assertEqual(response['statusCode'], 200)
         expected_json = os.path.join(os.path.dirname(__file__), 'data', 'categories.json')
-        self.assertEqual(response['body'], self.read_and_close(expected_json))
+        expected_body = self.read_and_close(expected_json)
+        self.assertEqual(response['body'], expected_body)
+        self.assertEqual(response['headers']['ETag'],
+                         hashlib.md5(expected_body).hexdigest())
 
 
     #### helper functions ###
