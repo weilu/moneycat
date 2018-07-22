@@ -30,6 +30,10 @@ curl -v https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/update -
 # New bank statement support request
 curl https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/request -F 'file=@[path/to/file].pdf' -F 'password=[pdf password]' -H 'Authorization: [jwtToken]'
 
+# Get a list of all categories and subcategories, in the json format of: {subcat1: cat1, subcat2: cat1}
+# The response contains an ETag header, which should be used for cache control with the "If-None-Match" request header
+curl https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/categories
+
 # Refresh model with new csv data
 curl -v https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/refresh-model
 ```

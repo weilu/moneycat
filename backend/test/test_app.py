@@ -184,9 +184,19 @@ date,description,amount,statement_date,category
         expected_json = os.path.join(os.path.dirname(__file__), 'data', 'categories.json')
         expected_body = self.read_and_close(expected_json)
         self.assertEqual(response['body'], expected_body)
-        self.assertEqual(response['headers']['ETag'],
-                         hashlib.md5(expected_body).hexdigest())
 
+    def test_categories_etag_cache_header(self):
+        response = self.lg.handle_request(method='GET', path='/categories',
+                headers={}, body='')
+
+        expected_json = os.path.join(os.path.dirname(__file__), 'data', 'categories.json')
+        expected_body = self.read_and_close(expected_json)
+        expected_etag = hashlib.md5(expected_body.encode('utf-8')).hexdigest()
+        self.assertEqual(response['headers']['ETag'], expected_etag)
+
+        response = self.lg.handle_request(method='GET', path='/categories',
+                headers={'If-None-Match': expected_etag}, body='')
+        self.assertEqual(response['statusCode'], 304)
 
     #### helper functions ###
     def get_pdf_payload(self, password=None):

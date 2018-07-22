@@ -416,6 +416,7 @@ def request():
     return Response(body='', status_code=201)
 
 
+# TODO: make this more efficient by storing the category hash in dynamodb & update only when model updates
 @app.route('/categories', methods=['GET'], cors=CORS_CONFIG)
 def categories():
     le = get_model("label_transformer.pkl")[0]
@@ -423,6 +424,11 @@ def categories():
     active_subcats = get_active_subcategories(subcategories)
     body = json.dumps(active_subcats, indent=2, sort_keys=True)
     etag = hashlib.md5(body.encode('utf-8')).hexdigest()
+
+    if_none_match = app.current_request.headers.get('if-none-match')
+    if if_none_match == etag:
+        return Response(body='', status_code=304)
+
     return Response(body=body,
                     headers={'Content-Type': 'application/json',
                              'ETag': etag})
