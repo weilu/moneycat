@@ -21,10 +21,7 @@ import re
 from json.decoder import JSONDecodeError
 import json
 
-# TODO: stricter cors rules
-# cors_config = CORSConfig(
-#     allow_origin='https://weilu.github.io/cs4225',
-# )
+ORIGINS = {'dev': '*', 'prod': 'moneycat.sg'}
 
 app = Chalice(app_name='parseBankStatement')
 app.api.binary_types.append('multipart/form-data')
@@ -35,6 +32,10 @@ ENV = os.environ.get('ENV', 'dev')
 PDF_BUCKET = 'moneycat-pdfs-{}'.format(ENV)
 REQUEST_PDF_BUCKET = 'moneycat-request-pdfs-{}'.format(ENV)
 DB_NAME = 'moneycat-{}'.format(ENV)
+CORS_CONFIG = CORSConfig(
+    allow_origin=ORIGINS[ENV],
+    allow_credentials=True
+)
 
 local_lambda_task_root = '/usr/local/'
 if os.path.exists(local_lambda_task_root + 'bin/pdftotext'):
@@ -130,8 +131,8 @@ def dataframe_as_response(df, accept_header):
     return Response(body=payload, headers={'Content-Type': content_type})
 
 
-@app.route('/upload', methods=['POST'],
-           content_types=['multipart/form-data'], cors=True,
+@app.route('/upload', methods=['POST'], cors=CORS_CONFIG,
+           content_types=['multipart/form-data'],
            authorizer=get_authorizer())
 def upload():
     form_data = get_multipart_data()
@@ -235,8 +236,8 @@ def batch_tx_writes(uuid, tx_df):
         send_write_request(requests)
 
 
-@app.route('/confirm', methods=['POST'],
-           content_types=['application/json', 'text/csv'], cors=True,
+@app.route('/confirm', methods=['POST'], cors=CORS_CONFIG,
+           content_types=['application/json', 'text/csv'],
            authorizer=get_authorizer())
 def confirm():
     body = app.current_request.raw_body.decode()
@@ -259,9 +260,8 @@ def confirm():
     return Response(body='', status_code=201)
 
 
-@app.route('/update', methods=['POST'],
-           content_types=['application/json'], cors=True,
-           authorizer=get_authorizer())
+@app.route('/update', methods=['POST'], content_types=['application/json'],
+           cors=CORS_CONFIG, authorizer=get_authorizer())
 def update():
     try:
         form_data = app.current_request.json_body
@@ -315,7 +315,8 @@ def update():
     return Response(body='Updated {} transactions'.format(len(items)), status_code=200)
 
 
-@app.route('/transactions', methods=['GET'], cors=True, authorizer=get_authorizer())
+@app.route('/transactions', methods=['GET'], cors=CORS_CONFIG,
+           authorizer=get_authorizer())
 def transactions():
     uuid = get_current_user_email()
     response = dynamodb.query(**query_by_uuid_param(uuid))
@@ -386,9 +387,8 @@ def refresh_model():
     return Response(body=msg, status_code=201)
 
 
-@app.route('/request', methods=['POST'],
-           content_types=['multipart/form-data'], cors=True,
-           authorizer=get_authorizer())
+@app.route('/request', methods=['POST'], content_types=['multipart/form-data'],
+           cors=CORS_CONFIG, authorizer=get_authorizer())
 def request():
     form_data = get_multipart_data()
     form_file = form_data['file'][0]
@@ -416,7 +416,7 @@ def request():
     return Response(body='', status_code=201)
 
 
-@app.route('/categories', methods=['GET'], cors=True)
+@app.route('/categories', methods=['GET'], cors=CORS_CONFIG)
 def categories():
     le = get_model("label_transformer.pkl")[0]
     subcategories = set(le.classes_)
@@ -424,6 +424,7 @@ def categories():
     return json.dumps(active_subcats, indent=2, sort_keys=True)
 
 
-@app.route('/testauth', methods=['GET'], cors=True, authorizer=get_authorizer())
+@app.route('/testauth', methods=['GET'], cors=CORS_CONFIG,
+           authorizer=get_authorizer())
 def testauth():
     return {"success": True}
