@@ -17,6 +17,7 @@ import boto3
 import os
 import pickle
 import numpy as np
+import csv
 
 import warnings
 warnings.filterwarnings("ignore", category=UndefinedMetricWarning)
@@ -114,14 +115,20 @@ def test_models(X, y):
     return sorted(classifier_n_accuracies, key=lambda pair: pair[1], reverse=True)[0]
 
 
-def get_label_encoder(y, y_additional=pd.DataFrame()):
+def get_label_encoder():
+    all_cats = set() # including categories & subcategories
+    with open(os.path.join(os.path.dirname(__file__), 'categories.csv')) as f:
+        reader = csv.reader(f)
+        next(reader) # skip header line
+        for row in reader:
+            all_cats.add(row[0])
+            all_cats.add(row[1])
     le = preprocessing.LabelEncoder()
-    y_raw = y.append(y_additional, ignore_index=True) if not y_additional.empty else y
-    le.fit(y_raw)
+    le.fit(list(all_cats))
     return le
 
 
-def test_additional_train_data(personal_data_dir):
+def test_additional_train_data(personal_data_dir, le):
     gov_data = pd.read_csv('./assets/res_purchase_card_cleaned.csv', sep=",")
     print("gov data size:", gov_data.shape)
 
@@ -135,7 +142,6 @@ def test_additional_train_data(personal_data_dir):
     X = personal_data['description']
     y_raw = personal_data['category']
 
-    le = get_label_encoder(y_raw, extra_y_raw)
     y = le.transform(y_raw)
     extra_y = le.transform(extra_y_raw)
 
@@ -154,12 +160,11 @@ def test_additional_train_data(personal_data_dir):
         print('%s produces an accuracy of %0.3f, and f1 score of %0.3f'\
                 % (classifier, accuracy, f1))
 
-def train_pure_personal_data(input_dir, export=False):
+def train_pure_personal_data(input_dir, le, export=False):
     personal_data = read_data(input_dir)
     print("data size:", personal_data.shape)
 
     y_raw = personal_data['category']
-    le = get_label_encoder(y_raw)
     y = le.transform(y_raw)
     X = personal_data['description']
 
@@ -191,8 +196,9 @@ if __name__ == '__main__':
     parser.add_argument("-e", "--export", action="store_true",
                         help="Serialize & export models")
     args = parser.parse_args()
+    le = get_label_encoder()
 
     # TODO: make this an arg option
-    # test_additional_train_data(args.input)
+    # test_additional_train_data(args.input, le)
 
-    train_pure_personal_data(args.input, export=args.export)
+    train_pure_personal_data(args.input, le, export=args.export)
