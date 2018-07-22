@@ -7,6 +7,7 @@ from tempfile import NamedTemporaryFile
 from chalicelib import pdftotxt
 from chalicelib.algo import reservior_sampling
 from chalicelib.train import export_model
+from chalicelib.active import get_active_subcategories
 import cgi
 import boto3
 import logging
@@ -18,6 +19,7 @@ from datetime import datetime
 import hashlib
 import re
 from json.decoder import JSONDecodeError
+import json
 
 # TODO: stricter cors rules
 # cors_config = CORSConfig(
@@ -412,6 +414,15 @@ def request():
     app.log.debug(response)
 
     return Response(body='', status_code=201)
+
+
+@app.route('/categories', methods=['GET'], cors=True)
+def categories():
+    le = get_model("label_transformer.pkl")[0]
+    subcategories = set(le.classes_)
+    active_subcats = get_active_subcategories(subcategories)
+    return json.dumps(active_subcats, indent=2, sort_keys=True)
+
 
 @app.route('/testauth', methods=['GET'], cors=True, authorizer=get_authorizer())
 def testauth():

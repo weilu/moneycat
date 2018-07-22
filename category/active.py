@@ -6,22 +6,9 @@ from glob import glob
 from os import path
 
 
-if __name__ == '__main__':
-    parser = ArgumentParser()
-    parser.add_argument("input", help="Input csv file or directory")
-    parser.add_argument("-o", "--output", dest="output",
-                        help="output json filename", default="categories.json")
-    args = parser.parse_args()
-
-    subcats = set({})
-    if path.isdir(args.input):
-        for filename in glob('{}/*.csv'.format(args.input)):
-            subcats.update(pd.read_csv(filename)['category'])
-    else:
-        subcats.update(pd.read_csv(filename)['category'])
-
+def get_active_subcategories(subcats):
     all_subcats = {} # sub -> cat
-    with open('categories.csv') as f:
+    with open(path.join(path.dirname(__file__), 'categories.csv')) as f:
         reader = csv.reader(f)
         next(reader) # skip header line
         for row in reader:
@@ -37,6 +24,25 @@ if __name__ == '__main__':
             pass
         else:
             print('Missing subcategory: {}'.format(subcat))
+
+    return active_subcats
+
+
+if __name__ == '__main__':
+    parser = ArgumentParser()
+    parser.add_argument("input", help="Input csv file or directory")
+    parser.add_argument("-o", "--output", dest="output",
+                        help="output json filename", default="categories.json")
+    args = parser.parse_args()
+
+    subcats = set({})
+    if path.isdir(args.input):
+        for filename in glob('{}/*.csv'.format(args.input)):
+            subcats.update(pd.read_csv(filename)['category'])
+    else:
+        subcats.update(pd.read_csv(filename)['category'])
+
+    active_subcats = get_active_subcategories(subcats)
 
     with open(args.output, 'w') as f:
         f.write(json.dumps(active_subcats, indent=2, sort_keys=True))

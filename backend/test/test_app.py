@@ -175,6 +175,14 @@ date,description,amount,statement_date,category
                          {'Key': 'uuid', 'Value': 'wei'}]
         self.check_and_cleanup_pdf(bucket='moneycat-request-pdfs-dev', expected_tags=expected_tags)
 
+    def test_categories(self):
+        response = self.lg.handle_request(method='GET', path='/categories',
+                headers={}, body='')
+
+        self.assertEqual(response['statusCode'], 200)
+        expected_json = os.path.join(os.path.dirname(__file__), 'data', 'categories.json')
+        self.assertEqual(response['body'], self.read_and_close(expected_json))
+
 
     #### helper functions ###
     def get_pdf_payload(self, password=None):
