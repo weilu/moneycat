@@ -22,8 +22,7 @@ class TestApp(unittest.TestCase):
                 headers={'Content-Type': payload.content_type}, body=payload.to_string())
 
         self.assertEqual(response['statusCode'], 200)
-        expected_csv = os.path.join(os.path.dirname(__file__), 'data', 'uob.csv')
-        self.assertEqual(response['body'], self.read_and_close(expected_csv))
+        self.assertEqual(response['body'], self.get_fixture_content('uob.csv'))
         self.check_and_cleanup_pdf()
 
     def test_upload_json(self):
@@ -34,8 +33,7 @@ class TestApp(unittest.TestCase):
                 body=payload.to_string())
 
         self.assertEqual(response['statusCode'], 200)
-        expected_json = os.path.join(os.path.dirname(__file__), 'data', 'uob.json')
-        self.assertEqual(response['body'], self.read_and_close(expected_json).strip())
+        self.assertEqual(response['body'], self.get_fixture_content('uob.json').strip())
         self.check_and_cleanup_pdf()
 
     def test_upload_with_password(self):
@@ -44,8 +42,7 @@ class TestApp(unittest.TestCase):
                 headers={'Content-Type': payload.content_type}, body=payload.to_string())
 
         self.assertEqual(response['statusCode'], 200)
-        expected_csv = os.path.join(os.path.dirname(__file__), 'data', 'uob.csv')
-        self.assertEqual(response['body'], self.read_and_close(expected_csv))
+        self.assertEqual(response['body'], self.get_fixture_content('uob.csv'))
         self.check_and_cleanup_pdf()
 
     def test_upload_bad_request(self):
@@ -79,9 +76,7 @@ class TestApp(unittest.TestCase):
         self.delete_all_tx_of_test_user(get_request_headers, response_body_parse_fn)
 
         # create new transactions
-        filename = os.path.join(os.path.dirname(__file__), 'data',
-                request_payload_filename)
-        payload = self.read_and_close(filename)
+        payload = self.get_fixture_content(request_payload_filename)
         response = self.lg.handle_request(method='POST', path='/confirm',
                 headers=post_request_headers, body=payload)
         self.assertEqual(response['statusCode'], 201)
@@ -90,8 +85,9 @@ class TestApp(unittest.TestCase):
         response = self.lg.handle_request(method='GET', path='/transactions',
                 headers=get_request_headers, body='')
         self.assertEqual(response['statusCode'], 200)
-        self.assert_str_as_dataframe_equal(io.StringIO(response['body']), filename,
-                                        response_body_parse_fn)
+        self.assert_str_as_dataframe_equal(io.StringIO(response['body']),
+                self.get_fixture_path(request_payload_filename),
+                response_body_parse_fn)
     def test_confirm_invalid_payload(self):
         # missing payload
         response = self.lg.handle_request(method='POST', path='/confirm',
@@ -99,10 +95,9 @@ class TestApp(unittest.TestCase):
         self.assertEqual(response['statusCode'], 400)
 
         # mismatched content type
-        filename = os.path.join(os.path.dirname(__file__), 'data', 'uob.json')
-        payload = self.read_and_close(filename)
         response = self.lg.handle_request(method='POST', path='/confirm',
-                headers={'Content-Type': 'text/csv'}, body=payload)
+                headers={'Content-Type': 'text/csv'},
+                body=self.get_fixture_content('uob.json'))
         self.assertEqual(response['statusCode'], 400)
 
     def test_update(self):
@@ -181,16 +176,14 @@ date,description,amount,statement_date,category
                 headers={}, body='')
 
         self.assertEqual(response['statusCode'], 200)
-        expected_json = os.path.join(os.path.dirname(__file__), 'data', 'categories.json')
-        expected_body = self.read_and_close(expected_json)
-        self.assertEqual(response['body'], expected_body)
+        self.assertEqual(response['body'],
+                         self.get_fixture_content('categories.json'))
 
     def test_categories_etag_cache_header(self):
         response = self.lg.handle_request(method='GET', path='/categories',
                 headers={}, body='')
 
-        expected_json = os.path.join(os.path.dirname(__file__), 'data', 'categories.json')
-        expected_body = self.read_and_close(expected_json)
+        expected_body = self.get_fixture_content('categories.json')
         expected_etag = hashlib.md5(expected_body.encode('utf-8')).hexdigest()
         self.assertEqual(response['headers']['ETag'], expected_etag)
 
@@ -204,9 +197,6 @@ date,description,amount,statement_date,category
         if password:
             args['password'] = password
         return MultipartEncoder(args)
-
-    def get_pdf_data(self):
-        return self.read_and_close(os.path.join(os.path.dirname(__file__), 'data', 'uob.pdf'), 'rb')
 
     def check_and_cleanup_pdf(self, bucket='moneycat-pdfs-dev', expected_tags=None):
         # check that pdf is saved on s3
@@ -226,6 +216,15 @@ date,description,amount,statement_date,category
     def read_and_close(self, filename, mode='r'):
         with open(filename, mode) as f:
             return f.read()
+
+    def get_fixture_path(self, filename):
+        return os.path.join(os.path.dirname(__file__), 'data', filename)
+
+    def get_fixture_content(self, filename, mode='r'):
+        return self.read_and_close(self.get_fixture_path(filename), mode)
+
+    def get_pdf_data(self):
+        return self.get_fixture_content('uob.pdf', 'rb')
 
     def delete_all_tx_of_test_user(self, get_request_headers={},
             response_body_parse_fn=None):
