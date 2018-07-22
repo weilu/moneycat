@@ -7,7 +7,7 @@ from tempfile import NamedTemporaryFile
 from chalicelib import pdftotxt
 from chalicelib.algo import reservior_sampling
 from chalicelib.train import export_model
-from chalicelib.active import get_active_subcategories
+from chalicelib.active import get_subcategory_to_category_map
 import cgi
 import boto3
 import logging
@@ -416,13 +416,10 @@ def request():
     return Response(body='', status_code=201)
 
 
-# TODO: make this more efficient by storing the category hash in dynamodb & update only when model updates
 @app.route('/categories', methods=['GET'], cors=CORS_CONFIG)
 def categories():
-    le = get_model("label_transformer.pkl")[0]
-    subcategories = set(le.classes_)
-    active_subcats = get_active_subcategories(subcategories)
-    body = json.dumps(active_subcats, indent=2, sort_keys=True)
+    all_subcats = get_subcategory_to_category_map()
+    body = json.dumps(all_subcats, indent=2, sort_keys=True)
     etag = hashlib.md5(body.encode('utf-8')).hexdigest()
 
     if_none_match = app.current_request.headers.get('if-none-match')
