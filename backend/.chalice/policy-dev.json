@@ -12,7 +12,7 @@
       "Resource": [
         "*"
       ],
-      "Sid": "4113f45fba3246c780d6f83be4334a4a"
+      "Sid": "e63d0afae5bf40c4b49a97ddb19cd966"
     },
     {
       "Effect": "Allow",
@@ -23,7 +23,7 @@
       "Resource": [
         "*"
       ],
-      "Sid": "05887dbd8eb841fb9f1aa7ecf2c781cf"
+      "Sid": "6520c324384645c5a9d1b64b21c9dcb5"
     },
     {
       "Effect": "Allow",

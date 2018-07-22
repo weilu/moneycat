@@ -34,8 +34,9 @@ PDF_BUCKET = 'moneycat-pdfs-{}'.format(ENV)
 REQUEST_PDF_BUCKET = 'moneycat-request-pdfs-{}'.format(ENV)
 DB_NAME = 'moneycat-{}'.format(ENV)
 
-if ENV == 'dev':
-    lambda_task_root = '/usr/local/'
+local_lambda_task_root = '/usr/local/'
+if os.path.exists(local_lambda_task_root + 'bin/pdftotext'):
+    lambda_task_root = local_lambda_task_root
 else:
     lambda_task_root = os.path.dirname(os.path.abspath(__file__))
 # Only exists in non-local lambda env
