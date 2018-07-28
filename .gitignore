@@ -1,4 +1,4 @@
 *.pdf
-parsing/**/*.csv
 classification/assets/*.csv
-**/*/test/data/
+**/*/data/*
+!**/*/data/*.enc
