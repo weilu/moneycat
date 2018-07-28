@@ -1,4 +1,4 @@
 *.pdf
-cleaning/pdf-mining/**/*.csv
+parsing/**/*.csv
 classification/assets/*.csv
 **/*/test/data/

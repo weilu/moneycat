@@ -1,1 +1,1 @@
-../../cleaning/pdf-mining/pdftotxt.py
+../../parsing/pdftotxt.py
