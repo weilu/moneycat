@@ -11,6 +11,4 @@ branches:
   - master
 before_install:
 - openssl aes-256-cbc -K $encrypted_2078d2dbf730_key -iv $encrypted_2078d2dbf730_iv -in backend_fixtures.tar.enc -out backend/test/data/backend_fixtures.tar -d
-- openssl aes-256-cbc -K $encrypted_2078d2dbf730_key -iv $encrypted_2078d2dbf730_iv -in parsing_fixtures.tar.enc -out parsing/data/parsing_fixtures.tar -d
 - tar xvf backend/test/data/backend_fixtures.tar
-- tar xvf parsing/data/parsing_fixtures.tar
