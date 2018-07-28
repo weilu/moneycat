@@ -1,4 +1,7 @@
 # cs4225
+
+![Build Status](https://travis-ci.org/weilu/cs4225.svg?branch=money)
+
 CS4225 project: Automatic Personal Bank Transaction Extraction &amp; Categorization
 
 ## Requirements
