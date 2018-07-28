@@ -11,5 +11,9 @@ branches:
   - master
 before_install:
 - sudo apt-get install -y poppler-utils
-- openssl aes-256-cbc -K $encrypted_2078d2dbf730_key -iv $encrypted_2078d2dbf730_iv -in fixtures.tar.enc -out fixtures.tar -d
+- openssl aes-256-cbc -K $encrypted_2078d2dbf730_key -iv $encrypted_2078d2dbf730_iv
+  -in fixtures.tar.enc -out fixtures.tar -d
 - tar xvf fixtures.tar
+env:
+  global:
+    secure: DWrtqHTCymTeBZW/ep9hdiA2CC8ESFOCeIj7EpD/hF/nHzGw/flq2huNbKRJY7YAF09F97cx+dJERxW5Q41Whz5z18JGennTb2uwSCYH+T0B7M+ORliqojnurcfkNNJ9uh5lfBct3Mmv32SJJKfoGHRXqnPevgNd8LQYUXxiTLByqBsuJt/c+eMZE9D937WOZgWsoe7+VpOB5DZWTmJgaHmT38a8nBFIAlqjBag0ZW3m70GrGcCjZQ51TAQju4LTTaruypZVh3e8YqTt8vY5lT0ViZVmukdqbc+8ywVLvJwWziTEOM+BPaS/kyGL2BkMTY1zrdsruKDndgOPdJZYR9lzLuGy6DBPmjv6fVLuDnW1HYOpbUbah7dtZxZTn8HfdBkPwgZj8XmE1prwsSzGuyOaYqxVhAQKC4YBBmVqo+jZlWNBC1zzUkRA4ZqjwPs9zAobYuXXk164VGpe/oDlz9uE1cPA5t8cpvb4/roY7Q+sTsAi/eyehdjzZ1Q2xoGhdvNTjqVz8aVK3vdYWDyMkvr29UgjyYdJdqcO4CToFcAMEVOMZrRnUy1gnSI0mZdxpK5y1C6oG7n4qb/Rgo55rvEpArGI/UhsJJBcZFV0hdfYoKVSSsWSACqWLHs1qT4SCTi4Xq8iv9LtnHqxT6g6hJZKjFs4NK5Mohfdwd7jc1c=
