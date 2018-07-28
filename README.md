@@ -63,9 +63,6 @@ Be careful about add dependencies to backend (labmda) as the packaged code size 
 
 After adding new dependency, you will need to deploy with the `-r` option
 
-## TODO
-
-- Handle missing labels/categories
 
 ## References
 
