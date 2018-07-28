@@ -10,5 +10,5 @@ branches:
   except:
   - master
 before_install:
-- openssl aes-256-cbc -K $encrypted_2078d2dbf730_key -iv $encrypted_2078d2dbf730_iv -in backend_fixtures.tar.enc -out backend/test/data/backend_fixtures.tar -d
-- tar xvf backend/test/data/backend_fixtures.tar
+- openssl aes-256-cbc -K $encrypted_2078d2dbf730_key -iv $encrypted_2078d2dbf730_iv -in fixtures.tar.enc -out fixtures.tar -d
+- tar xvf fixtures.tar
