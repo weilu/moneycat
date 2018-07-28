@@ -2,3 +2,4 @@
 classification/assets/*.csv
 **/*/data/*
 !**/*/data/*.enc
+!.gitkeep
