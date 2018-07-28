@@ -1,16 +1,16 @@
 language: python
 python:
 - '3.6'
-- '3.7-dev'
+- 3.7-dev
 install:
 - pip install -r requirements.txt
 script:
 - make
-before_install:
-- openssl aes-256-cbc -K $encrypted_2078d2dbf730_key -iv $encrypted_2078d2dbf730_iv
-  -in parsing_fixtures.tar.enc -out parsing/data/parsing_fixtures.tar -d
-- openssl aes-256-cbc -K $encrypted_2078d2dbf730_key -iv $encrypted_2078d2dbf730_iv
-  -in backend_fixtures.tar.enc -out backend/test/data/backend_fixtures.tar -d
 branches:
   except:
   - master
+before_install:
+- openssl aes-256-cbc -K $encrypted_2078d2dbf730_key -iv $encrypted_2078d2dbf730_iv
+  -in backend_fixtures.tar.enc -out backend/test/data/backend_fixtures.tar -d
+- openssl aes-256-cbc -K $encrypted_2078d2dbf730_key -iv $encrypted_2078d2dbf730_iv
+  -in parsing_fixtures.tar.enc -out parsing/data/parsing_fixtures.tar -d
