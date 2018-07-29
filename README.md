@@ -24,6 +24,7 @@ curl -v https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/confirm 
 
 # User transaction data fetch, returns a csv or json of all transaction data for the given user, auth required
 # Use -H "Accept: application/json" header to control response format
+# Use query param txid=1 to request for payload to include transaction IDs
 curl https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/transactions -H 'Authorization: [jwtToken]'
 
 # Update category for a given transaction description and user, auth required
