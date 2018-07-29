@@ -10,7 +10,6 @@ from app import app, s3, send_write_request, dynamodb
 from requests_toolbelt import MultipartEncoder
 from pandas.util.testing import assert_frame_equal
 import hashlib
-import time
 
 class TestApp(unittest.TestCase):
 
@@ -79,7 +78,8 @@ class TestApp(unittest.TestCase):
         self.assertEqual(response['statusCode'], 201)
 
         # get transactions with IDs
-        response = self.lg.handle_request(method='GET', path='/transactions?txid=1',
+        response = self.lg.handle_request(method='GET',
+                path='/transactions?txid=1',
                 headers={'Accept': 'application/json'}, body='')
         self.assertEqual(response['statusCode'], 200)
         transactions = json.loads(response['body'])
@@ -87,11 +87,13 @@ class TestApp(unittest.TestCase):
         txids_to_delete = [i['txid'] for i in transactions[0:2]]
         self.assertEqual(len(txids_to_delete), 2)
         for txid in txids_to_delete:
-            response = self.lg.handle_request(method='DELETE', path=f'/transactions/{txid}',
+            response = self.lg.handle_request(method='DELETE',
+                    path=f'/transactions/{txid}',
                     headers={}, body='')
             self.assertEqual(response['statusCode'], 200)
 
-        response = self.lg.handle_request(method='GET', path='/transactions?txid=1',
+        response = self.lg.handle_request(method='GET',
+                path='/transactions?txid=1',
                 headers={'Accept': 'application/json'}, body='')
         self.assertEqual(response['statusCode'], 200)
         transactions_after_delete = json.loads(response['body'])
@@ -101,16 +103,19 @@ class TestApp(unittest.TestCase):
             self.assertFalse(txid in remaining_txids)
 
     def test_delete_invalid_transaction(self):
-        response = self.lg.handle_request(method='GET', path='/transactions?txid=1',
+        response = self.lg.handle_request(method='GET',
+                path='/transactions?txid=1',
                 headers={'Accept': 'application/json'}, body='')
         self.assertEqual(response['statusCode'], 200)
         transactions = json.loads(response['body'])
 
-        response = self.lg.handle_request(method='DELETE', path=f'/transactions/foobar',
+        response = self.lg.handle_request(method='DELETE',
+                path=f'/transactions/foobar',
                 headers={}, body='')
         self.assertEqual(response['statusCode'], 400)
 
-        response = self.lg.handle_request(method='GET', path='/transactions?txid=1',
+        response = self.lg.handle_request(method='GET',
+                path='/transactions?txid=1',
                 headers={'Accept': 'application/json'}, body='')
         self.assertEqual(response['statusCode'], 200)
         transactions_after_delete = json.loads(response['body'])

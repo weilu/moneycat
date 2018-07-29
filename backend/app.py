@@ -83,7 +83,9 @@ def query_by_uuid_and_txid_param(uuid, txid):
             'Key': {'uuid': {'S': uuid}, 'txid': {'S': txid}},
             'ExpressionAttributeNames': {'#uuid': 'uuid'},
             'ConditionExpression': "#uuid = :uuid_val AND txid = :txid_val",
-            'ExpressionAttributeValues': {':uuid_val': {'S': uuid}, ':txid_val': {'S': txid}}
+            'ExpressionAttributeValues': {
+                ':uuid_val': {'S': uuid}, ':txid_val': {'S': txid}
+            }
            }
 
 
@@ -352,7 +354,8 @@ def delete_transactions(txid):
         dynamodb.delete_item(**query_by_uuid_and_txid_param(uuid, txid))
     except ClientError as e:
         if e.response['Error']['Code'] == 'ConditionalCheckFailedException':
-            return Response(body=f'Invalid transaction id: {txid}', status_code=400)
+            return Response(body=f'Invalid transaction id: {txid}',
+                            status_code=400)
     return Response(body=f'Deleted {txid}', status_code=200)
 
 @app.route('/refresh-model', methods=['GET'])
