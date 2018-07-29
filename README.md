@@ -31,6 +31,10 @@ curl https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/transaction
 # This will affect all transactions that matches the given description, for the given user
 curl -v https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/update -X POST -d '{"description": "[tx description]", "category": "[category]"}' -H "Content-Type: application/json" -H 'Authorization: [jwtToken]'
 
+# Delete a transaction given a transaction id, auth required
+# User can only delete their own transactions
+curl -v https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/transactions/[txid] -X DELETE -H 'Authorization: [jwtToken]'
+
 # New bank statement support request
 curl https://q5i6ef1jfi.execute-api.ap-southeast-1.amazonaws.com/api/request -F 'file=@[path/to/file].pdf' -F 'password=[pdf password]' -H 'Authorization: [jwtToken]'
 

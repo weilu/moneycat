@@ -10,6 +10,7 @@ from chalicelib.train import export_model
 from chalicelib.active import get_subcategory_to_category_map
 import cgi
 import boto3
+from botocore.exceptions import ClientError
 import logging
 from sklearn.externals import joblib
 from sklearn import metrics
@@ -74,6 +75,18 @@ def query_by_uuid_param(uuid):
             'ExpressionAttributeNames': {'#uuid': 'uuid'},
             'KeyConditionExpression': '#uuid = :uuid_val',
             'ExpressionAttributeValues': {':uuid_val': {'S': uuid}}}
+
+
+def query_by_uuid_and_txid_param(uuid, txid):
+    return {
+            'TableName': DB_NAME,
+            'Key': {'uuid': {'S': uuid}, 'txid': {'S': txid}},
+            'ExpressionAttributeNames': {'#uuid': 'uuid'},
+            'ConditionExpression': "#uuid = :uuid_val AND txid = :txid_val",
+            'ExpressionAttributeValues': {
+                ':uuid_val': {'S': uuid}, ':txid_val': {'S': txid}
+            }
+           }
 
 
 def get_multipart_data():
@@ -332,6 +345,18 @@ def transactions():
     df = dynamodb_response_to_df(response, include_txid)
     return dataframe_as_response(df, app.current_request.headers.get('accept'))
 
+
+@app.route('/transactions/{txid}', methods=['DELETE'], cors=CORS_CONFIG,
+           authorizer=get_authorizer())
+def delete_transactions(txid):
+    uuid = get_current_user_email()
+    try:
+        dynamodb.delete_item(**query_by_uuid_and_txid_param(uuid, txid))
+    except ClientError as e:
+        if e.response['Error']['Code'] == 'ConditionalCheckFailedException':
+            return Response(body=f'Invalid transaction id: {txid}',
+                            status_code=400)
+    return Response(body=f'Deleted {txid}', status_code=200)
 
 @app.route('/refresh-model', methods=['GET'])
 def refresh_model():
