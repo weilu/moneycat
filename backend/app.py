@@ -37,9 +37,12 @@ CORS_CONFIG = CORSConfig(
     allow_credentials=True
 )
 
-local_lambda_task_root = '/usr/local/'
+local_lambda_task_root = '/usr/local/' # for osx
+travis_binary_root = '/usr/' # for travis CI only
 if os.path.exists(local_lambda_task_root + 'bin/pdftotext'):
     lambda_task_root = local_lambda_task_root
+elif os.path.exists(travis_binary_root + 'bin/pdftotext'):
+    lambda_task_root = travis_binary_root
 else:
     lambda_task_root = os.path.dirname(os.path.abspath(__file__))
 # Only exists in non-local lambda env

@@ -1,4 +1,7 @@
 # cs4225
+
+![Build Status](https://travis-ci.org/weilu/cs4225.svg?branch=money)
+
 CS4225 project: Automatic Personal Bank Transaction Extraction &amp; Categorization
 
 ## Requirements
@@ -63,9 +66,6 @@ Be careful about add dependencies to backend (labmda) as the packaged code size 
 
 After adding new dependency, you will need to deploy with the `-r` option
 
-## TODO
-
-- Handle missing labels/categories
 
 ## References
 
