@@ -21,7 +21,7 @@ import re
 from json.decoder import JSONDecodeError
 import json
 
-ORIGINS = {'dev': '*', 'prod': 'moneycat.sg'}
+ORIGINS = {'dev': '*', 'prod': 'https://moneycat.sg'}
 
 app = Chalice(app_name='parseBankStatement')
 app.api.binary_types.append('multipart/form-data')
