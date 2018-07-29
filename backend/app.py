@@ -302,6 +302,7 @@ def update():
     response = dynamodb.query(**query_params)
     items = response['Items']
     updated_at = str(datetime.utcnow())
+    updated_tx_ids = set()
     for tx in items:
         key_params = {k: v for k, v in tx.items() if k in ['uuid', 'txid']}
         update_params = {'TableName': DB_NAME,
@@ -313,9 +314,12 @@ def update():
                 },
                 'ReturnValues': 'UPDATED_NEW'}
         update_response = dynamodb.update_item(**update_params)
-        print(update_response) # TODO handle failure & partial success cases
+        if update_response.get('ResponseMetadata', {}).get('HTTPStatusCode') == 200:
+            updated_tx_ids.add(key_params['txid']['S'])
+        else:
+            print(update_response) # TODO handle failure & partial success cases
 
-    return Response(body='Updated {} transactions'.format(len(items)), status_code=200)
+    return sorted(list(updated_tx_ids))
 
 
 @app.route('/transactions', methods=['GET'], cors=CORS_CONFIG,

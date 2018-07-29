@@ -124,7 +124,11 @@ date,description,amount,statement_date,category
         response = self.lg.handle_request(method='POST', path='/update',
                 headers={'Content-type': 'application/json'}, body=update_payload)
         self.assertEqual(response['statusCode'], 200)
-        self.assertEqual(response['body'], 'Updated 2 transactions')
+        self.assertEqual(
+                json.loads(response['body']),
+                ["2016-07-13-3be9c2085941beac69ffd47410d30ad9805dc6fe-0000",
+                 "2016-07-18-3be9c2085941beac69ffd47410d30ad9805dc6fe-0001"]
+        )
 
         update_payload = json.dumps({
             'description': 'CGH CLINICS $110.12 003/003',
@@ -133,7 +137,12 @@ date,description,amount,statement_date,category
         response = self.lg.handle_request(method='POST', path='/update',
                 headers={'Content-type': 'application/json'}, body=update_payload)
         self.assertEqual(response['statusCode'], 200)
-        self.assertEqual(response['body'], 'Updated 3 transactions')
+        self.assertEqual(
+                json.loads(response['body']),
+                ["2016-07-18-3be9c2085941beac69ffd47410d30ad9805dc6fe-0003",
+                 "2016-07-18-3be9c2085941beac69ffd47410d30ad9805dc6fe-0004",
+                 "2016-07-18-3be9c2085941beac69ffd47410d30ad9805dc6fe-0005"]
+        )
 
         expected_payload = '''
 date,description,amount,statement_date,category
