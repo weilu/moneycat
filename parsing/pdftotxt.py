@@ -13,12 +13,16 @@ import logging
 DATE_CLUES = ['statement date', 'as at']
 CURRENCIES = set([c.code for c in Currency])
 CURRENCY_AMOUNT_REGEX = '({} \d+[\.|,|\d]*\d+)'
+OCBC_STATEMENT_DATE_REGEX = '\d{2} [a-z]{3,} \d{4}'
 LANGUAGES = ['en']
 INCORRECT_PWD = 'Incorrect password'
 
 
 def parse_statement_date(line, iterator):
     line_lower = line.lower()
+    # special case for ocbc bank statement
+    if re.match(OCBC_STATEMENT_DATE_REGEX, line_lower):
+        return parse_date(line_lower)
     for clue in DATE_CLUES:
         if clue in line_lower:
             statement_date = parse_date(line_lower.split(clue)[-1])
@@ -53,7 +57,10 @@ def parse_amount(amount_str):
 # cross year statement needs statement_date to determine the year of date_str
 # because transaction date_str often don't contain year
 def parse_transaction_date(date_str, statement_date):
-    transaction_date = parse_date(date_str).replace(year=statement_date.year)
+    date_found = parse_date(date_str)
+    if not date_found:
+        return None
+    transaction_date = date_found.replace(year=statement_date.year)
     alt_date = transaction_date.replace(year=(statement_date.year-1))
     if (abs(alt_date - statement_date) < abs(transaction_date - statement_date)):
         transaction_date = alt_date
@@ -66,6 +73,7 @@ def format_date(datetime_obj):
 
 def parse_date(date_str):
     return dateparser.parse(date_str, locales=['en-SG'])
+
 
 # Foreign currency transaction often include the foreign currency &
 # amount in a separate line
@@ -80,8 +88,69 @@ def peek_forward_for_currency(iterator, max_lines=2):
                     return found.group(1)
 
 
+def signed_tx_amount(amount, amount_index, deposit_start_index, withdrawal_start_index):
+    min_index = min(deposit_start_index, withdrawal_start_index)
+    max_index = max(deposit_start_index, withdrawal_start_index)
+    is_first_column = (amount_index >= min_index and amount_index < max_index)
+    deposit_first = (min_index == deposit_start_index)
+    # is_first_column | deposit_first | +/- (where + is spend, - is deposit)
+    # T               | T             | -
+    # T               | F             | +
+    # F               | T             | +
+    # F               | F             | -
+    if is_first_column ^ deposit_first:
+        return amount
+    else:
+        return -amount
+
+
 def process_pdf(filename, csv_writer, pdftotxt_bin='pdftotext',
                 include_source=True, password=None, **kwargs):
+
+    # recursive
+    def process_bank_statement_line(iterator, statement_date, header_line):
+        deposit_start_index = header_line.index('deposit')
+        withdrawal_start_index = header_line.index('withdrawal')
+
+        # TODO: make it DRY
+        try:
+            # skip empty & short lines
+            line, groups = None, None
+            while not line or not groups or len(groups) < 3 or len(groups[0]) < 5:
+                line = next(iterator).strip()
+                if line:
+                    line_lower = line.lower()
+                    if 'deposit' in line_lower and 'withdrawal' in line_lower:
+                        return process_bank_statement_line(iterator,
+                                statement_date, line_lower)
+                    groups = re.split(r'\s{2,}', line)
+                    if not statement_date:
+                        statement_date = parse_statement_date(line, iterator)
+
+            # consider a line as a transaction when it begins with date & ends with 2 numbers
+            tx_date = parse_transaction_date(groups[0], statement_date)
+            if tx_date:
+                tx_amount = parse_amount(groups[-2])
+                balance_amount = parse_amount(groups[-1])
+                if tx_amount != None and balance_amount != None:
+                    # everything between last occurance of tx_date & 2nd last number is considered description
+                    description_start_index = line.rfind(groups[0]) + len(groups[0])
+                    description_end_index = line.index(groups[-2])
+                    description = line[description_start_index:description_end_index].strip()
+                    amount = signed_tx_amount(tx_amount, line.index(groups[-2]),
+                            deposit_start_index, withdrawal_start_index)
+                    foreign_amount = '' # TODO
+                    #TODO: handle balance
+                    row = [tx_date, description, amount, foreign_amount,
+                           format_date(statement_date)]
+                    if include_source:
+                        row.append(path.basename(filename))
+                    csv_writer.writerow(row)
+
+            process_bank_statement_line(iterator, statement_date, header_line)
+        except StopIteration:
+            pass
+
 
     # recursive fn
     def process_line(iterator, statement_date):
@@ -91,16 +160,20 @@ def process_pdf(filename, csv_writer, pdftotxt_bin='pdftotext',
             while not line or not groups or len(groups) < 3 or len(groups[0]) < 5:
                 line = next(iterator).strip()
                 if line:
+                    line_lower = line.lower()
+                    if 'deposit' in line_lower and 'withdrawal' in line_lower:
+                        return process_bank_statement_line(iterator,
+                                statement_date, line_lower)
                     groups = re.split(r'\s{2,}', line)
                     if not statement_date:
                         statement_date = parse_statement_date(line, iterator)
 
             # consider a line as a transaction when it begins with date
-            date_found = parse_date(groups[0])
-            if date_found:
+            tx_date = parse_transaction_date(groups[0], statement_date)
+            if tx_date:
                 description_end_index = -1
                 if '$' in groups:
-                    # everything between date & $ is considered description
+                    # everything between tx_date & $ is considered description
                     description_end_index = groups.index('$')
                 description = ' '.join(groups[1:description_end_index])
 
@@ -108,9 +181,8 @@ def process_pdf(filename, csv_writer, pdftotxt_bin='pdftotext',
                 iterator, iterator_copy = tee(iterator)
                 foreign_amount = peek_forward_for_currency(iterator_copy)
 
-                date = parse_transaction_date(groups[0], statement_date)
                 amount = parse_amount(groups[-1])
-                row = [date, description, amount, foreign_amount,
+                row = [tx_date, description, amount, foreign_amount,
                        format_date(statement_date)]
                 if include_source:
                     row.append(path.basename(filename))
