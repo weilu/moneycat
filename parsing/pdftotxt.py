@@ -77,18 +77,26 @@ def parse_date(date_str):
 
 # Foreign currency transaction often include the foreign currency &
 # amount in a separate line
-def peek_forward_for_currency(iterator, max_lines=2):
+def peek_forward_for_currency_and_description(iterator, max_lines=2):
+    foreign_amount = ''
+    descriptions = []
     for i in range(0, max_lines): # look no further than 2 lines
         line = next(iterator).strip()
         if line and len(line) > 3:
             groups = split_line(line)
             if groups and parse_date(groups[0]):
                 break # break early if found the next transaction line
-            for currency in CURRENCIES:
-                found = re.search(CURRENCY_AMOUNT_REGEX.format(currency),
-                                  line, re.IGNORECASE)
-                if found:
-                    return found.group(1)
+            descriptions.append(line)
+            if not foreign_amount:
+                for currency in CURRENCIES:
+                    found = re.search(CURRENCY_AMOUNT_REGEX.format(currency),
+                                      line, re.IGNORECASE)
+                    if found:
+                        foreign_amount = found.group(1)
+                        break
+        else:
+            break # also break early on blank line
+    return foreign_amount, ' '.join(descriptions)
 
 
 def signed_tx_amount(amount, amount_index, deposit_start_index, withdrawal_start_index):
@@ -145,7 +153,13 @@ def process_pdf(filename, csv_writer, pdftotxt_bin='pdftotext',
                     description = line[description_start_index:description_end_index].strip()
                     amount = signed_tx_amount(tx_amount, line.index(groups[-2]),
                             deposit_start_index, withdrawal_start_index)
-                    foreign_amount = '' # TODO
+
+                    # make a copy for peeking
+                    iterator, iterator_copy = tee(iterator)
+                    foreign_amount, more_desc = peek_forward_for_currency_and_description(
+                            iterator_copy, max_lines=5)
+                    description = re.sub(' +', ' ', f'{description} {more_desc}').strip()
+
                     #TODO: handle balance
                     row = [tx_date, description, amount, foreign_amount,
                            format_date(statement_date)]
@@ -185,7 +199,7 @@ def process_pdf(filename, csv_writer, pdftotxt_bin='pdftotext',
 
                 # make a copy for peeking
                 iterator, iterator_copy = tee(iterator)
-                foreign_amount = peek_forward_for_currency(iterator_copy)
+                foreign_amount, _ = peek_forward_for_currency_and_description(iterator_copy)
 
                 amount = parse_amount(groups[-1])
                 row = [tx_date, description, amount, foreign_amount,
