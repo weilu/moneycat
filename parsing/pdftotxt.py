@@ -8,7 +8,6 @@ from iso4217 import Currency
 from itertools import tee
 from os import path
 import logging
-import string
 
 
 DATE_CLUES = ['statement date', 'as at']
@@ -32,7 +31,8 @@ def parse_statement_date(line, iterator):
                 statement_date = parse_date(re.sub(r'[^\w\s]', '', group))
                 if statement_date:
                     return statement_date
-            if not statement_date: # in OCBC & ANZ's case, need to look at the next non-empty line
+            # in OCBC & ANZ's case, need to look at the next non-empty line
+            if not statement_date:
                 line = next(iterator).strip()
                 while not line:
                     line = next(iterator).strip()
@@ -104,7 +104,8 @@ def peek_forward_for_currency_and_description(iterator,
     return foreign_amount, ' '.join(descriptions)
 
 
-def signed_tx_amount(amount, amount_index, deposit_start_index, withdrawal_start_index):
+def signed_tx_amount(amount, amount_index, deposit_start_index,
+                     withdrawal_start_index):
     min_index = min(deposit_start_index, withdrawal_start_index)
     max_index = max(deposit_start_index, withdrawal_start_index)
     is_first_column = (amount_index >= min_index and amount_index < max_index)
@@ -127,7 +128,8 @@ def process_pdf(filename, csv_writer, pdftotxt_bin='pdftotext',
                 include_source=True, password=None, **kwargs):
 
     # recursive
-    def process_bank_statement_line(iterator, statement_date, header_line, prev_tx_date=None):
+    def process_bank_statement_line(iterator, statement_date, header_line,
+                                    prev_tx_date=None):
         deposit_start_index = header_line.index('deposit')
         withdrawal_start_index = header_line.index('withdrawal')
 
@@ -145,38 +147,42 @@ def process_pdf(filename, csv_writer, pdftotxt_bin='pdftotext',
                                 statement_date, line_lower)
                     groups = split_line(line_stripped)
                     if not statement_date:
-                        statement_date = parse_statement_date(line_stripped, iterator)
+                        statement_date = parse_statement_date(line_stripped,
+                                                              iterator)
 
             # consider a line as a transaction when it has 3 groups or more & ends with 2 numbers
-            def next_tx_found(groups):
-                if len(groups) < 3:
-                    return False
-                tx_amount = parse_amount(groups[-2])
-                balance_amount = parse_amount(groups[-1])
-                return (tx_amount != None and balance_amount != None)
-
-            if next_tx_found(groups):
-                tx_amount = parse_amount(groups[-2])
-                balance_amount = parse_amount(groups[-1])
+            tx_amount = parse_amount(groups[-2])
+            balance_amount = parse_amount(groups[-1])
+            if tx_amount != None and balance_amount != None:
                 tx_date = parse_transaction_date(groups[0], statement_date)
                 if not tx_date:
                     tx_date = prev_tx_date
-                    description_start_index = 0
+                    description_start = 0
                 else:
                     prev_tx_date = tx_date
-                    # everything between last occurance of tx_date & 2nd last number is considered description
-                    description_start_index = line.rfind(groups[0]) + len(groups[0])
-                description_end_index = line.index(groups[-2])
-                description = line[description_start_index:description_end_index].strip()
+                    # everything between last occurance of tx_date and
+                    # 2nd last number is considered description
+                    description_start = line.rfind(groups[0]) + len(groups[0])
+                description_end = line.index(groups[-2])
+                description = line[description_start:description_end].strip()
                 amount = signed_tx_amount(tx_amount, line.index(groups[-2]),
                         deposit_start_index, withdrawal_start_index)
 
+                def should_stop_peeking(groups):
+                    if len(groups) >= 3:
+                        if parse_date(groups[0]):
+                            return True
+                        if parse_amount(groups[-2]) != None and \
+                           parse_amount(groups[-1]) != None:
+                            return True
+                    elif len(groups) >=1 and SC_STATEMENT_STOPWORD in groups[0]:
+                        return True
+                    else:
+                        return False
                 # make a copy for peeking
                 iterator, iterator_copy = tee(iterator)
-                peeking_tx_condition = lambda groups: (next_tx_found(groups) or parse_date(groups[0])
-                                                       or SC_STATEMENT_STOPWORD in groups[0])
                 foreign_amount, more_desc = peek_forward_for_currency_and_description(
-                        iterator_copy, max_lines=5, next_tx_condition=peeking_tx_condition)
+                        iterator_copy, max_lines=5, next_tx_condition=should_stop_peeking)
                 description = re.sub(' +', ' ', f'{description} {more_desc}').strip()
 
                 #TODO: handle balance
@@ -186,7 +192,8 @@ def process_pdf(filename, csv_writer, pdftotxt_bin='pdftotext',
                     row.append(path.basename(filename))
                 csv_writer.writerow(row)
 
-            process_bank_statement_line(iterator, statement_date, header_line, prev_tx_date=prev_tx_date)
+            process_bank_statement_line(iterator, statement_date, header_line,
+                                        prev_tx_date=prev_tx_date)
         except StopIteration:
             pass
 
