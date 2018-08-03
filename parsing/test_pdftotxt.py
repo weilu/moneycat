@@ -10,7 +10,7 @@ from pprint import pprint
 from pdftotxt import process_pdf, parse_transaction_date
 
 CREDIT_CARD_SUPPORTED_BANKS = ['dbs', 'uob', 'ocbc', 'ocbc_foreign', 'anz']
-BANK_STATEMENT_SUPPORTED_BANKS = ['ocbc']
+BANK_STATEMENT_SUPPORTED_BANKS = ['ocbc', 'sc']
 
 class TestPdftotxt(unittest.TestCase):
 
