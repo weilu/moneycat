@@ -32,7 +32,7 @@ def parse_statement_date(line, iterator):
                 line = next(iterator).strip()
                 while not line:
                     line = next(iterator).strip()
-                groups = re.split(r'\s{2,}', line)
+                groups = split_line(line)
                 if not groups:
                     return
                 statement_date = parse_date(groups[0])
@@ -81,6 +81,9 @@ def peek_forward_for_currency(iterator, max_lines=2):
     for i in range(0, max_lines): # look no further than 2 lines
         line = next(iterator).strip()
         if line and len(line) > 3:
+            groups = split_line(line)
+            if groups and parse_date(groups[0]):
+                break # break early if found the next transaction line
             for currency in CURRENCIES:
                 found = re.search(CURRENCY_AMOUNT_REGEX.format(currency),
                                   line, re.IGNORECASE)
@@ -104,6 +107,9 @@ def signed_tx_amount(amount, amount_index, deposit_start_index, withdrawal_start
         return -amount
 
 
+def split_line(line):
+    return re.split(r'\s{2,}', line)
+
 def process_pdf(filename, csv_writer, pdftotxt_bin='pdftotext',
                 include_source=True, password=None, **kwargs):
 
@@ -123,7 +129,7 @@ def process_pdf(filename, csv_writer, pdftotxt_bin='pdftotext',
                     if 'deposit' in line_lower and 'withdrawal' in line_lower:
                         return process_bank_statement_line(iterator,
                                 statement_date, line_lower)
-                    groups = re.split(r'\s{2,}', line)
+                    groups = split_line(line)
                     if not statement_date:
                         statement_date = parse_statement_date(line, iterator)
 
@@ -164,7 +170,7 @@ def process_pdf(filename, csv_writer, pdftotxt_bin='pdftotext',
                     if 'deposit' in line_lower and 'withdrawal' in line_lower:
                         return process_bank_statement_line(iterator,
                                 statement_date, line_lower)
-                    groups = re.split(r'\s{2,}', line)
+                    groups = split_line(line)
                     if not statement_date:
                         statement_date = parse_statement_date(line, iterator)
 
