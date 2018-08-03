@@ -9,12 +9,13 @@ from glob import glob
 from pprint import pprint
 from pdftotxt import process_pdf, parse_transaction_date
 
-SUPPORTED_BANKS = ['dbs', 'uob', 'ocbc', 'anz']
+CREDIT_CARD_SUPPORTED_BANKS = ['dbs', 'uob', 'ocbc', 'ocbc_foreign', 'anz']
+BANK_STATEMENT_SUPPORTED_BANKS = ['ocbc', 'sc']
 
 class TestPdftotxt(unittest.TestCase):
 
-    def test_process_pdf(self):
-        for bank in SUPPORTED_BANKS:
+    def test_process_credit_card_pdf(self):
+        for bank in CREDIT_CARD_SUPPORTED_BANKS:
             self.maybe_create_expected_csv(bank)
             with open(self.get_fixture_path(f'{bank}.csv')) as ef:
                 expected = ef.readlines()
@@ -56,6 +57,22 @@ class TestPdftotxt(unittest.TestCase):
                 process_pdf(self.get_fixture_path('uob_password.pdf'),
                             csv_writer, password='123')
             self.assertEqual(ex.exception.args[0], 'Incorrect password')
+
+    def test_process_bank_pdf(self):
+        for bank in BANK_STATEMENT_SUPPORTED_BANKS:
+            filename = f'{bank}_bank'
+            self.maybe_create_expected_csv(filename)
+            with open(self.get_fixture_path(f'{filename}.csv')) as ef:
+                expected = ef.readlines()
+            with io.StringIO() as f:
+                csv_writer = csv.writer(f)
+                start = time.clock()
+                process_pdf(self.get_fixture_path(f'{filename}.pdf'), csv_writer)
+                print(f"Parsing {bank}_bank statement took {time.clock() - start} second")
+                f.seek(0)
+                actual = f.readlines()
+                self.assertFalse(diff(expected, actual))
+
 
     def get_fixture_path(self, filename):
         return os.path.join(os.path.dirname(__file__), 'data', filename)
